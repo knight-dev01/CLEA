@@ -104,6 +104,9 @@ export function Media() {
       <a className="btn ghost" href="https://www.youtube.com/@pastordoctorbolanleoluwake3805?sub_confirmation=1" target="_blank" rel="noreferrer">Subscribe</a></div></div>
     <div className="card" style={{ marginBottom: 20 }}><span className="pill">Latest uploads · auto-updates</span>
       <div className="vid-wrap" style={{ marginTop: 12 }}><iframe src="https://www.youtube.com/embed?listType=playlist&list=UUXRGmn1DVIWXTTmBh5BjwXw" title="CLEA latest YouTube uploads" allowFullScreen loading="lazy" referrerPolicy="no-referrer" allow="fullscreen; encrypted-media; picture-in-picture" /></div></div>
+    <div className="card" style={{ marginBottom: 20 }}><span className="pill">Latest from Facebook · auto-updates</span>
+      <div className="vid-wrap tall" style={{ marginTop: 12 }}><iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2F1806488646340376&tabs=timeline&width=500&height=700&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true" title="CLEA latest Facebook posts" loading="lazy" referrerPolicy="no-referrer" allow="fullscreen; encrypted-media; picture-in-picture" /></div>
+      <div className="rowbtns"><a className="btn ghost" href="https://www.facebook.com/1806488646340376" target="_blank" rel="noreferrer">Follow on Facebook · 1.1K</a></div></div>
     <p className="muted">YouTube & Facebook — new videos added by the media team via Admin.</p>
     <div className="grid g3">{media.map(m => <div className="card" key={m.id}><span className="pill">{m.type}</span><h3>{m.title}</h3><div className={'vid-wrap' + (m.type === 'facebook' ? ' tall' : '')}><iframe src={m.url} title={m.title} allowFullScreen loading="lazy" referrerPolicy="no-referrer" allow="fullscreen; encrypted-media; picture-in-picture" /></div></div>)}</div>
   </div>);
