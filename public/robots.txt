@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://clea-reggioemilia.vercel.app/sitemap.xml
