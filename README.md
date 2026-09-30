@@ -41,6 +41,13 @@ npm run build   # outputs dist/
 4. Images: update hero + gallery URLs
 5. To reset demo content, clear `localStorage` keys `clea-blog`, `clea-media`, `clea-images`
 
+## Shared database (Vercel Postgres / Neon)
+1. Vercel Dashboard → Storage → Create Database → Postgres (Neon-backed).
+2. Connect it to this project; pull env (`vercel env pull`) or set `POSTGRES_URL` in project env vars.
+3. Run `schema.sql` once in the database Query tab.
+4. Set `ADMIN_PASSWORD` and a long random `ADMIN_SECRET` in Vercel env vars.
+5. Redeploy. `/admin` login now writes to the shared DB; the site reads `/api/content` (10-min cache, seed fallback when DB is absent).
+
 ## SEO / Search Console
 - Submit `https://<your-domain>/sitemap.xml` in Google Search Console + Bing Webmaster
 - Update `public/sitemap.xml` + canonical in `index.html` with the final domain

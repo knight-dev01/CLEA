@@ -5,6 +5,10 @@ import { ensureSeed } from '../store';
 import { useEffect, useState } from 'react';
 import type { BlogPost, MediaLink, SiteImages } from '../store';
 import { ChurchIcon, VideoIcon, BookIcon, UsersIcon, PinIcon, PhoneIcon, MailIcon } from '../icons';
+import { useReveal } from '../hooks';
+import { verseOfDay } from '../verse';
+import { fetchContent, contentToImages, type EventItem } from '../cms';
+import { useMemo } from 'react';
 
 const MAP = 'https://www.google.com/maps?q=Via+Corelli+5+Reggio+Emilia+Italy&output=embed';
 export const PASTORS = [
@@ -18,14 +22,30 @@ export function Home() {
   useSEO('CLEA Reggio Emilia | Christ Love Evangelical Assembly', 'CLEA — Christ Love Evangelical Assembly in Reggio Emilia Italy. Sunday services, Bible study, sermons. Chiesa evangelica a Reggio Emilia.');
   const [blog, setBlog] = useState<BlogPost[]>([]);
   const [media, setMedia] = useState<MediaLink[]>([]);
+  const [events, setEvents] = useState<EventItem[]>([]);
   const [images, setImages] = useState<SiteImages | null>(null);
+  useReveal();
+  const verse = useMemo(verseOfDay, []);
   useEffect(() => {
     ensureSeed();
-    try {
-      setBlog(JSON.parse(localStorage.getItem('clea-blog') || '[]'));
-      setMedia(JSON.parse(localStorage.getItem('clea-media') || '[]'));
-      setImages(JSON.parse(localStorage.getItem('clea-images') || 'null'));
-    } catch { /* ignore */ }
+    fetchContent().then((c) => {
+      if (c && (c.posts.length || c.media.length)) {
+        setBlog(c.posts);
+        setMedia(c.media);
+        setEvents(c.events);
+        setImages(contentToImages(c.settings, {
+          hero: 'https://images.unsplash.com/photo-1438032005730-c779502df39b?w=1600&q=70&auto=format&fit=crop',
+          gallery: [],
+        }));
+        return;
+      }
+      try {
+        setBlog(JSON.parse(localStorage.getItem('clea-blog') || '[]'));
+        setMedia(JSON.parse(localStorage.getItem('clea-media') || '[]'));
+        setEvents(JSON.parse(localStorage.getItem('clea-events') || '[]'));
+        setImages(JSON.parse(localStorage.getItem('clea-images') || 'null'));
+      } catch { /* ignore */ }
+    });
   }, []);
   return (<>
     <div className="hero">
@@ -37,23 +57,27 @@ export function Home() {
         <Link className="btn ghost" to="/media">{t('watch')}</Link>
       </div>
     </div>
-    <section className="sec"><h2 className="h-icon"><ChurchIcon /> {t('serviceTimes')}</h2>
+    <section className="sec reveal"><div className="card verse-card"><span className="kicker">Verse of the day · Versetto del giorno</span><h2 style={{ margin: '10px 0 4px' }}>{lang === 'it' ? verse.it : verse.en}</h2></div></section>
+    <section className="sec reveal"><h2 className="h-icon"><ChurchIcon /> {t('serviceTimes')}</h2>
       <div className="grid g3">
         <div className="card"><span className="pill">SUN 10:00</span><h3>{t('sunday')}</h3><p className="muted">{t('address')}</p></div>
         <div className="card"><span className="pill">WED 18:30</span><h3>{t('wednesday')}</h3><p className="muted">Bible Study / Studio Biblico</p></div>
         <div className="card"><span className="pill">FRI 22:00</span><h3>{t('friday')}</h3><p className="muted">Night Vigil / Veglia di preghiera</p></div>
       </div>
     </section>
-    <section className="sec"><h2 className="h-icon"><VideoIcon /> {t('latestSermons')} <Link to="/media" style={{ fontSize: '.85rem' }}>{t('viewAll')} →</Link></h2>
-      <div className="grid g3">{media.slice(0, 3).map(m => <div className="card" key={m.id}><strong>{m.title}</strong><iframe className="vid" src={m.url} title={m.title} allowFullScreen loading="lazy" /></div>)}</div>
+    <section className="sec reveal"><h2 className="h-icon"><VideoIcon /> {t('latestSermons')} <Link to="/media" style={{ fontSize: '.85rem' }}>{t('viewAll')} →</Link></h2>
+      <div className="grid g3">{media.slice(0, 3).map(m => <div className="card" key={m.id}><strong>{m.title}</strong><div className={'vid-wrap' + (m.type === 'facebook' ? ' tall' : '')}><iframe src={m.url} title={m.title} allowFullScreen loading="lazy" referrerPolicy="no-referrer" allow="fullscreen; encrypted-media; picture-in-picture" /></div></div>)}</div>
     </section>
-    <section className="sec"><h2 className="h-icon"><BookIcon /> {t('latestBlog')} <Link to="/blog" style={{ fontSize: '.85rem' }}>{t('viewAll')} →</Link></h2>
+    <section className="sec reveal"><h2 className="h-icon"><BookIcon /> {t('latestBlog')} <Link to="/blog" style={{ fontSize: '.85rem' }}>{t('viewAll')} →</Link></h2>
       <div className="grid g3">{blog.slice(0, 3).map(b => <div className="card" key={b.id}>{b.imageUrl && <img src={b.imageUrl} alt="" />}<h3>{lang === 'it' ? b.title_it || b.title : b.title}</h3><p className="muted">{(lang === 'it' ? b.body_it || b.body : b.body).slice(0, 110)}…</p><Link to="/blog">{t('readMore')} →</Link></div>)}</div>
     </section>
-    <section className="sec"><h2 className="h-icon"><UsersIcon /> {t('pastors')}</h2>
+    <section className="sec reveal"><h2 className="h-icon"><UsersIcon /> {t('pastors')}</h2>
       <div className="grid g3">{PASTORS.map(p => <div className="card pastor" key={p.n}><div className="avatar">{p.n[0]}</div><div><strong>{p.n}</strong><br /><span className="muted">{p.r}</span></div></div>)}</div>
     </section>
-    <section className="sec"><h2 className="h-icon"><PinIcon /> Visit Us</h2><iframe className="map" src={MAP} title="CLEA Map" loading="lazy" /></section>
+    {events.length > 0 && (<section className="sec reveal band" style={{ borderRadius: 18, padding: 18 }}><h2 className="h-icon"><UsersIcon /> {lang === 'it' ? 'Prossimi Eventi' : 'Upcoming Events'}</h2>
+      <div className="grid g3">{events.slice(0, 3).map((ev) => <div className="card" key={ev.id}><span className="pill">{ev.date}{ev.time ? ` · ${ev.time}` : ''}</span><h3>{lang === 'it' ? ev.title_it || ev.title : ev.title}</h3>{ev.location && <p className="muted">{ev.location}</p>}</div>)}</div>
+    </section>)}
+    <section className="sec reveal"><h2 className="h-icon"><PinIcon /> Visit Us</h2><div className="map-wrap"><iframe className="map" src={MAP} title="CLEA Map" loading="lazy" /></div></section>
   </>);
 }
 
@@ -75,7 +99,7 @@ export function Media() {
   const [media, setMedia] = useState<MediaLink[]>([]);
   useEffect(() => { try { setMedia(JSON.parse(localStorage.getItem('clea-media') || '[]')); } catch { /* */ } });
   return (<div className="sec"><h1 className="h-icon"><VideoIcon /> Sermons & Media</h1><p className="muted">YouTube & Facebook — updated by the media team via Admin.</p>
-    <div className="grid g3">{media.map(m => <div className="card" key={m.id}><span className="pill">{m.type}</span><h3>{m.title}</h3><iframe className="vid" src={m.url} title={m.title} allowFullScreen loading="lazy" /></div>)}</div>
+    <div className="grid g3">{media.map(m => <div className="card" key={m.id}><span className="pill">{m.type}</span><h3>{m.title}</h3><div className={'vid-wrap' + (m.type === 'facebook' ? ' tall' : '')}><iframe src={m.url} title={m.title} allowFullScreen loading="lazy" referrerPolicy="no-referrer" allow="fullscreen; encrypted-media; picture-in-picture" /></div></div>)}</div>
   </div>);
 }
 

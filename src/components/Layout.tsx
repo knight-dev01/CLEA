@@ -1,5 +1,6 @@
-import { NavLink, Outlet } from 'react-router-dom';
+import { NavLink, Outlet, Link } from 'react-router-dom';
 import { useLang } from '../i18n';
+import { useScrolledNav } from '../hooks';
 import { FacebookIcon, BloggerIcon, MailIcon, PhoneIcon, WhatsappIcon } from '../icons';
 
 export function Nav() {
@@ -30,7 +31,7 @@ export function Footer() {
           <a href="mailto:christloveevangelicalassembly@gmail.com" aria-label="Email CLEA"><MailIcon /></a>
           <a href="https://wa.me/393511408770" target="_blank" rel="noreferrer" aria-label="CLEA on WhatsApp"><WhatsappIcon size={18} /></a>
         </p>
-        <p className="muted">© 2026 CLEA · {t('rights')}</p>
+        <p className="muted">© 2026 CLEA · {t('rights')} · <Link to="/admin">Admin</Link></p>
       </div>
     </div></footer>
   );
@@ -51,5 +52,6 @@ export function WhatsAppFloat() {
 }
 
 export default function Layout() {
+  useScrolledNav();
   return (<><Nav /><div className="wrap"><Outlet /></div><Footer /><WhatsAppFloat /></>);
 }
