@@ -14,6 +14,8 @@ export const SOCIALS = {
   facebookPage: 'https://www.facebook.com/1806488646340376',
   facebookFollowers: '1.1K',
   youtubeChannel: 'https://www.youtube.com/@pastordoctorbolanleoluwake3805',
+  youtubeChannelId: 'UCXRGmn1DVIWXTTmBh5BjwXw',
+  youtubeUploadsEmbed: 'https://www.youtube.com/embed?listType=playlist&list=UUXRGmn1DVIWXTTmBh5BjwXw',
   youtubeVideos: 296,
   blogspot: 'https://cleareggio.blogspot.com/',
   email: 'christloveevangelicalassembly@gmail.com',

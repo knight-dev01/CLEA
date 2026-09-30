@@ -7,7 +7,7 @@ Soft, modern, minimalist church website built with **React + Vite + TypeScript**
 - **Phone/WhatsApp:** +39 351 140 8770 · Nigeria: +234 803 040 1694
 - **Email:** christloveevangelicalassembly@gmail.com
 - **Facebook:** https://www.facebook.com/1806488646340376 (1.1K followers)
-- **YouTube:** https://www.youtube.com/@pastordoctorbolanleoluwake3805 — "Christ Love Evangelical Assembly Reggio Emilia", 296 videos, Pastor Dr Bolanle Oluwakemi Anyanwu
+- **YouTube:** https://www.youtube.com/@pastordoctorbolanleoluwake3805 — "Christ Love Evangelical Assembly Reggio Emilia", 296 videos, Pastor Dr Bolanle Oluwakemi Anyanwu. Channel ID `UCXRGmn1DVIWXTTmBh5BjwXw`; Media page auto-plays the uploads playlist.
 - **Blog:** https://cleareggio.blogspot.com/
 
 ## Features

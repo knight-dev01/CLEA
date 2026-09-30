@@ -102,6 +102,8 @@ export function Media() {
     <div className="card channel-banner"><div><strong>Christ Love Evangelical Assembly Reggio Emilia</strong><p className="muted">296 videos · Pastor Dr Bolanle Oluwakemi Anyanwu</p></div>
       <div className="rowbtns"><a className="btn solid" href="https://www.youtube.com/@pastordoctorbolanleoluwake3805" target="_blank" rel="noreferrer">Watch on YouTube</a>
       <a className="btn ghost" href="https://www.youtube.com/@pastordoctorbolanleoluwake3805?sub_confirmation=1" target="_blank" rel="noreferrer">Subscribe</a></div></div>
+    <div className="card" style={{ marginBottom: 20 }}><span className="pill">Latest uploads · auto-updates</span>
+      <div className="vid-wrap" style={{ marginTop: 12 }}><iframe src="https://www.youtube.com/embed?listType=playlist&list=UUXRGmn1DVIWXTTmBh5BjwXw" title="CLEA latest YouTube uploads" allowFullScreen loading="lazy" referrerPolicy="no-referrer" allow="fullscreen; encrypted-media; picture-in-picture" /></div></div>
     <p className="muted">YouTube & Facebook — new videos added by the media team via Admin.</p>
     <div className="grid g3">{media.map(m => <div className="card" key={m.id}><span className="pill">{m.type}</span><h3>{m.title}</h3><div className={'vid-wrap' + (m.type === 'facebook' ? ' tall' : '')}><iframe src={m.url} title={m.title} allowFullScreen loading="lazy" referrerPolicy="no-referrer" allow="fullscreen; encrypted-media; picture-in-picture" /></div></div>)}</div>
   </div>);
