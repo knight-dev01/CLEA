@@ -98,7 +98,11 @@ export function Media() {
   useSEO('Sermons & Media | CLEA Reggio Emilia', 'Watch CLEA sermons: YouTube and Facebook videos from Reggio Emilia church.');
   const [media, setMedia] = useState<MediaLink[]>([]);
   useEffect(() => { try { setMedia(JSON.parse(localStorage.getItem('clea-media') || '[]')); } catch { /* */ } });
-  return (<div className="sec"><h1 className="h-icon"><VideoIcon /> Sermons & Media</h1><p className="muted">YouTube & Facebook — updated by the media team via Admin.</p>
+  return (<div className="sec"><h1 className="h-icon"><VideoIcon /> Sermons & Media</h1>
+    <div className="card channel-banner"><div><strong>Christ Love Evangelical Assembly Reggio Emilia</strong><p className="muted">296 videos · Pastor Dr Bolanle Oluwakemi Anyanwu</p></div>
+      <div className="rowbtns"><a className="btn solid" href="https://www.youtube.com/@pastordoctorbolanleoluwake3805" target="_blank" rel="noreferrer">Watch on YouTube</a>
+      <a className="btn ghost" href="https://www.youtube.com/@pastordoctorbolanleoluwake3805?sub_confirmation=1" target="_blank" rel="noreferrer">Subscribe</a></div></div>
+    <p className="muted">YouTube & Facebook — new videos added by the media team via Admin.</p>
     <div className="grid g3">{media.map(m => <div className="card" key={m.id}><span className="pill">{m.type}</span><h3>{m.title}</h3><div className={'vid-wrap' + (m.type === 'facebook' ? ' tall' : '')}><iframe src={m.url} title={m.title} allowFullScreen loading="lazy" referrerPolicy="no-referrer" allow="fullscreen; encrypted-media; picture-in-picture" /></div></div>)}</div>
   </div>);
 }

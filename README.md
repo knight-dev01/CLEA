@@ -6,7 +6,8 @@ Soft, modern, minimalist church website built with **React + Vite + TypeScript**
 - **Address:** Via Corelli 5 / Via Cilea 4, Area Ex Conchiglia 17, 42121 Reggio nell'Emilia, Italy
 - **Phone/WhatsApp:** +39 351 140 8770 · Nigeria: +234 803 040 1694
 - **Email:** christloveevangelicalassembly@gmail.com
-- **Facebook:** https://www.facebook.com/1806488646340376
+- **Facebook:** https://www.facebook.com/1806488646340376 (1.1K followers)
+- **YouTube:** https://www.youtube.com/@pastordoctorbolanleoluwake3805 — "Christ Love Evangelical Assembly Reggio Emilia", 296 videos, Pastor Dr Bolanle Oluwakemi Anyanwu
 - **Blog:** https://cleareggio.blogspot.com/
 
 ## Features
@@ -21,7 +22,8 @@ Soft, modern, minimalist church website built with **React + Vite + TypeScript**
 ```bash
 cd site
 npm install
-npm run dev
+npm run dev        # static preview only — /api/* returns 404 here
+vercel dev         # full local preview including /api/content, /api/login, /api/manage
 ```
 
 ## Build

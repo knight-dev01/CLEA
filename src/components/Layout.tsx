@@ -1,7 +1,8 @@
 import { NavLink, Outlet, Link } from 'react-router-dom';
 import { useLang } from '../i18n';
 import { useScrolledNav } from '../hooks';
-import { FacebookIcon, BloggerIcon, MailIcon, PhoneIcon, WhatsappIcon } from '../icons';
+import { FacebookIcon, BloggerIcon, MailIcon, PhoneIcon, WhatsappIcon, YoutubeIcon } from '../icons';
+import { SOCIALS } from '../store';
 
 export function Nav() {
   const { t, lang, setLang } = useLang();
@@ -26,9 +27,10 @@ export function Footer() {
       </div>
       <div><strong>Follow</strong>
         <p className="socials">
-          <a href="https://www.facebook.com/1806488646340376" target="_blank" rel="noreferrer" aria-label="CLEA on Facebook"><FacebookIcon /></a>
-          <a href="https://cleareggio.blogspot.com/" target="_blank" rel="noreferrer" aria-label="CLEA Blogspot"><BloggerIcon /></a>
-          <a href="mailto:christloveevangelicalassembly@gmail.com" aria-label="Email CLEA"><MailIcon /></a>
+          <a href={SOCIALS.facebookPage} target="_blank" rel="noreferrer" aria-label="CLEA on Facebook"><FacebookIcon /></a>
+          <a href={SOCIALS.youtubeChannel} target="_blank" rel="noreferrer" aria-label="CLEA on YouTube"><YoutubeIcon /></a>
+          <a href={SOCIALS.blogspot} target="_blank" rel="noreferrer" aria-label="CLEA Blogspot"><BloggerIcon /></a>
+          <a href={`mailto:${SOCIALS.email}`} aria-label="Email CLEA"><MailIcon /></a>
           <a href="https://wa.me/393511408770" target="_blank" rel="noreferrer" aria-label="CLEA on WhatsApp"><WhatsappIcon size={18} /></a>
         </p>
         <p className="muted">© 2026 CLEA · {t('rights')} · <Link to="/admin">Admin</Link></p>

@@ -97,7 +97,7 @@ export default function Admin() {
       else if (pw === 'clea-admin') { sessionStorage.setItem('clea-admin', '1'); setAuthed(true); }
       else alert('Wrong password');
     }}>
-      <label>Password</label><input type="password" value={pw} onChange={(e) => setPw(e.target.value)} placeholder="Enter admin password" />
+      <label>Password</label><input type="password" autoComplete="current-password" value={pw} onChange={(e) => setPw(e.target.value)} placeholder="Enter admin password" />
       <button className="btn solid" type="submit">Login</button>
     </form></div>);
 
