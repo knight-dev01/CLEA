@@ -9,7 +9,7 @@ export function Nav() {
   const L: [string, string][] = [['/', t('home')], ['/about', t('about')], ['/media', t('media')], ['/blog', t('blog')], ['/visit', t('visit')], ['/contact', t('contact')]];
   return (
     <nav className="nav"><div className="nav-in">
-      <a className="brand" href="/"><img src="logo.jpg" alt="Christ Love Evangelical Assembly logo" /><span>Christ Love Evangelical Assembly</span></a>
+      <a className="brand" href="/"><img src="logo.png" alt="Christ Love Evangelical Assembly logo" /><span>Christ Love Evangelical Assembly</span></a>
       <div className="links">{L.map(([to, l]) => <NavLink key={to} to={to} className={({ isActive }) => isActive ? 'active' : ''}>{l}</NavLink>)}</div>
       <button className="langbtn" onClick={() => setLang(lang === 'en' ? 'it' : 'en')}>{lang === 'en' ? 'IT' : 'EN'}</button>
     </div></nav>
@@ -24,6 +24,10 @@ export function Footer() {
       <div><strong>Contact</strong>
         <p className="muted contactline"><PhoneIcon /> <a href="tel:+393511408770">+39 351 140 8770</a></p>
         <p className="muted contactline"><PhoneIcon /> <a href="tel:+2348030401694">+234 803 040 1694</a></p>
+        <p className="muted contactline"><MailIcon /> <a href={`mailto:${SOCIALS.email}`}>{SOCIALS.email}</a></p>
+      </div>
+      <div><strong>{t('serviceTimes')}</strong>
+        <p className="muted">Sunday · 10:00<br />Wednesday · 18:30<br />Friday · 22:00</p>
       </div>
       <div><strong>Follow</strong>
         <p className="socials">
@@ -55,6 +59,6 @@ export function WhatsAppFloat() {
 
 export default function Layout() {
   useScrolledNav();
-  const logo = `${import.meta.env.BASE_URL}logo.jpg`;
+  const logo = `${import.meta.env.BASE_URL}logo.png`;
   return (<><div className="watermark" aria-hidden="true" style={{ backgroundImage: `url('${logo}')` }} /><Nav /><div className="wrap"><Outlet /></div><Footer /><WhatsAppFloat /></>);
 }

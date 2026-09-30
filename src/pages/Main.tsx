@@ -58,6 +58,19 @@ export function Home() {
         <Link className="btn ghost" to="/media">{t('watch')}</Link>
       </div>
     </div>
+    <section className="sec reveal"><p className="quote">“{t('tagline')}”</p></section>
+    <section className="sec reveal"><div className="stats">
+      <div className="stat"><b>296</b><span>{t('statsVideos')}</span></div>
+      <div className="stat"><b>1.1K</b><span>{t('statsFollowers')}</span></div>
+      <div className="stat"><b>2</b><span>{t('statsCities')}</span></div>
+      <div className="stat"><b>10+</b><span>{t('statsYears')}</span></div>
+    </div></section>
+    <section className="sec reveal"><h2 className="h-icon"><VideoIcon /> {t('featured')}</h2>
+      <div className="featured"><YouTubeUploads />
+        <div className="featured-cap"><div><strong>{t('latestSermons')}</strong><br /><span className="muted">296 videos · YouTube & Facebook</span></div>
+        <Link className="btn solid" to="/media">{t('watchCta')}</Link></div></div>
+      {media.length > 0 && (<div className="grid g3" style={{ marginTop: 14 }}>{media.slice(0, 2).map(m => <div className="card" key={m.id}><strong>{m.title}</strong><div className={'vid-wrap' + (m.type === 'facebook' ? ' tall' : '')}><iframe src={m.url} title={m.title} allowFullScreen loading="lazy" referrerPolicy="no-referrer" allow="fullscreen; encrypted-media; picture-in-picture" /></div></div>)}</div>)}
+    </section>
     <section className="sec reveal"><div className="card verse-card"><span className="kicker">Verse of the day · Versetto del giorno</span><h2 style={{ margin: '10px 0 4px' }}>{lang === 'it' ? verse.it : verse.en}</h2></div></section>
     <section className="sec reveal"><h2 className="h-icon"><ChurchIcon /> {t('serviceTimes')}</h2>
       <div className="grid g3">
@@ -66,9 +79,11 @@ export function Home() {
         <div className="card"><span className="pill">FRI 22:00</span><h3>{t('friday')}</h3><p className="muted">Night Vigil / Veglia di preghiera</p></div>
       </div>
     </section>
-    <section className="sec reveal"><h2 className="h-icon"><VideoIcon /> {t('latestSermons')} <Link to="/media" style={{ fontSize: '.85rem' }}>{t('viewAll')} →</Link></h2>
-      <div className="grid g3">{media.slice(0, 3).map(m => <div className="card" key={m.id}><strong>{m.title}</strong><div className={'vid-wrap' + (m.type === 'facebook' ? ' tall' : '')}><iframe src={m.url} title={m.title} allowFullScreen loading="lazy" referrerPolicy="no-referrer" allow="fullscreen; encrypted-media; picture-in-picture" /></div></div>)}</div>
-    </section>
+    {(images?.gallery?.length ?? 0) > 0 && (<section className="sec reveal"><h2 className="h-icon"><BookIcon /> {t('gallery')}</h2>
+      <div className="gallery-strip">{images!.gallery.map((g, i) => <img key={i} src={g} alt="" loading="lazy" />)}</div>
+    </section>)}
+    <section className="sec reveal"><div className="cta-band"><h2>{t('planTitle')}</h2><p className="muted">{t('planSub')}</p>
+      <Link className="btn solid" to="/visit">{t('joinUs')}</Link><Link className="btn ghost" to="/about">{t('aboutCta')}</Link></div></section>
     <section className="sec reveal"><h2 className="h-icon"><BookIcon /> {t('latestBlog')} <Link to="/blog" style={{ fontSize: '.85rem' }}>{t('viewAll')} →</Link></h2>
       <div className="grid g3">{blog.slice(0, 3).map(b => <div className="card" key={b.id}>{b.imageUrl && <img src={b.imageUrl} alt="" />}<h3>{lang === 'it' ? b.title_it || b.title : b.title}</h3><p className="muted">{(lang === 'it' ? b.body_it || b.body : b.body).slice(0, 110)}…</p><Link to="/blog">{t('readMore')} →</Link></div>)}</div>
     </section>
@@ -86,12 +101,21 @@ export function About() {
   const { lang } = useLang();
   useSEO('About Christ Love Evangelical Assembly | Vision, Beliefs & Pastors', 'About Christ Love Evangelical Assembly Reggio Emilia: vision, beliefs, pastorate.');
   const en = lang === 'en';
+  const { t } = useLang();
   return (<div className="sec">
     <h1>{en ? 'About Christ Love Evangelical Assembly' : 'Chi Siamo'}</h1>
-    <div className="card"><h3 className="h-icon"><ChurchIcon /> {en ? 'Vision' : 'Visione'}</h3><p>{en ? 'To preach Christ\u2019s love, raise disciples and serve our city — a multicultural family where everyone belongs.' : 'Predicare l\u2019amore di Cristo, formare discepoli e servire la città — una famiglia multiculturale dove tutti sono accolti.'}</p></div>
-    <div className="card" style={{ marginTop: 14 }}><h3 className="h-icon"><BookIcon /> {en ? 'Beliefs' : 'Credo'}</h3><p>{en ? 'We believe the Bible is God\u2019s Word, salvation through Jesus Christ, the power of the Holy Spirit, water baptism and holy living.' : 'Crediamo che la Bibbia è la Parola di Dio, la salvezza tramite Gesù Cristo, la potenza dello Spirito Santo, il battesimo e la santità.'}</p></div>
-    <h2 className="h-icon" style={{ marginTop: 22 }}><UsersIcon /> {en ? 'Pastorate' : 'Pastori'}</h2>
+    <p className="muted">{t('aboutLong')}</p>
+    <p className="muted">{t('hqNote')}</p>
+    <div className="trio" style={{ marginTop: 18 }}>
+      <div className="card"><h3 className="h-icon"><ChurchIcon /> {en ? 'Vision' : 'Visione'}</h3><p>{en ? 'To preach Christ\u2019s love, raise disciples and serve our city — a multicultural family where everyone belongs.' : 'Predicare l\u2019amore di Cristo, formare discepoli e servire la città — una famiglia multiculturale dove tutti sono accolti.'}</p></div>
+      <div className="card"><h3 className="h-icon"><BookIcon /> {t('mission')}</h3><p>{t('missionText')}</p></div>
+      <div className="card"><h3 className="h-icon"><BookIcon /> {t('beliefs')}</h3><p>{en ? 'We believe the Bible is God\u2019s Word, salvation through Jesus Christ, the power of the Holy Spirit, water baptism and holy living.' : 'Crediamo che la Bibbia è la Parola di Dio, la salvezza tramite Gesù Cristo, la potenza dello Spirito Santo, il battesimo e la santità.'}</p></div>
+    </div>
+    <h2 className="h-icon" style={{ marginTop: 26 }}><UsersIcon /> {en ? 'Pastorate' : 'Pastori'}</h2>
     <div className="grid g3">{PASTORS.map(p => <div className="card pastor" key={p.n}><div className="avatar">{p.n[0]}</div><div><strong>{p.n}</strong><br /><span className="muted">{p.r}</span></div></div>)}</div>
+    <div className="card" style={{ marginTop: 16 }}><h3 className="h-icon"><UsersIcon /> {t('trustees')}</h3>
+      <ul className="trustees"><li>Pastor Mololuwa Patience Ojo</li><li>Mr. Ibukun Olaniyi Ojo</li><li>Mr. Michael Kayode Alabi</li><li>Pastor Bolanle Oluwakemi Anyanwu</li></ul>
+      <p className="muted">{en ? 'Associate Pastor: Assistant Pastor Ekundayo Olusanjo Oginni · Church Secretary: Brother Emmanuel Akinwunmi' : 'Pastore associato: Ekundayo Olusanjo Oginni · Segretario: Emmanuel Akinwunmi'}</p></div>
   </div>);
 }
 
@@ -126,7 +150,16 @@ export function Visit() {
   const { t } = useLang();
   return (<div className="sec"><h1 className="h-icon"><PinIcon /> {t('visit')}</h1>
     <div className="card"><strong>{t('address')}</strong><p className="muted">Bus lines to Via Cilea · Parking nearby · Accessible entrance</p>
-    <p><strong>Sunday:</strong> 10:00–12:30 · <strong>Wednesday:</strong> 18:30–20:00 · <strong>Friday:</strong> 22:00–02:00</p></div>
+    <div className="rowbtns"><a className="btn solid" href="https://www.google.com/maps?q=Via+Corelli+5+Reggio+Emilia+Italy" target="_blank" rel="noreferrer">{t('visitCta')}</a>
+    <a className="btn ghost" href="https://wa.me/393511408770">WhatsApp Us</a></div></div>
+    <h2 style={{ marginTop: 22 }}>{t('serviceTable')}</h2>
+    <table className="svc-table"><tbody>
+      <tr><td><strong>Sunday</strong><br /><span className="muted">Domenica</span></td><td>10:00–12:30</td><td>{t('sunday')}</td></tr>
+      <tr><td><strong>Wednesday</strong><br /><span className="muted">Mercoledì</span></td><td>18:30–20:00</td><td>{t('wednesday')}</td></tr>
+      <tr><td><strong>Friday</strong><br /><span className="muted">Venerdì</span></td><td>22:00–02:00</td><td>{t('friday')}</td></tr>
+    </tbody></table>
+    <h2 style={{ marginTop: 22 }}>{t('expect')}</h2>
+    <div className="steps"><div className="step"><b>1</b><strong>{t('expect1')}</strong></div><div className="step"><b>2</b><strong>{t('expect2')}</strong></div><div className="step"><b>3</b><strong>{t('expect3')}</strong></div></div>
     <div style={{ marginTop: 14 }}><iframe className="map" title="Christ Love Evangelical Assembly map" loading="lazy" src="https://www.google.com/maps?q=Via+Corelli+5+Reggio+Emilia+Italy&output=embed" /></div>
   </div>);
 }
