@@ -7,7 +7,7 @@ export type SiteImages = { hero: string; gallery: string[] };
 const K = { blog: 'clea-blog', media: 'clea-media', images: 'clea-images' };
 
 const seedBlog: BlogPost[] = [
-  { id: 'welcome', title: 'Welcome to CLEA Reggio Emilia', title_it: 'Benvenuti alla CLEA Reggio Emilia', body: 'We are a family of faith sharing the love of Christ. Join us every Sunday at 10:00.', body_it: 'Siamo una famiglia di fede che condivide l\u2019amore di Cristo. Unisciti a noi ogni domenica alle 10:00.', date: '2026-09-01', imageUrl: 'https://picsum.photos/seed/clea1/800/500' },
+  { id: 'welcome', title: 'Welcome to Christ Love Evangelical Assembly Reggio Emilia', title_it: 'Benvenuti alla Christ Love Evangelical Assembly Reggio Emilia', body: 'We are a family of faith sharing the love of Christ. Join us every Sunday at 10:00.', body_it: 'Siamo una famiglia di fede che condivide l\u2019amore di Cristo. Unisciti a noi ogni domenica alle 10:00.', date: '2026-09-01', imageUrl: 'https://picsum.photos/seed/clea1/800/500' },
   { id: 'faith', title: 'Walking in Love and Faith', title_it: 'Camminare nell\u2019amore e nella fede', body: 'Discover our midweek Bible study and Friday prayer meetings. All are welcome.', body_it: 'Scopri il nostro studio biblico infrasettimanale e gli incontri di preghiera del venerdì. Tutti sono benvenuti.', date: '2026-09-15', imageUrl: 'https://picsum.photos/seed/clea2/800/500' },
 ];
 export const SOCIALS = {
@@ -22,7 +22,7 @@ export const SOCIALS = {
   phoneIT: '+39 351 140 8770',
 };
 const seedMedia: MediaLink[] = [
-  { id: 'm1', type: 'facebook', url: 'https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2F1806488646340376&tabs=timeline&width=500&height=700&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true', title: 'CLEA on Facebook — latest posts & live videos' },
+  { id: 'm1', type: 'facebook', url: 'https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2F1806488646340376&tabs=timeline&width=500&height=700&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true', title: 'Christ Love Evangelical Assembly on Facebook — latest posts & live videos' },
   { id: 'm2', type: 'facebook', url: 'https://www.facebook.com/plugins/video.php?href=https://www.facebook.com/1806488646340376/videos/', title: 'Sunday Celebration Service (Facebook)' },
 ];
 const seedImages: SiteImages = {

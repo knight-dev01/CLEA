@@ -1,5 +1,9 @@
 :root{--bg:#FCFAF6;--sage:#7A9B7E;--sage-d:#4c6650;--gold:#C9A96A;--ink:#232323;--muted:#757575;--card:#fff;--line:#e9e2d4;--radius:14px;--font-body:'Inter','Segoe UI',system-ui,-apple-system,sans-serif;--font-display:'Fraunces',Georgia,serif}
 *{box-sizing:border-box}body{margin:0;font-family:var(--font-body);background:var(--bg);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased}
+/* Persistent logo watermark backdrop (image set inline in Layout for correct base path) */
+.watermark{position:fixed;inset:0;z-index:0;pointer-events:none;background-position:center 62%;background-size:min(72vmin,420px);background-repeat:no-repeat;opacity:.055}
+.wrap,footer{position:relative;z-index:1}
+.brand span{font-size:.82rem;line-height:1.25;max-width:190px}
 h1,h2{font-family:var(--font-display);font-weight:600;letter-spacing:-.01em}
 a{color:var(--sage-d)}.wrap{max-width:960px;margin:0 auto;padding:0 24px}
 .nav{position:sticky;top:0;z-index:50;background:rgba(253,251,247,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
