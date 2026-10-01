@@ -7,14 +7,17 @@ import { SOCIALS } from '../store';
  * Facebook's SDK throws noisy console errors and blocks the main thread,
  * so we only load the live feed when the visitor asks for it.
  */
-export default function FacebookFeed() {
+const PAGE_PLUGIN =
+  'https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2F1806488646340376&tabs=timeline&width=500&height=700&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true';
+
+export default function FacebookFeed({ src = PAGE_PLUGIN, title = 'Christ Love Evangelical Assembly latest Facebook posts' }: { src?: string; title?: string }) {
   const [loaded, setLoaded] = useState(false);
   if (loaded) {
     return (
       <div className="vid-wrap tall" style={{ marginTop: 12 }}>
         <iframe
-          src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2F1806488646340376&tabs=timeline&width=500&height=700&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true"
-          title="Christ Love Evangelical Assembly latest Facebook posts"
+          src={src}
+          title={title}
           loading="lazy"
           referrerPolicy="no-referrer"
           allow="fullscreen; encrypted-media; picture-in-picture"

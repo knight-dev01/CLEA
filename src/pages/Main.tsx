@@ -123,7 +123,7 @@ export function About() {
 export function Media() {
   useSEO('Sermons & Media | Christ Love Evangelical Assembly Reggio Emilia', 'Watch Christ Love Evangelical Assembly sermons: YouTube and Facebook videos from Reggio Emilia church.');
   const [media, setMedia] = useState<MediaLink[]>([]);
-  useEffect(() => { try { setMedia(JSON.parse(localStorage.getItem('clea-media') || '[]')); } catch { /* */ } });
+  useEffect(() => { try { setMedia(JSON.parse(localStorage.getItem('clea-media') || '[]')); } catch { /* */ } }, []);
   return (<div className="sec"><h1 className="h-icon"><VideoIcon /> Sermons & Media</h1>
     <div className="card channel-banner"><div><strong>Christ Love Evangelical Assembly Reggio Emilia</strong><p className="muted">296 videos · Pastor Dr Bolanle Oluwakemi Anyanwu</p></div>
       <div className="rowbtns"><a className="btn solid" href="https://www.youtube.com/@pastordoctorbolanleoluwake3805" target="_blank" rel="noreferrer">Watch on YouTube</a>
@@ -134,7 +134,7 @@ export function Media() {
       <FacebookFeed />
       <div className="rowbtns"><a className="btn ghost" href="https://www.facebook.com/1806488646340376" target="_blank" rel="noreferrer">Follow on Facebook · 1.1K</a></div></div>
     <p className="muted">YouTube & Facebook — new videos added by the media team via Admin.</p>
-    <div className="grid g3">{media.map(m => <div className="card" key={m.id}><span className="pill">{m.type}</span><h3>{m.title}</h3><div className={'vid-wrap' + (m.type === 'facebook' ? ' tall' : '')}><iframe src={m.url} title={m.title} allowFullScreen loading="lazy" referrerPolicy="no-referrer" allow="fullscreen; encrypted-media; picture-in-picture" /></div></div>)}</div>
+    <div className="grid g3">{media.map(m => <div className="card" key={m.id}><span className="pill">{m.type}</span><h3>{m.title}</h3>{m.type === 'facebook' ? <FacebookFeed src={m.url} title={m.title} /> : <div className="vid-wrap"><iframe src={m.url} title={m.title} allowFullScreen loading="lazy" referrerPolicy="no-referrer" allow="fullscreen; encrypted-media; picture-in-picture" /></div>}</div>)}</div>
   </div>);
 }
 
@@ -142,7 +142,7 @@ export function Blog() {
   const { lang } = useLang();
   useSEO('Blog | Christ Love Evangelical Assembly Reggio Emilia', 'Christ Love Evangelical Assembly church blog: devotionals, news and testimonies in English and Italian.');
   const [blog, setBlog] = useState<BlogPost[]>([]);
-  useEffect(() => { try { setBlog(JSON.parse(localStorage.getItem('clea-blog') || '[]')); } catch { /* */ } });
+  useEffect(() => { try { setBlog(JSON.parse(localStorage.getItem('clea-blog') || '[]')); } catch { /* */ } }, []);
   return (<div className="sec"><h1 className="h-icon"><BookIcon /> Blog</h1><div className="grid g3">{blog.map(b => <article className="card" key={b.id}>{b.imageUrl && <img src={b.imageUrl} alt="" loading="lazy" />}<small className="muted">{b.date}</small><h3>{lang === 'it' ? b.title_it || b.title : b.title}</h3><p>{lang === 'it' ? b.body_it || b.body : b.body}</p></article>)}</div></div>);
 }
 
