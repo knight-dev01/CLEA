@@ -121,14 +121,14 @@ export default function Admin() {
       <textarea rows={3} value={form.body_it} onChange={(e) => setForm({ ...form, body_it: e.target.value })} placeholder="Testo (IT)" />
       <input value={form.imageUrl} onChange={(e) => setForm({ ...form, imageUrl: e.target.value })} placeholder="Image URL" />
       <div className="rowbtns"><button className="smallbtn" onClick={() => { if (!form.title) return alert('Title required'); saveBlog([{ id: uid(), date: new Date().toISOString().slice(0, 10), ...form }, ...blog]); setForm({ title: '', title_it: '', body: '', body_it: '', imageUrl: '' }); }}>Add post</button></div></div>
-    <table><tbody>{blog.map((b) => <tr key={b.id}><td>{b.title}</td><td>{b.date}</td><td><button className="smallbtn" onClick={() => saveBlog(blog.filter((x) => x.id !== b.id))}>Delete</button></td></tr>)}</tbody></table>
+    <div className="table-scroll"><table><tbody>{blog.map((b) => <tr key={b.id}><td>{b.title}</td><td>{b.date}</td><td><button className="smallbtn" onClick={() => saveBlog(blog.filter((x) => x.id !== b.id))}>Delete</button></td></tr>)}</tbody></table></div>
 
     <h2 className="h-icon"><VideoIcon /> Media links</h2>
     <div className="card"><select value={mform.type} onChange={(e) => setMform({ ...mform, type: e.target.value as 'youtube' | 'facebook' })}><option value="youtube">youtube</option><option value="facebook">facebook</option></select>
       <input value={mform.title} onChange={(e) => setMform({ ...mform, title: e.target.value })} placeholder="Title" />
       <input value={mform.url} onChange={(e) => setMform({ ...mform, url: e.target.value })} placeholder="Embed URL (youtube embed / facebook video plugin)" />
       <div className="rowbtns"><button className="smallbtn" onClick={() => { if (!mform.url) return alert('URL required'); saveMedia([{ id: uid(), ...mform }, ...media]); setMform({ type: 'youtube', url: '', title: '' }); }}>Add media</button></div></div>
-    <table><tbody>{media.map((m) => <tr key={m.id}><td>{m.type}</td><td>{m.title}</td><td><button className="smallbtn" onClick={() => saveMedia(media.filter((x) => x.id !== m.id))}>Delete</button></td></tr>)}</tbody></table>
+    <div className="table-scroll"><table><tbody>{media.map((m) => <tr key={m.id}><td>{m.type}</td><td>{m.title}</td><td><button className="smallbtn" onClick={() => saveMedia(media.filter((x) => x.id !== m.id))}>Delete</button></td></tr>)}</tbody></table></div>
 
     <h2 className="h-icon"><UsersIcon /> Events</h2>
     <div className="card"><input value={eform.title} onChange={(e) => setEform({ ...eform, title: e.target.value })} placeholder="Title (EN)" />
@@ -137,6 +137,6 @@ export default function Admin() {
       <input value={eform.time} onChange={(e) => setEform({ ...eform, time: e.target.value })} placeholder="Time (e.g. 10:00)" />
       <input value={eform.location} onChange={(e) => setEform({ ...eform, location: e.target.value })} placeholder="Location" />
       <div className="rowbtns"><button className="smallbtn" onClick={() => { if (!eform.title) return alert('Title required'); saveEvents([{ id: uid(), ...eform }, ...events]); setEform({ title: '', title_it: '', date: '', time: '', location: '' }); }}>Add event</button></div></div>
-    <table><tbody>{events.map((ev) => <tr key={ev.id}><td>{ev.title}</td><td>{ev.date} {ev.time}</td><td><button className="smallbtn" onClick={() => saveEvents(events.filter((x) => x.id !== ev.id))}>Delete</button></td></tr>)}</tbody></table>
+    <div className="table-scroll"><table><tbody>{events.map((ev) => <tr key={ev.id}><td>{ev.title}</td><td>{ev.date} {ev.time}</td><td><button className="smallbtn" onClick={() => saveEvents(events.filter((x) => x.id !== ev.id))}>Delete</button></td></tr>)}</tbody></table></div>
   </div>);
 }

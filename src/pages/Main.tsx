@@ -10,6 +10,7 @@ import { verseOfDay } from '../verse';
 import { fetchContent, contentToImages, type EventItem } from '../cms';
 import { useMemo } from 'react';
 import YouTubeUploads from '../components/YouTubeUploads';
+import FacebookFeed from '../components/FacebookFeed';
 
 const MAP = 'https://www.google.com/maps?q=Via+Corelli+5+Reggio+Emilia+Italy&output=embed';
 export const PASTORS = [
@@ -69,7 +70,7 @@ export function Home() {
       <div className="featured"><YouTubeUploads />
         <div className="featured-cap"><div><strong>{t('latestSermons')}</strong><br /><span className="muted">296 videos · YouTube & Facebook</span></div>
         <Link className="btn solid" to="/media">{t('watchCta')}</Link></div></div>
-      {media.length > 0 && (<div className="grid g3" style={{ marginTop: 14 }}>{media.slice(0, 2).map(m => <div className="card" key={m.id}><strong>{m.title}</strong><div className={'vid-wrap' + (m.type === 'facebook' ? ' tall' : '')}><iframe src={m.url} title={m.title} allowFullScreen loading="lazy" referrerPolicy="no-referrer" allow="fullscreen; encrypted-media; picture-in-picture" /></div></div>)}</div>)}
+      {media.length > 0 && (<div className="grid g3" style={{ marginTop: 14 }}>{media.slice(0, 2).map(m => <div className="card" key={m.id}><strong>{m.title}</strong>{m.type === 'facebook' ? <FacebookFeed /> : <div className="vid-wrap"><iframe src={m.url} title={m.title} allowFullScreen loading="lazy" referrerPolicy="no-referrer" allow="fullscreen; encrypted-media; picture-in-picture" /></div>}</div>)}</div>)}
     </section>
     <section className="sec reveal"><div className="card verse-card"><span className="kicker">Verse of the day · Versetto del giorno</span><h2 style={{ margin: '10px 0 4px' }}>{lang === 'it' ? verse.it : verse.en}</h2></div></section>
     <section className="sec reveal"><h2 className="h-icon"><ChurchIcon /> {t('serviceTimes')}</h2>
@@ -130,7 +131,7 @@ export function Media() {
     <div className="card" style={{ marginBottom: 20 }}><span className="pill">Latest uploads · auto-updates</span>
       <YouTubeUploads /></div>
     <div className="card" style={{ marginBottom: 20 }}><span className="pill">Latest from Facebook · auto-updates</span>
-      <div className="vid-wrap tall" style={{ marginTop: 12 }}><iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2F1806488646340376&tabs=timeline&width=500&height=700&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true" title="Christ Love Evangelical Assembly latest Facebook posts" loading="lazy" referrerPolicy="no-referrer" allow="fullscreen; encrypted-media; picture-in-picture" /></div>
+      <FacebookFeed />
       <div className="rowbtns"><a className="btn ghost" href="https://www.facebook.com/1806488646340376" target="_blank" rel="noreferrer">Follow on Facebook · 1.1K</a></div></div>
     <p className="muted">YouTube & Facebook — new videos added by the media team via Admin.</p>
     <div className="grid g3">{media.map(m => <div className="card" key={m.id}><span className="pill">{m.type}</span><h3>{m.title}</h3><div className={'vid-wrap' + (m.type === 'facebook' ? ' tall' : '')}><iframe src={m.url} title={m.title} allowFullScreen loading="lazy" referrerPolicy="no-referrer" allow="fullscreen; encrypted-media; picture-in-picture" /></div></div>)}</div>
@@ -153,11 +154,11 @@ export function Visit() {
     <div className="rowbtns"><a className="btn solid" href="https://www.google.com/maps?q=Via+Corelli+5+Reggio+Emilia+Italy" target="_blank" rel="noreferrer">{t('visitCta')}</a>
     <a className="btn ghost" href="https://wa.me/393511408770">WhatsApp Us</a></div></div>
     <h2 style={{ marginTop: 22 }}>{t('serviceTable')}</h2>
-    <table className="svc-table"><tbody>
+    <div className="table-scroll"><table className="svc-table"><tbody>
       <tr><td><strong>Sunday</strong><br /><span className="muted">Domenica</span></td><td>10:00–12:30</td><td>{t('sunday')}</td></tr>
       <tr><td><strong>Wednesday</strong><br /><span className="muted">Mercoledì</span></td><td>18:30–20:00</td><td>{t('wednesday')}</td></tr>
       <tr><td><strong>Friday</strong><br /><span className="muted">Venerdì</span></td><td>22:00–02:00</td><td>{t('friday')}</td></tr>
-    </tbody></table>
+    </tbody></table></div>
     <h2 style={{ marginTop: 22 }}>{t('expect')}</h2>
     <div className="steps"><div className="step"><b>1</b><strong>{t('expect1')}</strong></div><div className="step"><b>2</b><strong>{t('expect2')}</strong></div><div className="step"><b>3</b><strong>{t('expect3')}</strong></div></div>
     <div style={{ marginTop: 14 }}><iframe className="map" title="Christ Love Evangelical Assembly map" loading="lazy" src="https://www.google.com/maps?q=Via+Corelli+5+Reggio+Emilia+Italy&output=embed" /></div>
