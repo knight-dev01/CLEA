@@ -1,19 +1,30 @@
 import { neon } from '@neondatabase/serverless';
-import { isAuthed, json } from './db.js';
+import { isAuthed, send, type VercelReq, type VercelRes } from './db.js';
 
 const TABLES = ['posts', 'media', 'events', 'settings'] as const;
 type Table = (typeof TABLES)[number];
 
-export async function POST(req: Request) {
+export default async function handler(req: VercelReq, res: VercelRes): Promise<void> {
+  if (req.method !== 'POST') {
+    send(res, { error: 'Method not allowed' }, 405);
+    return;
+  }
   const secret = process.env.ADMIN_SECRET || '';
-  if (!secret || !isAuthed(req, secret)) return json({ error: 'Unauthorized' }, 401);
+  if (!secret || !isAuthed(req, secret)) {
+    send(res, { error: 'Unauthorized' }, 401);
+    return;
+  }
   const url = process.env.POSTGRES_URL || process.env.DATABASE_URL || '';
-  if (!url) return json({ error: 'DB not configured' }, 503);
-  const body = (await req.json().catch(() => ({}))) as {
+  if (!url) {
+    send(res, { error: 'DB not configured' }, 503);
+    return;
+  }
+  const body = (typeof req.body === 'string' ? JSON.parse(req.body) : req.body ?? {}) as {
     table?: Table; action?: 'upsert' | 'delete'; row?: Record<string, string>;
   };
   if (!body.table || !TABLES.includes(body.table) || !body.action || !body.row) {
-    return json({ error: 'table, action, row required' }, 400);
+    send(res, { error: 'table, action, row required' }, 400);
+    return;
   }
   try {
     const db = neon(url);
@@ -40,10 +51,11 @@ export async function POST(req: Request) {
       else if (body.table === 'media') await db`DELETE FROM media WHERE id=${id}`;
       else await db`DELETE FROM events WHERE id=${id}`;
     } else {
-      return json({ error: 'Unsupported action' }, 400);
+      send(res, { error: 'Unsupported action' }, 400);
+      return;
     }
-    return json({ ok: true });
+    send(res, { ok: true });
   } catch (e) {
-    return json({ error: 'DB error', detail: String(e) }, 500);
+    send(res, { error: 'DB error', detail: String(e) }, 500);
   }
 }

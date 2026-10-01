@@ -1,10 +1,20 @@
-import { json, signToken } from './db.js';
+import { send, signToken, type VercelReq, type VercelRes } from './db.js';
 
-export async function POST(req: Request) {
-  const { password } = (await req.json().catch(() => ({}))) as { password?: string };
+export default async function handler(req: VercelReq, res: VercelRes): Promise<void> {
+  if (req.method !== 'POST') {
+    send(res, { error: 'Method not allowed' }, 405);
+    return;
+  }
+  const body = (typeof req.body === 'string' ? JSON.parse(req.body) : req.body ?? {}) as { password?: string };
   const expected = process.env.ADMIN_PASSWORD || '';
   const secret = process.env.ADMIN_SECRET || '';
-  if (!expected || !secret) return json({ error: 'Server not configured' }, 500);
-  if (password !== expected) return json({ error: 'Wrong password' }, 401);
-  return json({ token: signToken(secret) });
+  if (!expected || !secret) {
+    send(res, { error: 'Server not configured' }, 500);
+    return;
+  }
+  if (body.password !== expected) {
+    send(res, { error: 'Wrong password' }, 401);
+    return;
+  }
+  send(res, { token: signToken(secret) });
 }

@@ -2,6 +2,19 @@ import { createHmac, timingSafeEqual } from 'node:crypto';
 
 const TOKEN_TTL = 1000 * 60 * 60 * 12; // 12h
 
+export type VercelReq = {
+  method?: string;
+  headers: Record<string, string | string[] | undefined>;
+  body?: unknown;
+  query?: Record<string, string | string[] | undefined>;
+};
+
+export type VercelRes = {
+  status: (code: number) => VercelRes;
+  json: (data: unknown) => void;
+  setHeader: (name: string, value: string) => void;
+};
+
 export function signToken(secret: string): string {
   const exp = Date.now() + TOKEN_TTL;
   const sig = createHmac('sha256', secret).update(String(exp)).digest('hex');
@@ -20,14 +33,16 @@ export function verifyToken(token: string, secret: string): boolean {
   }
 }
 
-export function isAuthed(req: Request, secret: string): boolean {
-  const token = req.headers.get('x-admin-token') || '';
+function header(req: VercelReq, name: string): string {
+  const v = req.headers[name.toLowerCase()] ?? req.headers[name];
+  return Array.isArray(v) ? v[0] ?? '' : v ?? '';
+}
+
+export function isAuthed(req: VercelReq, secret: string): boolean {
+  const token = header(req, 'x-admin-token');
   return token ? verifyToken(token, secret) : false;
 }
 
-export function json(data: unknown, status = 200): Response {
-  return new Response(JSON.stringify(data), {
-    status,
-    headers: { 'content-type': 'application/json' },
-  });
+export function send(res: VercelRes, data: unknown, status = 200): void {
+  res.status(status).json(data);
 }
