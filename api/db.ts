@@ -38,6 +38,21 @@ function header(req: VercelReq, name: string): string {
   return Array.isArray(v) ? v[0] ?? '' : v ?? '';
 }
 
+/** Accepts every common Postgres env name (Vercel Postgres, Neon, manual). */
+export function getDbUrl(): string {
+  const e = process.env;
+  const direct =
+    e.POSTGRES_URL || e.DATABASE_URL || e.NEON_DATABASE_URL ||
+    e.POSTGRES_PRISMA_URL || e.POSTGRES_URL_NON_POOLING || '';
+  if (direct) return direct;
+  if (e.PGHOST && e.PGDATABASE && e.PGUSER) {
+    const pass = e.PGPASSWORD ? `:${encodeURIComponent(e.PGPASSWORD)}` : '';
+    const port = e.PGPORT || '5432';
+    return `postgresql://${e.PGUSER}${pass}@${e.PGHOST}:${port}/${e.PGDATABASE}?sslmode=require`;
+  }
+  return '';
+}
+
 export function isAuthed(req: VercelReq, secret: string): boolean {
   const token = header(req, 'x-admin-token');
   return token ? verifyToken(token, secret) : false;

@@ -1,8 +1,8 @@
 import { neon } from '@neondatabase/serverless';
-import { send, type VercelReq, type VercelRes } from './db.js';
+import { getDbUrl, send, type VercelReq, type VercelRes } from './db.js';
 
 export default async function handler(_req: VercelReq, res: VercelRes): Promise<void> {
-  const url = process.env.POSTGRES_URL || process.env.DATABASE_URL || '';
+  const url = getDbUrl();
   if (!url) {
     send(res, { error: 'DB not configured' }, 503);
     return;

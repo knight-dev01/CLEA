@@ -1,5 +1,5 @@
 import { neon } from '@neondatabase/serverless';
-import { send, type VercelReq, type VercelRes } from './db.js';
+import { getDbUrl, send, type VercelReq, type VercelRes } from './db.js';
 
 /**
  * One-time database setup. Visit:
@@ -14,7 +14,7 @@ export default async function handler(req: VercelReq, res: VercelRes): Promise<v
     send(res, { error: 'Unauthorized — pass ?secret=<ADMIN_SECRET>' }, 401);
     return;
   }
-  const url = process.env.POSTGRES_URL || process.env.DATABASE_URL || '';
+  const url = getDbUrl();
   if (!url) {
     send(res, { error: 'DB not configured' }, 503);
     return;

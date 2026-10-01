@@ -1,5 +1,5 @@
 import { neon } from '@neondatabase/serverless';
-import { isAuthed, send, type VercelReq, type VercelRes } from './db.js';
+import { getDbUrl, isAuthed, send, type VercelReq, type VercelRes } from './db.js';
 
 const TABLES = ['posts', 'media', 'events', 'settings'] as const;
 type Table = (typeof TABLES)[number];
@@ -14,7 +14,7 @@ export default async function handler(req: VercelReq, res: VercelRes): Promise<v
     send(res, { error: 'Unauthorized' }, 401);
     return;
   }
-  const url = process.env.POSTGRES_URL || process.env.DATABASE_URL || '';
+  const url = getDbUrl();
   if (!url) {
     send(res, { error: 'DB not configured' }, 503);
     return;
