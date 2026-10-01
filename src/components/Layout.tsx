@@ -32,7 +32,7 @@ export function Footer() {
   const { t } = useLang();
   return (
     <footer><div className="wrap grid g3">
-      <div><strong>Christ Love Evangelical Assembly</strong><p className="muted">{t('footerTag')}<br />{t('address')}</p></div>
+      <div><img className="footer-logo" src="logo.png" alt="Christ Love Evangelical Assembly logo" /><strong>Christ Love Evangelical Assembly</strong><p className="muted">{t('footerTag')}<br />{t('address')}</p></div>
       <div><strong>Contact</strong>
         <p className="muted contactline"><PhoneIcon /> <a href="tel:+393511408770">+39 351 140 8770</a></p>
         <p className="muted contactline"><PhoneIcon /> <a href="tel:+2348030401694">+234 803 040 1694</a></p>

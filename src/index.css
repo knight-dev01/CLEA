@@ -84,6 +84,7 @@ table{width:100%;border-collapse:collapse;font-size:.9rem}td,th{border-bottom:1p
 .h-icon{display:flex;align-items:center;gap:10px}.h-icon svg{color:var(--sage-d);flex-shrink:0}
 .socials{display:flex;gap:12px;align-items:center}.socials a{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;background:#edecf7;color:var(--sage-d);text-decoration:none;transition:transform .15s,background .15s}.socials a:hover{background:var(--sage);color:#fff;transform:translateY(-2px)}
 .contactline{display:flex;align-items:center;gap:8px}.contactline svg{color:var(--sage-d);flex-shrink:0}
+.footer-logo{width:72px;height:72px;object-fit:contain;margin-bottom:10px}
 .wa-float{position:fixed;right:20px;bottom:20px;z-index:60;width:58px;height:58px;border-radius:50%;background:#25D366;color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 28px rgba(37,211,102,.45);text-decoration:none;transition:transform .15s}
 .wa-float:hover{transform:scale(1.07)}
 /* ---- Motion: soft & subtle ---- */
