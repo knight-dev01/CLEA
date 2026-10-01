@@ -165,11 +165,34 @@ export function Visit() {
   </div>);
 }
 
+function ContactForm() {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+  const [sent, setSent] = useState(false);
+  return (
+    <form onSubmit={(e) => {
+      e.preventDefault();
+      const subject = encodeURIComponent(`Website message from ${name}`);
+      const body = encodeURIComponent(`${message}\n\n— ${name} (${email})`);
+      window.location.href = `mailto:christloveevangelicalassembly@gmail.com?subject=${subject}&body=${body}`;
+      setSent(true);
+    }}>
+      <input required value={name} onChange={(e) => setName(e.target.value)} placeholder="Name / Nome" autoComplete="name" />
+      <input required type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" autoComplete="email" />
+      <textarea rows={4} required value={message} onChange={(e) => setMessage(e.target.value)} placeholder="Message / Messaggio" />
+      <button className="btn gold" type="submit">Send</button>
+      {sent && <p className="muted">Opening your email app… / Grazie! We will reply soon.</p>}
+      <p className="muted">Prefer WhatsApp? <a href="https://wa.me/393511408770">+39 351 140 8770</a></p>
+    </form>
+  );
+}
+
 export function Contact() {
   useSEO('Contact Christ Love Evangelical Assembly Reggio Emilia', 'Contact Christ Love Evangelical Assembly church: phone, WhatsApp +39 351 140 8770, Nigeria +2348030401694, Reggio Emilia address.');
   return (<div className="sec"><h1 className="h-icon"><MailIcon /> Contact</h1><div className="grid g3">
     <div className="card"><h3 className="h-icon"><PhoneIcon /> Phone / WhatsApp</h3><p><a href="tel:+393511408770">+39 351 140 8770</a><br /><a href="tel:+2348030401694">+234 803 040 1694</a></p>
     <p><a className="btn solid" href="https://wa.me/393511408770">WhatsApp Us</a></p></div>
-    <div className="card"><h3 className="h-icon"><MailIcon /> Message</h3><form onSubmit={e => { e.preventDefault(); alert('Thank you! / Grazie! We will reply soon.'); }}><input required placeholder="Name / Nome" /><input required type="email" placeholder="Email" /><textarea rows={4} required placeholder="Message / Messaggio" /><button className="btn gold" type="submit">Send</button></form></div>
+    <div className="card"><h3 className="h-icon"><MailIcon /> Message</h3><ContactForm /></div>
   </div></div>);
 }
