@@ -45,6 +45,11 @@ export function getDbUrl(): string {
     e.POSTGRES_URL || e.DATABASE_URL || e.NEON_DATABASE_URL ||
     e.POSTGRES_PRISMA_URL || e.POSTGRES_URL_NON_POOLING || '';
   if (direct) return direct;
+  // Fallback: accept ANY env var whose value is a postgres connection string
+  // (covers custom-prefixed integrations, e.g. POSGRES_*).
+  for (const [k, v] of Object.entries(e)) {
+    if (typeof v === 'string' && /^postgres(ql)?:\/\//i.test(v.trim()) && !/^ADMIN_/i.test(k)) return v.trim();
+  }
   if (e.PGHOST && e.PGDATABASE && e.PGUSER) {
     const pass = e.PGPASSWORD ? `:${encodeURIComponent(e.PGPASSWORD)}` : '';
     const port = e.PGPORT || '5432';
