@@ -14,6 +14,12 @@ a{color:var(--sage-d)}.wrap{max-width:960px;margin:0 auto;padding:0 24px}
 .links a{text-decoration:none;color:var(--ink);font-weight:600;font-size:.93rem;padding:6px 10px;border-radius:10px}
 .links a:hover,.links a.active{background:#edecf7}
 .langbtn{border:1px solid var(--line);background:#fff;border-radius:20px;padding:6px 12px;cursor:pointer;font-weight:700}
+.menubtn{display:none;flex-direction:column;justify-content:center;gap:5px;width:44px;height:44px;background:#fff;border:1px solid var(--line);border-radius:12px;cursor:pointer;padding:10px 11px}
+.menubtn span{display:block;height:2px;background:var(--ink);border-radius:2px;transition:transform .2s ease,opacity .2s ease}
+.menubtn.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.menubtn.open span:nth-child(2){opacity:0}
+.menubtn.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.scrim{display:none}
 .hero{position:relative;border-radius:20px;overflow:hidden;margin:28px 0;color:#fff;min-height:52vh;display:flex;align-items:flex-end}
 .hero img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .hero .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.55))}
@@ -96,8 +102,13 @@ table{width:100%;border-collapse:collapse;font-size:.9rem}td,th{border-bottom:1p
 .hero .txt{padding:22px}.links{gap:6px}.wa-float{right:14px;bottom:14px;width:52px;height:52px}
 .hero{min-height:60vh}.hero h1{font-size:clamp(1.5rem,7vw,2rem)}
 .btn{display:block;width:100%;text-align:center;margin:8px 0}.btn.ghost{margin-left:0}
-.links{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;-webkit-overflow-scrolling:touch}
-.links a{white-space:nowrap}
+.menubtn{display:flex;margin-left:8px}
+.langbtn{margin-left:auto}
+.links{display:none;position:fixed;top:65px;left:12px;right:12px;z-index:70;background:#fff;border:1px solid var(--line);border-radius:16px;padding:10px;flex-direction:column;gap:2px;box-shadow:0 18px 50px rgba(19,10,138,.14)}
+.links.open{display:flex}
+.links a{white-space:nowrap;padding:13px 14px;font-size:1rem;border-radius:12px}
+.scrim{display:block;position:fixed;inset:0;z-index:60;background:rgba(20,16,60,.32)}
+.brand span{max-width:150px;font-size:.76rem}
 .nav-in{padding:10px 14px}.grid{gap:14px}.sec{margin:28px 0}
 iframe.map{height:280px}.vid-wrap.tall{max-height:440px}
 table{font-size:.82rem}

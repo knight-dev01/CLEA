@@ -1,4 +1,5 @@
-import { NavLink, Outlet, Link } from 'react-router-dom';
+import { NavLink, Outlet, Link, useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { useLang } from '../i18n';
 import { useScrolledNav } from '../hooks';
 import { FacebookIcon, BloggerIcon, MailIcon, PhoneIcon, WhatsappIcon, YoutubeIcon } from '../icons';
@@ -6,12 +7,23 @@ import { SOCIALS } from '../store';
 
 export function Nav() {
   const { t, lang, setLang } = useLang();
+  const [open, setOpen] = useState(false);
+  const loc = useLocation();
+  useEffect(() => setOpen(false), [loc.pathname]);
+  useEffect(() => {
+    document.body.style.overflow = open ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [open ]);
   const L: [string, string][] = [['/', t('home')], ['/about', t('about')], ['/media', t('media')], ['/blog', t('blog')], ['/visit', t('visit')], ['/contact', t('contact')]];
   return (
     <nav className="nav"><div className="nav-in">
       <a className="brand" href="/"><img src="logo.png" alt="Christ Love Evangelical Assembly logo" /><span>Christ Love Evangelical Assembly</span></a>
-      <div className="links">{L.map(([to, l]) => <NavLink key={to} to={to} className={({ isActive }) => isActive ? 'active' : ''}>{l}</NavLink>)}</div>
+      <div className={'links' + (open ? ' open' : '')}>{L.map(([to, l]) => <NavLink key={to} to={to} className={({ isActive }) => isActive ? 'active' : ''}>{l}</NavLink>)}</div>
       <button className="langbtn" onClick={() => setLang(lang === 'en' ? 'it' : 'en')}>{lang === 'en' ? 'IT' : 'EN'}</button>
+      <button className={'menubtn' + (open ? ' open' : '')} onClick={() => setOpen(!open)} aria-label={open ? 'Close menu' : 'Open menu'} aria-expanded={open}>
+        <span /><span /><span />
+      </button>
+      {open && <div className="scrim" onClick={() => setOpen(false)} aria-hidden="true" />}
     </div></nav>
   );
 }
