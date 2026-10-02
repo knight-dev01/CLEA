@@ -25,6 +25,7 @@ import { useLang } from '../i18n';
 import { useScrolledNav } from '../hooks';
 import { FacebookIcon, BloggerIcon, MailIcon, PhoneIcon, WhatsappIcon, YoutubeIcon } from '../icons';
 import { ThemeToggle } from '../theme';
+import { Orbs } from '../anim';
 import { SOCIALS } from '../store';
 
 export function Nav() {
@@ -95,5 +96,5 @@ export function WhatsAppFloat() {
 export default function Layout() {
   useScrolledNav();
   const logo = `${import.meta.env.BASE_URL}logo.png`;
-  return (<><div className="watermark" aria-hidden="true" style={{ backgroundImage: `url('${logo}')` }} /><Nav /><OfflineBanner /><div className="wrap"><Outlet /></div><Footer /><WhatsAppFloat /></>);
+  return (<><div className="watermark" aria-hidden="true" style={{ backgroundImage: `url('${logo}')` }} /><Orbs /><Nav /><OfflineBanner /><div className="wrap"><Outlet /></div><Footer /><WhatsAppFloat /></>);
 }

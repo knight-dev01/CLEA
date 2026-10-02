@@ -18,6 +18,7 @@ import YouTubeUploads from '../components/YouTubeUploads';
 import FacebookFeed from '../components/FacebookFeed';
 import { withBlogspot } from '../blogspot';
 import { summarize } from '../summarize';
+import { Reveal, Stagger, StaggerItem, PhotoBand } from '../anim';
 
 const MAP = 'https://www.google.com/maps?q=Via+Corelli+5+Reggio+Emilia+Italy&output=embed';
 export const PASTORS = [
@@ -83,13 +84,14 @@ export function Home() {
         <Link className="btn ghost" to="/media">{t('watch')}</Link>
       </div>
     </div>
-    <section className="sec reveal"><p className="quote">“{t('tagline')}”</p></section>
-    <section className="sec reveal"><div className="stats">
-      <div className="stat"><b>296</b><span>{t('statsVideos')}</span></div>
-      <div className="stat"><b>1.1K</b><span>{t('statsFollowers')}</span></div>
-      <div className="stat"><b>2</b><span>{t('statsCities')}</span></div>
-      <div className="stat"><b>10+</b><span>{t('statsYears')}</span></div>
-    </div></section>
+    <Reveal className="sec"><div className="editorial"><span className="eyebrow">{lang === 'it' ? 'Chi Siamo' : 'Who We Are'}</span><p className="lead">“{t('tagline')}”</p><p>{t('aboutLong')}</p></div></Reveal>
+    <section className="sec"><Stagger className="stats">
+      <StaggerItem className="stat"><b>296</b><span>{t('statsVideos')}</span></StaggerItem>
+      <StaggerItem className="stat"><b>1.1K</b><span>{t('statsFollowers')}</span></StaggerItem>
+      <StaggerItem className="stat"><b>2</b><span>{t('statsCities')}</span></StaggerItem>
+      <StaggerItem className="stat"><b>10+</b><span>{t('statsYears')}</span></StaggerItem>
+    </Stagger></section>
+    <Reveal className="sec"><PhotoBand src={REAL_GALLERY[1]} label={lang === 'it' ? 'Celebrazione · Reggio Emilia' : 'Celebration · Reggio Emilia'} /></Reveal>
     <section className="sec reveal"><h2 className="h-icon"><VideoIcon /> {t('featured')}</h2>
       <div className="featured"><YouTubeUploads />
         <div className="featured-cap"><div><strong>{t('latestSermons')}</strong><br /><span className="muted">296 videos · YouTube & Facebook</span></div>
@@ -107,6 +109,7 @@ export function Home() {
     <section className="sec reveal"><h2 className="h-icon"><BookIcon /> {t('gallery')}</h2>
       <div className="gallery-strip auto">{(() => { const list = images?.gallery?.length ? images.gallery : REAL_GALLERY; const loop = [...list, ...list]; return (<div className="marquee">{loop.map((g, i) => <figure className="photo-card" key={i} aria-hidden={i >= list.length}><img src={g} alt={i < list.length ? 'Life at Christ Love Evangelical Assembly' : ''} loading="lazy" /></figure>)}</div>); })()}</div>
     </section>
+    <Reveal className="sec"><PhotoBand src={REAL_GALLERY[4]} label={lang === 'it' ? 'Vita in Chiesa' : 'Life at Church'} /></Reveal>
     <section className="sec reveal"><div className="cta-band"><div className="cta-inner"><span className="kicker">Reggio Emilia · Italia</span><h2>{t('planTitle')}</h2><p>{t('planSub')}</p>
       <div className="cta-pills"><span>SUN 10:00</span><span>WED 18:30</span><span>FRI 22:00</span></div>
       <div><Link className="btn gold" to="/visit">{t('joinUs')}</Link><Link className="btn ghost" to="/about">{t('aboutCta')}</Link></div></div></div></section>
@@ -138,10 +141,18 @@ export function About() {
     <h1>{en ? 'About Christ Love Evangelical Assembly' : 'Chi Siamo'}</h1>
     <p className="muted">{t('aboutLong')}</p>
     <p className="muted">{t('hqNote')}</p>
-    <div className="trio" style={{ marginTop: 18 }}>
-      <div className="card"><h3 className="h-icon"><ChurchIcon /> {en ? 'Vision' : 'Visione'}</h3><p>{en ? 'To preach Christ\u2019s love, raise disciples and serve our city: a multicultural family where everyone belongs.' : 'Predicare l\u2019amore di Cristo, formare discepoli e servire la città: una famiglia multiculturale dove tutti sono accolti.'}</p></div>
-      <div className="card"><h3 className="h-icon"><BookIcon /> {t('mission')}</h3><p>{t('missionText')}</p></div>
-      <div className="card"><h3 className="h-icon"><BookIcon /> {t('beliefs')}</h3><p>{en ? 'We believe the Bible is God\u2019s Word, salvation through Jesus Christ, the power of the Holy Spirit, water baptism and holy living.' : 'Crediamo che la Bibbia è la Parola di Dio, la salvezza tramite Gesù Cristo, la potenza dello Spirito Santo, il battesimo e la santità.'}</p></div>
+    <div className="editorial" style={{ marginTop: 18 }}>
+      <span className="eyebrow">{en ? 'Vision' : 'Visione'}</span>
+      <p className="lead">{en ? 'To preach Christ\u2019s love, raise disciples and serve our city.' : 'Predicare l\u2019amore di Cristo, formare discepoli e servire la città.'}</p>
+      <p>{en ? 'A multicultural family where everyone belongs.' : 'Una famiglia multiculturale dove tutti sono accolti.'}</p>
+    </div>
+    <div className="editorial">
+      <span className="eyebrow">{t('mission')}</span>
+      <p>{t('missionText')}</p>
+    </div>
+    <div className="editorial">
+      <span className="eyebrow">{t('beliefs')}</span>
+      <p>{en ? 'We believe the Bible is God\u2019s Word, salvation through Jesus Christ, the power of the Holy Spirit, water baptism and holy living.' : 'Crediamo che la Bibbia è la Parola di Dio, la salvezza tramite Gesù Cristo, la potenza dello Spirito Santo, il battesimo e la santità.'}</p>
     </div>
     <h2 className="h-icon" style={{ marginTop: 26 }}><UsersIcon /> {en ? 'Pastorate' : 'Pastori'}</h2>
     <div className="grid g3">{PASTORS.map(p => <div className="card pastor" key={p.n}>{'img' in p && p.img ? <img className="pastor-photo" src={p.img} alt={p.n} loading="lazy" /> : <div className="avatar">{p.n[0]}</div>}<div><strong>{p.n}</strong><br /><span className="muted">{p.r}</span></div></div>)}</div>

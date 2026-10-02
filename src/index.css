@@ -105,6 +105,22 @@ footer p{margin:.3em 0}
 .sec h2:not(.h-icon){position:relative;padding-bottom:10px}
 .sec h2:not(.h-icon)::after{content:"";position:absolute;left:0;bottom:0;width:56px;height:4px;border-radius:4px;background:linear-gradient(90deg,var(--sage),var(--gold))}
 .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+/* ---- Editorial (unboxed) + ambience : logo royal, silver, ink ---- */
+.editorial{max-width:680px;margin:0 auto;padding:8px 0}
+.editorial .eyebrow{display:block;font-size:.74rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--sage-d);margin-bottom:10px}
+.editorial h2{font-size:clamp(1.5rem,3.4vw,2rem);margin:0 0 12px}
+.editorial p{font-size:1.04rem;color:var(--ink);margin:.7em 0}
+.editorial p.lead{font-family:var(--font-display);font-size:clamp(1.25rem,2.8vw,1.6rem);line-height:1.5}
+.editorial p.lead::first-letter{font-size:2.6em;float:left;line-height:.9;padding-right:10px;color:var(--sage-d)}
+.photo-band{position:relative;height:min(46vw,300px);border-radius:28px 28px 48px 48px;overflow:hidden;margin:8px 0}
+.photo-band img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 20%}
+.photo-band-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(19,10,138,.05),rgba(19,10,138,.55))}
+.photo-band-label{position:absolute;left:22px;bottom:16px;color:#fff;font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-size:.78rem}
+.orbs{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.orb{position:absolute;border-radius:50%;filter:blur(90px);opacity:.16}
+.orb-a{width:44vmax;height:44vmax;left:-12vmax;top:6vh;background:#2213d6}
+.orb-b{width:36vmax;height:36vmax;right:-10vmax;top:52vh;background:#8a8aa0}
+[data-theme="light"] .orb{opacity:.12}
 input,textarea,select{width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:12px;font:inherit;background:var(--card);color:var(--ink);margin:6px 0}
 label{font-weight:700;font-size:.88rem}
 table{width:100%;border-collapse:collapse;font-size:.9rem}td,th{border-bottom:1px solid var(--line);padding:8px;text-align:left}
