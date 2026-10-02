@@ -84,6 +84,7 @@ export function Home() {
         <Link className="btn ghost" to="/media">{t('watch')}</Link>
       </div>
     </div>
+    <div className="ticker" aria-hidden="true"><div className="ticker-track">{[0, 1].map((k) => <span key={k}>SUNDAY 10:00 · WEDNESDAY 18:30 · FRIDAY 22:00 · REGGIO EMILIA · {t('tagline')} · </span>)}</div></div>
     <Reveal className="sec"><div className="editorial"><span className="eyebrow">{lang === 'it' ? 'Chi Siamo' : 'Who We Are'}</span><p className="lead">“{t('tagline')}”</p><p>{t('aboutLong')}</p></div></Reveal>
     <section className="sec"><Stagger className="stats">
       <StaggerItem className="stat"><b>296</b><span>{t('statsVideos')}</span></StaggerItem>
@@ -100,7 +101,7 @@ export function Home() {
     </section>
     <section className="sec reveal"><div className="card verse-card"><span className="kicker">Verse of the day · Versetto del giorno</span><h2 style={{ margin: '10px 0 4px' }}>{lang === 'it' ? verse.it : verse.en}</h2></div></section>
     <section className="sec reveal"><h2 className="h-icon"><ChurchIcon /> {t('serviceTimes')}</h2>
-      <div className="grid g3">
+      <div className="grid g3 svc">
         <div className="card"><span className="pill">SUN 10:00</span><h3>{t('sunday')}</h3><p className="muted">{t('address')}</p></div>
         <div className="card"><span className="pill">WED 18:30</span><h3>{t('wednesday')}</h3><p className="muted">Bible Study / Studio Biblico</p></div>
         <div className="card"><span className="pill">FRI 22:00</span><h3>{t('friday')}</h3><p className="muted">Night Vigil / Veglia di preghiera</p></div>
@@ -114,7 +115,11 @@ export function Home() {
       <div className="cta-pills"><span>SUN 10:00</span><span>WED 18:30</span><span>FRI 22:00</span></div>
       <div><Link className="btn gold" to="/visit">{t('joinUs')}</Link><Link className="btn ghost" to="/about">{t('aboutCta')}</Link></div></div></div></section>
     <section className="sec reveal"><h2 className="h-icon"><BookIcon /> {t('latestBlog')} <Link to="/blog" style={{ fontSize: '.85rem' }}>{t('viewAll')} →</Link></h2>
+      {blog.length > 0 ? (
       <div className="grid g3">{blog.slice(0, 3).map(b => <div className="card" key={b.id}>{b.imageUrl && <img src={b.imageUrl} alt="" />}<h3>{lang === 'it' ? b.title_it || b.title : b.title}</h3><p className="muted">{(lang === 'it' ? b.body_it || b.body : b.body).slice(0, 110)}…</p><Link to="/blog">{t('readMore')} →</Link></div>)}</div>
+      ) : (
+      <div className="card"><p className="muted">{lang === 'it' ? 'Nuovi articoli in arrivo: nel frattempo leggi il nostro Blogspot.' : 'Fresh stories on the way: meanwhile read our Blogspot.'}</p><div><a className="btn solid" href="https://cleareggio.blogspot.com/" target="_blank" rel="noreferrer">Blogspot</a></div></div>
+      )}
     </section>
     <section className="sec reveal"><h2 className="h-icon"><UsersIcon /> {t('pastors')}</h2>
       <div className="grid g3">{PASTORS.map(p => <div className="card pastor" key={p.n}>{'img' in p && p.img ? <img className="pastor-photo" src={p.img} alt={p.n} loading="lazy" /> : <div className="avatar">{p.n[0]}</div>}<div><strong>{p.n}</strong><br /><span className="muted">{p.r}</span></div></div>)}</div>
