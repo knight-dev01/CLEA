@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useLang } from '../i18n';
 import { useSEO } from '../seo';
-import { ensureSeed } from '../store';
+import { ensureSeed, REAL_GALLERY } from '../store';
 import { useEffect, useState } from 'react';
 import type { BlogPost, MediaLink, SiteImages } from '../store';
 import { ChurchIcon, VideoIcon, BookIcon, UsersIcon, PinIcon, PhoneIcon, MailIcon } from '../icons';
@@ -36,8 +36,8 @@ export function Home() {
         setMedia(c.media);
         setEvents(c.events);
         setImages(contentToImages(c.settings, {
-          hero: 'https://images.unsplash.com/photo-1438032005730-c779502df39b?w=1600&q=70&auto=format&fit=crop',
-          gallery: [],
+          hero: REAL_GALLERY[0],
+          gallery: REAL_GALLERY,
         }));
         return;
       }
@@ -51,7 +51,7 @@ export function Home() {
   }, []);
   return (<>
     <div className="hero">
-      <img className="bg" src={images?.hero || 'https://images.unsplash.com/photo-1438032005730-c779502df39b?w=1600&q=70&auto=format&fit=crop'} alt="Church" />
+      <img className="bg" src={images?.hero || REAL_GALLERY[0]} alt="Christ Love Evangelical Assembly celebration" />
       <div className="shade" /><div className="txt">
         <span className="kicker">{t('heroKicker')}</span>
         <h1>{t('heroTitle')}</h1><p>{t('heroSub')}</p>
@@ -80,9 +80,9 @@ export function Home() {
         <div className="card"><span className="pill">FRI 22:00</span><h3>{t('friday')}</h3><p className="muted">Night Vigil / Veglia di preghiera</p></div>
       </div>
     </section>
-    {(images?.gallery?.length ?? 0) > 0 && (<section className="sec reveal"><h2 className="h-icon"><BookIcon /> {t('gallery')}</h2>
-      <div className="gallery-strip">{images!.gallery.map((g, i) => <img key={i} src={g} alt="" loading="lazy" />)}</div>
-    </section>)}
+    <section className="sec reveal"><h2 className="h-icon"><BookIcon /> {t('gallery')}</h2>
+      <div className="gallery-strip">{(images?.gallery?.length ? images.gallery : REAL_GALLERY).map((g, i) => <img key={i} src={g} alt="Life at Christ Love Evangelical Assembly" loading="lazy" />)}</div>
+    </section>
     <section className="sec reveal"><div className="cta-band"><h2>{t('planTitle')}</h2><p className="muted">{t('planSub')}</p>
       <Link className="btn solid" to="/visit">{t('joinUs')}</Link><Link className="btn ghost" to="/about">{t('aboutCta')}</Link></div></section>
     <section className="sec reveal"><h2 className="h-icon"><BookIcon /> {t('latestBlog')} <Link to="/blog" style={{ fontSize: '.85rem' }}>{t('viewAll')} →</Link></h2>

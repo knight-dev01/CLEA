@@ -6,9 +6,11 @@ export type SiteImages = { hero: string; gallery: string[] };
 
 const K = { blog: 'clea-blog', media: 'clea-media', images: 'clea-images' };
 
+const B = 'https://blogger.googleusercontent.com/img/b/R29vZ2xl';
 const seedBlog: BlogPost[] = [
-  { id: 'welcome', title: 'Welcome to Christ Love Evangelical Assembly Reggio Emilia', title_it: 'Benvenuti alla Christ Love Evangelical Assembly Reggio Emilia', body: 'We are a family of faith sharing the love of Christ. Join us every Sunday at 10:00.', body_it: 'Siamo una famiglia di fede che condivide l\u2019amore di Cristo. Unisciti a noi ogni domenica alle 10:00.', date: '2026-09-01', imageUrl: 'https://picsum.photos/seed/clea1/800/500' },
-  { id: 'faith', title: 'Walking in Love and Faith', title_it: 'Camminare nell\u2019amore e nella fede', body: 'Discover our midweek Bible study and Friday prayer meetings. All are welcome.', body_it: 'Scopri il nostro studio biblico infrasettimanale e gli incontri di preghiera del venerdì. Tutti sono benvenuti.', date: '2026-09-15', imageUrl: 'https://picsum.photos/seed/clea2/800/500' },
+  { id: 'christmas-2019', title: '2019 Christmas Party', title_it: 'Festa di Natale 2019', body: 'Christmas is one distinct annual festival commemorating the essence of the Birth of our Lord Jesus Christ. This particular celebration of Christmas in Christ Love Evangelical Assembly was an out-pour of the amazing love of God bestowed on mankind; as children were made to enjoy the bliss of the solitude of the existence of God in human form.', body_it: 'Il Natale commemora la nascita di nostro Signore Gesù Cristo. Questa celebrazione natalizia alla Christ Love Evangelical Assembly è stata un effusione dello straordinario amore di Dio per l\u2019umanità, con i bambini al centro della gioia.', date: '2020-01-24', imageUrl: `${B}/AVvXsEhbTgHnlHPWfPuKtWybHazQNgS1l99Vp966Bax_LOSpoYu9JGBPVgtFT5sbQYOHAdabvj6neQ5hQZ0huEL-wqBwxcTtpLNWG4HVLD6X5s-G1XapnjbtQ-i431w_ex8NLEGzGmbQkwIJkRQ/s1600/IMG-20200113-WA0028.jpg` },
+  { id: 'third-anniversary', title: 'Our Third Anniversary was a glorious one', title_it: 'Il nostro terzo anniversario è stato glorioso', body: 'It was really an exciting moment in the presence of the Lord Jesus as we all made our time to celebrate the third year anniversary of Christ Love Evangelical Assembly. It was more than just a celebration; it\u2019s a memorial.', body_it: 'Un momento davvero emozionante alla presenza del Signore Gesù, celebrando il terzo anniversario della Christ Love Evangelical Assembly. Più di una celebrazione: un memoriale.', date: '2020-01-24', imageUrl: `${B}/AVvXsEixM5ety4V8E7pbQOs1AztoLKkxlmnqEgg3Ghkns_a4homB8MDQtg8mDRkpTebfJv66cYsMtFna49eevnh8xXkcJ5OvV8JMV_wmEqRcpU_a4QiFgGJirc4ou9mpn8XmQlBQQs1PUn5aNb4/s1600/IMG-20200113-WA0023.jpg` },
+  { id: 'welcome', title: 'Welcome to Christ Love Evangelical Assembly Reggio Emilia', title_it: 'Benvenuti alla Christ Love Evangelical Assembly Reggio Emilia', body: 'We are a family of faith sharing the love of Christ. Join us every Sunday at 10:00.', body_it: 'Siamo una famiglia di fede che condivide l\u2019amore di Cristo. Unisciti a noi ogni domenica alle 10:00.', date: '2026-09-01', imageUrl: `${B}/AVvXsEg8RsUG45kWAKy8FsMi8M6CLnVqj323XHmu2B4tUdmBXGL75Dc3M_QHLQaflbLim2iN-rRO_EFTGwGlILGWjzEoTUG_AMubBkO2GiOJfyu55K81zyFH3aAdOOkYS3bR5m0dQ6Uhl2VUC0w/s1600/IMG-20200113-WA0036.jpg` },
 ];
 export const SOCIALS = {
   facebookPage: 'https://www.facebook.com/1806488646340376',
@@ -25,13 +27,18 @@ const seedMedia: MediaLink[] = [
   { id: 'm1', type: 'facebook', url: 'https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2F1806488646340376&tabs=timeline&width=500&height=700&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true', title: 'Christ Love Evangelical Assembly on Facebook — latest posts & live videos' },
   { id: 'm2', type: 'youtube', url: 'https://www.youtube.com/embed?listType=playlist&list=UUXRGmn1DVIWXTTmBh5BjwXw', title: 'Latest Sermons (YouTube uploads)' },
 ];
+export const REAL_GALLERY: string[] = [
+  `${B}/AVvXsEiu2TJmJ5kTR1YiL1KdKFz9IiRm8PqmzzgOHzlWyb5B0XiY9n4yPDHXtFyLQbVD7um1PjapLTy5uq68R7bRrdLI4Ohzo6l_vGmIMgCRvdsP7QhG82EdcKLEOBMn-b8DhdWmYxSx4Biysa0/s1600/IMG-20200113-WA0030.jpg`,
+  `${B}/AVvXsEjjuEPKPLfSBKW1Iriv294nJ767gqA3PzjRaLQRx4Fwoct0eLXTNPRQjRkgyrS2bufIw9_kZv-oJmnXudNVTvpWhyphenhyphenJN6KscSEGVCW7Nkkr9FQphmE2KCNukjyv0HSLm8_ddKDq8ijLOGX4/s1600/IMG-20200113-WA0026.jpg`,
+  `${B}/AVvXsEjoEM4sqbdmjk3l8Tg6NdnzjafTrPr6NoruT8lFyl2U72dJk-j3ARmyIPtpFUnyq-TqVumcNG5fI-aR2QdwtFqQuEcpAhEVgkH8EoeZzI8n1s9IpNsOtJHtKgn25UW-s_NhtpAxfLMfJSY/s1600/IMG-20200113-WA0032.jpg`,
+  `${B}/AVvXsEhXZQBm4Kvbpy-2glSgeDAh4c-tdt5iT0H_GztBSgMZwyPCT_fpoy99GdYNytMM9nMi-1z1m-CR9AV0HurhBEFP9R0iEAzcxpsbdUA1Ps_SrauyyPOqUT8tS7hpdJnP79QE3NlhdlGirv8/s1600/IMG-20200113-WA0025.jpg`,
+  `${B}/AVvXsEi2dOtfKVlAOdqCMYBsAyzv0vYdL0JO1a6E-O8GeOeenKsZBqAI98PblTCPBZSuYP-nLaOYhLgoqMGvsieb5N8yW5xarUzLUlUo4A0wKeYHL23gGvbiEmRQDsNnahzPgiHoh-QDkVjLCN8/s1600/IMG-20200113-WA0024.jpg`,
+  `${B}/AVvXsEilWgnBy5i_gKUvWTJnF-1Q2rXemY32bA1NkhcV8vGeZhyzJv6EzvWh5TPXkxD-ac9fQCV8qN0WeCC_f5N7yjROdj8MQ4x1LmBGx3X_EbaDfq-1yvsQDRTWlQaKJOopnZSyX3o9o_EceUE/s1600/IMG-20200113-WA0033.jpg`,
+  `${B}/AVvXsEj0zaGZfQuX_5aj3qfsyT5V67k8dCFyZR-hRnQz9b844lnIARp4o8Qj3gGcJ4TA2gdfr91yMu2ce5AJWpcslTn6uynXUchk55lK2deDd4YEpapwjj3vbTfqrq0fMPI2F16AmKMftq3OQGY/s1600/IMG-20200113-WA0017.jpg`,
+];
 const seedImages: SiteImages = {
-  hero: 'https://images.unsplash.com/photo-1438032005730-c779502df39b?w=1600&q=70&auto=format&fit=crop',
-  gallery: [
-    'https://images.unsplash.com/photo-1507692049790-de58290a4334?w=800&q=60&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1470075801209-17f9ec0cada6?w=800&q=60&auto=format&fit=crop',
-    'https://picsum.photos/seed/clea3/800/600',
-  ],
+  hero: `${B}/AVvXsEhbTgHnlHPWfPuKtWybHazQNgS1l99Vp966Bax_LOSpoYu9JGBPVgtFT5sbQYOHAdabvj6neQ5hQZ0huEL-wqBwxcTtpLNWG4HVLD6X5s-G1XapnjbtQ-i431w_ex8NLEGzGmbQkwIJkRQ/s1600/IMG-20200113-WA0028.jpg`,
+  gallery: REAL_GALLERY,
 };
 
 function load<T>(key: string, fallback: T): T {
