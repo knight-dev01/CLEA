@@ -98,7 +98,7 @@ export function Home() {
       </div>
     </section>
     <section className="sec reveal"><h2 className="h-icon"><BookIcon /> {t('gallery')}</h2>
-      <div className="gallery-strip">{(images?.gallery?.length ? images.gallery : REAL_GALLERY).map((g, i) => <img key={i} src={g} alt="Life at Christ Love Evangelical Assembly" loading="lazy" />)}</div>
+      <div className="gallery-strip auto">{(() => { const list = images?.gallery?.length ? images.gallery : REAL_GALLERY; const loop = [...list, ...list]; return (<div className="marquee">{loop.map((g, i) => <img key={i} src={g} alt={i < list.length ? 'Life at Christ Love Evangelical Assembly' : ''} aria-hidden={i >= list.length} loading="lazy" />)}</div>); })()}</div>
     </section>
     <section className="sec reveal"><div className="cta-band"><h2>{t('planTitle')}</h2><p className="muted">{t('planSub')}</p>
       <Link className="btn solid" to="/visit">{t('joinUs')}</Link><Link className="btn ghost" to="/about">{t('aboutCta')}</Link></div></section>
