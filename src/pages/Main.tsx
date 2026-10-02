@@ -22,7 +22,7 @@ export const PASTORS = [
 
 export function Home() {
   const { t, lang } = useLang();
-  useSEO('Christ Love Evangelical Assembly Reggio Emilia', 'Christ Love Evangelical Assembly in Reggio Emilia Italy. Sunday services, Bible study, sermons. Chiesa evangelica a Reggio Emilia.');
+  useSEO('Christ Love Evangelical Assembly Reggio Emilia', 'Christ Love Evangelical Assembly in Reggio Emilia Italy. Sunday services, Bible study, sermons. Chiesa evangelica a Reggio Emilia.', '/');
   const [blog, setBlog] = useState<BlogPost[]>([]);
   const [media, setMedia] = useState<MediaLink[]>([]);
   const [events, setEvents] = useState<EventItem[]>([]);
@@ -101,7 +101,7 @@ export function Home() {
 
 export function About() {
   const { lang } = useLang();
-  useSEO('About Christ Love Evangelical Assembly | Vision, Beliefs & Pastors', 'About Christ Love Evangelical Assembly Reggio Emilia: vision, beliefs, pastorate.');
+  useSEO('About Christ Love Evangelical Assembly | Vision, Beliefs & Pastors', 'About Christ Love Evangelical Assembly Reggio Emilia: vision, beliefs, pastorate.', '/about');
   const en = lang === 'en';
   const { t } = useLang();
   return (<div className="sec">
@@ -122,7 +122,7 @@ export function About() {
 }
 
 export function Media() {
-  useSEO('Sermons & Media | Christ Love Evangelical Assembly Reggio Emilia', 'Watch Christ Love Evangelical Assembly sermons: YouTube and Facebook videos from Reggio Emilia church.');
+  useSEO('Sermons & Media | Christ Love Evangelical Assembly Reggio Emilia', 'Watch Christ Love Evangelical Assembly sermons: YouTube and Facebook videos from Reggio Emilia church.', '/media');
   const [media, setMedia] = useState<MediaLink[]>([]);
   useEffect(() => { try { setMedia(JSON.parse(localStorage.getItem('clea-media') || '[]')); } catch { /* */ } }, []);
   return (<div className="sec"><h1 className="h-icon"><VideoIcon /> Sermons & Media</h1>
@@ -133,7 +133,7 @@ export function Media() {
       <YouTubeUploads /></div>
     <div className="card" style={{ marginBottom: 20 }}><span className="pill">Latest from Facebook · auto-updates</span>
       <FacebookFeed />
-      <div className="rowbtns"><a className="btn ghost" href="https://www.facebook.com/1806488646340376" target="_blank" rel="noreferrer">Follow on Facebook · 1.1K</a></div></div>
+      <div className="rowbtns"><a className="btn solid" href="https://www.facebook.com/1806488646340376/videos" target="_blank" rel="noreferrer">Watch Facebook videos</a><a className="btn ghost" href="https://www.facebook.com/1806488646340376" target="_blank" rel="noreferrer">Follow on Facebook · 1.1K</a></div></div>
     <p className="muted">YouTube & Facebook — new videos added by the media team via Admin.</p>
     <div className="grid g3">{media.map(m => <div className="card" key={m.id}><span className="pill">{m.type}</span><h3>{m.title}</h3>{m.type === 'facebook' ? <FacebookFeed src={m.url} title={m.title} /> : <div className="vid-wrap"><iframe src={m.url} title={m.title} allowFullScreen loading="lazy" referrerPolicy="no-referrer" allow="fullscreen; encrypted-media; picture-in-picture" /></div>}</div>)}</div>
   </div>);
@@ -141,7 +141,7 @@ export function Media() {
 
 export function Blog() {
   const { lang } = useLang();
-  useSEO('Blog | Christ Love Evangelical Assembly Reggio Emilia', 'Christ Love Evangelical Assembly church blog: devotionals, news and testimonies in English and Italian.');
+  useSEO('Blog | Christ Love Evangelical Assembly Reggio Emilia', 'Christ Love Evangelical Assembly church blog: devotionals, news and testimonies in English and Italian.', '/blog');
   const [blog, setBlog] = useState<BlogPost[]>([]);
   useEffect(() => {
     try {
@@ -154,7 +154,7 @@ export function Blog() {
 }
 
 export function Visit() {
-  useSEO('Visit Us | Christ Love Evangelical Assembly Reggio Emilia — Service Times & Map', 'Visit Christ Love Evangelical Assembly: Via Corelli 5, Reggio Emilia. Sunday 10:00, Wednesday Bible Study, Friday Vigil. Map & directions.');
+  useSEO('Visit Us | Christ Love Evangelical Assembly Reggio Emilia — Service Times & Map', 'Visit Christ Love Evangelical Assembly: Via Corelli 5, Reggio Emilia. Sunday 10:00, Wednesday Bible Study, Friday Vigil. Map & directions.', '/visit');
   const { t } = useLang();
   return (<div className="sec"><h1 className="h-icon"><PinIcon /> {t('visit')}</h1>
     <div className="card"><strong>{t('address')}</strong><p className="muted">Bus lines to Via Cilea · Parking nearby · Accessible entrance</p>
@@ -196,7 +196,7 @@ function ContactForm() {
 }
 
 export function Contact() {
-  useSEO('Contact Christ Love Evangelical Assembly Reggio Emilia', 'Contact Christ Love Evangelical Assembly church: phone, WhatsApp +39 351 140 8770, Nigeria +2348030401694, Reggio Emilia address.');
+  useSEO('Contact Christ Love Evangelical Assembly Reggio Emilia', 'Contact Christ Love Evangelical Assembly church: phone, WhatsApp +39 351 140 8770, Nigeria +2348030401694, Reggio Emilia address.', '/contact');
   return (<div className="sec"><h1 className="h-icon"><MailIcon /> Contact</h1><div className="grid g3">
     <div className="card"><h3 className="h-icon"><PhoneIcon /> Phone / WhatsApp</h3><p><a href="tel:+393511408770">+39 351 140 8770</a><br /><a href="tel:+2348030401694">+234 803 040 1694</a></p>
     <p><a className="btn solid" href="https://wa.me/393511408770">WhatsApp Us</a></p></div>

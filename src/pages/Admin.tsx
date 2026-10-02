@@ -5,7 +5,7 @@ import { fetchContent, login, manage, type EventItem } from '../cms';
 import { ChurchIcon, VideoIcon, BookIcon, UsersIcon, MailIcon } from '../icons';
 
 export default function Admin() {
-  useSEO('Admin | Christ Love Evangelical Assembly', 'Christ Love Evangelical Assembly admin panel.');
+  useSEO('Admin | Christ Love Evangelical Assembly', 'Christ Love Evangelical Assembly admin panel.', '/admin', true);
   const [authed, setAuthed] = useState(
     sessionStorage.getItem('clea-admin') === '1' || !!sessionStorage.getItem('clea-token')
   );
