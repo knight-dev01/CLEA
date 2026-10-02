@@ -1,5 +1,9 @@
 User-agent: *
 Allow: /
+Allow: /api/content
 Disallow: /admin
-Disallow: /api/
+Disallow: /api/login
+Disallow: /api/manage
+Disallow: /api/setup
+Disallow: /api/health
 Sitemap: https://www.clea1.com/sitemap.xml
