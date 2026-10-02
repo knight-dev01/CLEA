@@ -11,6 +11,7 @@ import { fetchContent, contentToImages, type EventItem } from '../cms';
 import { useMemo } from 'react';
 import YouTubeUploads from '../components/YouTubeUploads';
 import FacebookFeed from '../components/FacebookFeed';
+import { withBlogspot } from '../blogspot';
 
 const MAP = 'https://www.google.com/maps?q=Via+Corelli+5+Reggio+Emilia+Italy&output=embed';
 export const PASTORS = [
@@ -30,9 +31,9 @@ export function Home() {
   const verse = useMemo(verseOfDay, []);
   useEffect(() => {
     ensureSeed();
-    fetchContent().then((c) => {
+    fetchContent().then(async (c) => {
       if (c && (c.posts.length || c.media.length)) {
-        setBlog(c.posts);
+        setBlog(await withBlogspot(c.posts));
         setMedia(c.media);
         setEvents(c.events);
         setImages(contentToImages(c.settings, {
@@ -42,7 +43,7 @@ export function Home() {
         return;
       }
       try {
-        setBlog(JSON.parse(localStorage.getItem('clea-blog') || '[]'));
+        setBlog(await withBlogspot(JSON.parse(localStorage.getItem('clea-blog') || '[]')));
         setMedia(JSON.parse(localStorage.getItem('clea-media') || '[]'));
         setEvents(JSON.parse(localStorage.getItem('clea-events') || '[]'));
         setImages(JSON.parse(localStorage.getItem('clea-images') || 'null'));
@@ -142,8 +143,14 @@ export function Blog() {
   const { lang } = useLang();
   useSEO('Blog | Christ Love Evangelical Assembly Reggio Emilia', 'Christ Love Evangelical Assembly church blog: devotionals, news and testimonies in English and Italian.');
   const [blog, setBlog] = useState<BlogPost[]>([]);
-  useEffect(() => { try { setBlog(JSON.parse(localStorage.getItem('clea-blog') || '[]')); } catch { /* */ } }, []);
-  return (<div className="sec"><h1 className="h-icon"><BookIcon /> Blog</h1><div className="grid g3">{blog.map(b => <article className="card" key={b.id}>{b.imageUrl && <img src={b.imageUrl} alt="" loading="lazy" />}<small className="muted">{b.date}</small><h3>{lang === 'it' ? b.title_it || b.title : b.title}</h3><p>{lang === 'it' ? b.body_it || b.body : b.body}</p></article>)}</div></div>);
+  useEffect(() => {
+    try {
+      const base = JSON.parse(localStorage.getItem('clea-blog') || '[]') as BlogPost[];
+      setBlog(base);
+      withBlogspot(base).then(setBlog);
+    } catch { /* */ }
+  }, []);
+  return (<div className="sec"><h1 className="h-icon"><BookIcon /> Blog</h1><p className="muted">Admin posts plus automatic updates from our <a href="https://cleareggio.blogspot.com/" target="_blank" rel="noreferrer">Blogspot</a>.</p><div className="grid g3">{blog.map(b => <article className="card" key={b.id}>{b.imageUrl && <img src={b.imageUrl} alt="" loading="lazy" />}<small className="muted">{b.date}</small><h3>{lang === 'it' ? b.title_it || b.title : b.title}</h3><p>{lang === 'it' ? b.body_it || b.body : b.body}</p></article>)}</div></div>);
 }
 
 export function Visit() {
