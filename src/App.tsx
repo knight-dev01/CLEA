@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import Layout from './components/Layout';
 import { LangProvider } from './i18n';
+import { ThemeProvider } from './theme';
 import { Home, About, Media, Blog, Visit, Contact, NotFound } from './pages/Main';
 import Admin from './pages/Admin';
 
@@ -15,6 +16,7 @@ function ScrollToTop() {
 
 export default function App() {
   return (
+    <ThemeProvider>
     <LangProvider>
       <BrowserRouter>
         <ScrollToTop />
@@ -32,5 +34,6 @@ export default function App() {
         </Routes>
       </BrowserRouter>
     </LangProvider>
+    </ThemeProvider>
   );
 }

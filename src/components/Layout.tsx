@@ -24,6 +24,7 @@ function OfflineBanner() {
 import { useLang } from '../i18n';
 import { useScrolledNav } from '../hooks';
 import { FacebookIcon, BloggerIcon, MailIcon, PhoneIcon, WhatsappIcon, YoutubeIcon } from '../icons';
+import { ThemeToggle } from '../theme';
 import { SOCIALS } from '../store';
 
 export function Nav() {
@@ -41,6 +42,7 @@ export function Nav() {
       <a className="brand" href="/"><img src="logo.png" alt="Christ Love Evangelical Assembly logo" /><span>Christ Love Evangelical Assembly</span></a>
       <div className={'links' + (open ? ' open' : '')}>{L.map(([to, l]) => <NavLink key={to} to={to} className={({ isActive }) => isActive ? 'active' : ''}>{l}</NavLink>)}</div>
       <button className="langbtn" onClick={() => setLang(lang === 'en' ? 'it' : 'en')}>{lang === 'en' ? 'IT' : 'EN'}</button>
+      <ThemeToggle />
       <button className={'menubtn' + (open ? ' open' : '')} onClick={() => setOpen(!open)} aria-label={open ? 'Close menu' : 'Open menu'} aria-expanded={open}>
         <span /><span /><span />
       </button>
