@@ -14,9 +14,9 @@ import FacebookFeed from '../components/FacebookFeed';
 
 const MAP = 'https://www.google.com/maps?q=Via+Corelli+5+Reggio+Emilia+Italy&output=embed';
 export const PASTORS = [
-  { n: 'Apostle Babatope Ojo', r: 'Senior Pastor — Nigeria' },
-  { n: 'Pastor Bola', r: 'Senior Pastor — Europe' },
-  { n: 'Pastor Mololuwa', r: 'Board of Trustees' },
+  { n: 'Apostle Babatope Olusegun Ojo', r: 'Senior Pastor — Nigeria', img: 'pastor-babatope.jpg' },
+  { n: 'Pastor Dr Bolanle Oluwakemi Anyanwu', r: 'Senior Pastor — Europe', img: 'pastor-bola.jpg' },
+  { n: 'Pastor Mololuwa Patience Ojo', r: 'Board of Trustees', img: 'pastor-mololuwa.jpg' },
 ];
 
 export function Home() {
@@ -89,7 +89,7 @@ export function Home() {
       <div className="grid g3">{blog.slice(0, 3).map(b => <div className="card" key={b.id}>{b.imageUrl && <img src={b.imageUrl} alt="" />}<h3>{lang === 'it' ? b.title_it || b.title : b.title}</h3><p className="muted">{(lang === 'it' ? b.body_it || b.body : b.body).slice(0, 110)}…</p><Link to="/blog">{t('readMore')} →</Link></div>)}</div>
     </section>
     <section className="sec reveal"><h2 className="h-icon"><UsersIcon /> {t('pastors')}</h2>
-      <div className="grid g3">{PASTORS.map(p => <div className="card pastor" key={p.n}><div className="avatar">{p.n[0]}</div><div><strong>{p.n}</strong><br /><span className="muted">{p.r}</span></div></div>)}</div>
+      <div className="grid g3">{PASTORS.map(p => <div className="card pastor" key={p.n}>{'img' in p && p.img ? <img className="pastor-photo" src={p.img} alt={p.n} loading="lazy" /> : <div className="avatar">{p.n[0]}</div>}<div><strong>{p.n}</strong><br /><span className="muted">{p.r}</span></div></div>)}</div>
     </section>
     {events.length > 0 && (<section className="sec reveal band" style={{ borderRadius: 18, padding: 18 }}><h2 className="h-icon"><UsersIcon /> {lang === 'it' ? 'Prossimi Eventi' : 'Upcoming Events'}</h2>
       <div className="grid g3">{events.slice(0, 3).map((ev) => <div className="card" key={ev.id}><span className="pill">{ev.date}{ev.time ? ` · ${ev.time}` : ''}</span><h3>{lang === 'it' ? ev.title_it || ev.title : ev.title}</h3>{ev.location && <p className="muted">{ev.location}</p>}</div>)}</div>
@@ -113,7 +113,7 @@ export function About() {
       <div className="card"><h3 className="h-icon"><BookIcon /> {t('beliefs')}</h3><p>{en ? 'We believe the Bible is God\u2019s Word, salvation through Jesus Christ, the power of the Holy Spirit, water baptism and holy living.' : 'Crediamo che la Bibbia è la Parola di Dio, la salvezza tramite Gesù Cristo, la potenza dello Spirito Santo, il battesimo e la santità.'}</p></div>
     </div>
     <h2 className="h-icon" style={{ marginTop: 26 }}><UsersIcon /> {en ? 'Pastorate' : 'Pastori'}</h2>
-    <div className="grid g3">{PASTORS.map(p => <div className="card pastor" key={p.n}><div className="avatar">{p.n[0]}</div><div><strong>{p.n}</strong><br /><span className="muted">{p.r}</span></div></div>)}</div>
+    <div className="grid g3">{PASTORS.map(p => <div className="card pastor" key={p.n}>{'img' in p && p.img ? <img className="pastor-photo" src={p.img} alt={p.n} loading="lazy" /> : <div className="avatar">{p.n[0]}</div>}<div><strong>{p.n}</strong><br /><span className="muted">{p.r}</span></div></div>)}</div>
     <div className="card" style={{ marginTop: 16 }}><h3 className="h-icon"><UsersIcon /> {t('trustees')}</h3>
       <ul className="trustees"><li>Pastor Mololuwa Patience Ojo</li><li>Mr. Ibukun Olaniyi Ojo</li><li>Mr. Michael Kayode Alabi</li><li>Pastor Bolanle Oluwakemi Anyanwu</li></ul>
       <p className="muted">{en ? 'Associate Pastor: Assistant Pastor Ekundayo Olusanjo Oginni · Church Secretary: Brother Emmanuel Akinwunmi' : 'Pastore associato: Ekundayo Olusanjo Oginni · Segretario: Emmanuel Akinwunmi'}</p></div>
