@@ -1,7 +1,12 @@
 import { Link } from 'react-router-dom';
 import { useLang } from '../i18n';
 import { useSEO } from '../seo';
-import { ensureSeed, REAL_GALLERY } from '../store';
+import { ensureSeed, REAL_GALLERY, seedBlog, seedMedia } from '../store';
+
+function mergeUnique<T extends { id: string }>(primary: T[], fallback: T[]): T[] {
+  const ids = new Set(primary.map((p) => p.id));
+  return [...primary, ...fallback.filter((p) => !ids.has(p.id))];
+}
 import { useEffect, useState } from 'react';
 import type { BlogPost, MediaLink, SiteImages } from '../store';
 import { ChurchIcon, VideoIcon, BookIcon, UsersIcon, PinIcon, PhoneIcon, MailIcon } from '../icons';
@@ -48,9 +53,9 @@ export function Home() {
   useEffect(() => {
     ensureSeed();
     fetchContent().then(async (c) => {
-      if (c && (c.posts.length || c.media.length)) {
-        setBlog(await withBlogspot(c.posts));
-        setMedia(c.media);
+      if (c) {
+        setBlog(await withBlogspot(mergeUnique(c.posts, seedBlog)));
+        setMedia(mergeUnique(c.media, seedMedia));
         setEvents(c.events);
         setImages(contentToImages(c.settings, {
           hero: REAL_GALLERY[0],
@@ -59,8 +64,10 @@ export function Home() {
         return;
       }
       try {
-        setBlog(await withBlogspot(JSON.parse(localStorage.getItem('clea-blog') || '[]')));
-        setMedia(JSON.parse(localStorage.getItem('clea-media') || '[]'));
+        const localBlog = JSON.parse(localStorage.getItem('clea-blog') || '[]') as BlogPost[];
+        setBlog(await withBlogspot(mergeUnique(localBlog.length ? localBlog : seedBlog, seedBlog)));
+        const localMedia = JSON.parse(localStorage.getItem('clea-media') || '[]') as MediaLink[];
+        setMedia(mergeUnique(localMedia.length ? localMedia : seedMedia, seedMedia));
         setEvents(JSON.parse(localStorage.getItem('clea-events') || '[]'));
         setImages(JSON.parse(localStorage.getItem('clea-images') || 'null'));
       } catch { /* ignore */ }
@@ -147,7 +154,15 @@ export function About() {
 export function Media() {
   useSEO('Sermons & Media | Christ Love Evangelical Assembly Reggio Emilia', 'Watch Christ Love Evangelical Assembly sermons: YouTube and Facebook videos from Reggio Emilia church.', '/media');
   const [media, setMedia] = useState<MediaLink[]>([]);
-  useEffect(() => { try { setMedia(JSON.parse(localStorage.getItem('clea-media') || '[]')); } catch { /* */ } }, []);
+  useEffect(() => {
+    fetchContent().then((c) => {
+      if (c && c.media.length) { setMedia(mergeUnique(c.media, seedMedia)); return; }
+      try {
+        const local = JSON.parse(localStorage.getItem('clea-media') || '[]') as MediaLink[];
+        setMedia(mergeUnique(local.length ? local : seedMedia, seedMedia));
+      } catch { /* */ }
+    });
+  }, []);
   return (<div className="sec"><h1 className="h-icon"><VideoIcon /> Sermons & Media</h1>
     <div className="card channel-banner"><div><strong>Christ Love Evangelical Assembly Reggio Emilia</strong><p className="muted">296 videos · Pastor Dr Bolanle Oluwakemi Anyanwu</p></div>
       <div className="rowbtns"><a className="btn solid" href="https://www.youtube.com/@pastordoctorbolanleoluwake3805" target="_blank" rel="noreferrer">Watch on YouTube</a>
@@ -167,11 +182,13 @@ export function Blog() {
   useSEO('Blog | Christ Love Evangelical Assembly Reggio Emilia', 'Christ Love Evangelical Assembly church blog: devotionals, news and testimonies in English and Italian.', '/blog');
   const [blog, setBlog] = useState<BlogPost[]>([]);
   useEffect(() => {
-    try {
-      const base = JSON.parse(localStorage.getItem('clea-blog') || '[]') as BlogPost[];
-      setBlog(base);
-      withBlogspot(base).then(setBlog);
-    } catch { /* */ }
+    fetchContent().then(async (c) => {
+      const base = c && c.posts.length ? c.posts : seedBlog;
+      try {
+        setBlog(mergeUnique(base, seedBlog));
+        setBlog(await withBlogspot(mergeUnique(base, seedBlog)));
+      } catch { /* */ }
+    });
   }, []);
   return (<div className="sec"><h1 className="h-icon"><BookIcon /> Blog</h1><p className="muted">Admin posts plus automatic updates from our <a href="https://cleareggio.blogspot.com/" target="_blank" rel="noreferrer">Blogspot</a>.</p><div className="grid g3">{blog.map(b => <article className="card" key={b.id}>{b.imageUrl && <img src={b.imageUrl} alt="" loading="lazy" />}<small className="muted">{b.date}</small><h3>{lang === 'it' ? b.title_it || b.title : b.title}</h3><p>{lang === 'it' ? b.body_it || b.body : b.body}</p><SummaryToggle text={lang === 'it' ? b.body_it || b.body : b.body} lang={lang} /></article>)}</div></div>);
 }
