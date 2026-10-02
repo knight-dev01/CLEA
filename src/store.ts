@@ -7,11 +7,7 @@ export type SiteImages = { hero: string; gallery: string[] };
 const K = { blog: 'clea-blog', media: 'clea-media', images: 'clea-images' };
 
 const B = 'https://blogger.googleusercontent.com/img/b/R29vZ2xl';
-export const seedBlog: BlogPost[] = [
-  { id: 'christmas-2019', title: '2019 Christmas Party', title_it: 'Festa di Natale 2019', body: 'Christmas is one distinct annual festival commemorating the essence of the Birth of our Lord Jesus Christ. This particular celebration of Christmas in Christ Love Evangelical Assembly was an out-pour of the amazing love of God bestowed on mankind; as children were made to enjoy the bliss of the solitude of the existence of God in human form.', body_it: 'Il Natale commemora la nascita di nostro Signore Gesù Cristo. Questa celebrazione natalizia alla Christ Love Evangelical Assembly è stata un effusione dello straordinario amore di Dio per l\u2019umanità, con i bambini al centro della gioia.', date: '2020-01-24', imageUrl: `${B}/AVvXsEhbTgHnlHPWfPuKtWybHazQNgS1l99Vp966Bax_LOSpoYu9JGBPVgtFT5sbQYOHAdabvj6neQ5hQZ0huEL-wqBwxcTtpLNWG4HVLD6X5s-G1XapnjbtQ-i431w_ex8NLEGzGmbQkwIJkRQ/s1600/IMG-20200113-WA0028.jpg` },
-  { id: 'third-anniversary', title: 'Our Third Anniversary was a glorious one', title_it: 'Il nostro terzo anniversario è stato glorioso', body: 'It was really an exciting moment in the presence of the Lord Jesus as we all made our time to celebrate the third year anniversary of Christ Love Evangelical Assembly. It was more than just a celebration; it\u2019s a memorial.', body_it: 'Un momento davvero emozionante alla presenza del Signore Gesù, celebrando il terzo anniversario della Christ Love Evangelical Assembly. Più di una celebrazione: un memoriale.', date: '2020-01-24', imageUrl: `${B}/AVvXsEixM5ety4V8E7pbQOs1AztoLKkxlmnqEgg3Ghkns_a4homB8MDQtg8mDRkpTebfJv66cYsMtFna49eevnh8xXkcJ5OvV8JMV_wmEqRcpU_a4QiFgGJirc4ou9mpn8XmQlBQQs1PUn5aNb4/s1600/IMG-20200113-WA0023.jpg` },
-  { id: 'welcome', title: 'Welcome to Christ Love Evangelical Assembly Reggio Emilia', title_it: 'Benvenuti alla Christ Love Evangelical Assembly Reggio Emilia', body: 'We are a family of faith sharing the love of Christ. Join us every Sunday at 10:00.', body_it: 'Siamo una famiglia di fede che condivide l\u2019amore di Cristo. Unisciti a noi ogni domenica alle 10:00.', date: '2026-09-01', imageUrl: `${B}/AVvXsEhXZQBm4Kvbpy-2glSgeDAh4c-tdt5iT0H_GztBSgMZwyPCT_fpoy99GdYNytMM9nMi-1z1m-CR9AV0HurhBEFP9R0iEAzcxpsbdUA1Ps_SrauyyPOqUT8tS7hpdJnP79QE3NlhdlGirv8/s1600/IMG-20200113-WA0025.jpg` },
-];
+export const seedBlog: BlogPost[] = [];
 export const SOCIALS = {
   facebookPage: 'https://www.facebook.com/1806488646340376',
   facebookFollowers: '1.1K',
@@ -23,10 +19,7 @@ export const SOCIALS = {
   email: 'christloveevangelicalassembly@gmail.com',
   phoneIT: '+39 351 140 8770',
 };
-export const seedMedia: MediaLink[] = [
-  { id: 'm1', type: 'facebook', url: 'https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2F1806488646340376&tabs=timeline&width=500&height=700&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true', title: 'Christ Love Evangelical Assembly on Facebook: latest posts and live videos' },
-  { id: 'm2', type: 'youtube', url: 'https://www.youtube.com/embed?listType=playlist&list=UUXRGmn1DVIWXTTmBh5BjwXw', title: 'Latest Sermons (YouTube uploads)' },
-];
+export const seedMedia: MediaLink[] = [];
 const YT = 'https://i.ytimg.com/vi';
 export const REAL_GALLERY: string[] = [
   `${YT}/6-vGr3IwozI/hqdefault.jpg`,

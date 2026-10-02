@@ -1,5 +1,26 @@
 import { NavLink, Outlet, Link, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+
+function OfflineBanner() {
+  const { lang } = useLang();
+  const [online, setOnline] = useState(typeof navigator === 'undefined' ? true : navigator.onLine);
+  useEffect(() => {
+    const up = () => setOnline(true);
+    const down = () => setOnline(false);
+    window.addEventListener('online', up);
+    window.addEventListener('offline', down);
+    return () => {
+      window.removeEventListener('online', up);
+      window.removeEventListener('offline', down);
+    };
+  }, []);
+  if (online) return null;
+  return (
+    <div className="offline-banner" role="alert">
+      {lang === 'it' ? 'Sei offline: stai vedendo i contenuti salvati.' : 'You are offline: showing saved content.'}
+    </div>
+  );
+}
 import { useLang } from '../i18n';
 import { useScrolledNav } from '../hooks';
 import { FacebookIcon, BloggerIcon, MailIcon, PhoneIcon, WhatsappIcon, YoutubeIcon } from '../icons';
@@ -72,5 +93,5 @@ export function WhatsAppFloat() {
 export default function Layout() {
   useScrolledNav();
   const logo = `${import.meta.env.BASE_URL}logo.png`;
-  return (<><div className="watermark" aria-hidden="true" style={{ backgroundImage: `url('${logo}')` }} /><Nav /><div className="wrap"><Outlet /></div><Footer /><WhatsAppFloat /></>);
+  return (<><div className="watermark" aria-hidden="true" style={{ backgroundImage: `url('${logo}')` }} /><Nav /><OfflineBanner /><div className="wrap"><Outlet /></div><Footer /><WhatsAppFloat /></>);
 }

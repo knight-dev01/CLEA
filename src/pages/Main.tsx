@@ -217,6 +217,20 @@ export function Visit() {
   </div>);
 }
 
+export function NotFound() {
+  const { lang } = useLang();
+  useSEO('Page not found | Christ Love Evangelical Assembly', 'This page does not exist.');
+  return (<div className="sec" style={{ textAlign: 'center', padding: '40px 0' }}>
+    <p className="kicker" style={{ borderColor: 'var(--gold)', color: 'var(--sage-d)' }}>404</p>
+    <h1>{lang === 'it' ? 'Pagina non trovata' : 'Page not found'}</h1>
+    <p className="muted">{lang === 'it' ? 'La pagina che cerchi non esiste o è stata spostata.' : 'The page you are looking for does not exist or was moved.'}</p>
+    <div className="rowbtns" style={{ justifyContent: 'center' }}>
+      <Link className="btn solid" to="/">Home</Link>
+      <Link className="btn ghost" to="/media">{lang === 'it' ? 'Predicazioni' : 'Sermons'}</Link>
+    </div>
+  </div>);
+}
+
 function ContactForm() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');

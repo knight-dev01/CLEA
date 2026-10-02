@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import Layout from './components/Layout';
 import { LangProvider } from './i18n';
-import { Home, About, Media, Blog, Visit, Contact } from './pages/Main';
+import { Home, About, Media, Blog, Visit, Contact, NotFound } from './pages/Main';
 import Admin from './pages/Admin';
 
 function ScrollToTop() {
@@ -27,6 +27,7 @@ export default function App() {
             <Route path="visit" element={<Visit />} />
             <Route path="contact" element={<Contact />} />
             <Route path="admin" element={<Admin />} />
+            <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
       </BrowserRouter>
