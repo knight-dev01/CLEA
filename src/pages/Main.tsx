@@ -100,8 +100,9 @@ export function Home() {
     <section className="sec reveal"><h2 className="h-icon"><BookIcon /> {t('gallery')}</h2>
       <div className="gallery-strip auto">{(() => { const list = images?.gallery?.length ? images.gallery : REAL_GALLERY; const loop = [...list, ...list]; return (<div className="marquee">{loop.map((g, i) => <figure className="photo-card" key={i} aria-hidden={i >= list.length}><img src={g} alt={i < list.length ? 'Life at Christ Love Evangelical Assembly' : ''} loading="lazy" /></figure>)}</div>); })()}</div>
     </section>
-    <section className="sec reveal"><div className="cta-band"><h2>{t('planTitle')}</h2><p className="muted">{t('planSub')}</p>
-      <Link className="btn solid" to="/visit">{t('joinUs')}</Link><Link className="btn ghost" to="/about">{t('aboutCta')}</Link></div></section>
+    <section className="sec reveal"><div className="cta-band"><div className="cta-inner"><span className="kicker">Reggio Emilia · Italia</span><h2>{t('planTitle')}</h2><p>{t('planSub')}</p>
+      <div className="cta-pills"><span>SUN 10:00</span><span>WED 18:30</span><span>FRI 22:00</span></div>
+      <div><Link className="btn gold" to="/visit">{t('joinUs')}</Link><Link className="btn ghost" to="/about">{t('aboutCta')}</Link></div></div></div></section>
     <section className="sec reveal"><h2 className="h-icon"><BookIcon /> {t('latestBlog')} <Link to="/blog" style={{ fontSize: '.85rem' }}>{t('viewAll')} →</Link></h2>
       <div className="grid g3">{blog.slice(0, 3).map(b => <div className="card" key={b.id}>{b.imageUrl && <img src={b.imageUrl} alt="" />}<h3>{lang === 'it' ? b.title_it || b.title : b.title}</h3><p className="muted">{(lang === 'it' ? b.body_it || b.body : b.body).slice(0, 110)}…</p><Link to="/blog">{t('readMore')} →</Link></div>)}</div>
     </section>

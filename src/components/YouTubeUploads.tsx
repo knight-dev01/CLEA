@@ -61,7 +61,7 @@ export default function YouTubeUploads() {
       player.current = new window.YT.Player(`yt-uploads-${mountId}`, {
         height: '100%',
         width: '100%',
-        playerVars: { listType: 'playlist', list: 'UUXRGmn1DVIWXTTmBh5BjwXw', rel: 0 },
+        playerVars: { listType: 'playlist', list: 'UUXRGmn1DVIWXTTmBh5BjwXw', rel: 0, autoplay: 0 },
         events: {
           onReady: (e) => e.target.loadPlaylist({ list: 'UUXRGmn1DVIWXTTmBh5BjwXw', listType: 'playlist' }),
           onError: (e) => {
