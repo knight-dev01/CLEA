@@ -16,8 +16,8 @@ import { summarize } from '../summarize';
 
 const MAP = 'https://www.google.com/maps?q=Via+Corelli+5+Reggio+Emilia+Italy&output=embed';
 export const PASTORS = [
-  { n: 'Apostle Babatope Olusegun Ojo', r: 'Senior Pastor — Nigeria', img: 'pastor-babatope.jpg' },
-  { n: 'Pastor Dr Bolanle Oluwakemi Anyanwu', r: 'Senior Pastor — Europe', img: 'pastor-bola.jpg' },
+  { n: 'Apostle Babatope Olusegun Ojo', r: 'Senior Pastor, Nigeria', img: 'pastor-babatope.jpg' },
+  { n: 'Pastor Dr Bolanle Oluwakemi Anyanwu', r: 'Senior Pastor, Europe', img: 'pastor-bola.jpg' },
   { n: 'Pastor Mololuwa Patience Ojo', r: 'Board of Trustees', img: 'pastor-mololuwa.jpg' },
 ];
 
@@ -131,7 +131,7 @@ export function About() {
     <p className="muted">{t('aboutLong')}</p>
     <p className="muted">{t('hqNote')}</p>
     <div className="trio" style={{ marginTop: 18 }}>
-      <div className="card"><h3 className="h-icon"><ChurchIcon /> {en ? 'Vision' : 'Visione'}</h3><p>{en ? 'To preach Christ\u2019s love, raise disciples and serve our city — a multicultural family where everyone belongs.' : 'Predicare l\u2019amore di Cristo, formare discepoli e servire la città — una famiglia multiculturale dove tutti sono accolti.'}</p></div>
+      <div className="card"><h3 className="h-icon"><ChurchIcon /> {en ? 'Vision' : 'Visione'}</h3><p>{en ? 'To preach Christ\u2019s love, raise disciples and serve our city: a multicultural family where everyone belongs.' : 'Predicare l\u2019amore di Cristo, formare discepoli e servire la città: una famiglia multiculturale dove tutti sono accolti.'}</p></div>
       <div className="card"><h3 className="h-icon"><BookIcon /> {t('mission')}</h3><p>{t('missionText')}</p></div>
       <div className="card"><h3 className="h-icon"><BookIcon /> {t('beliefs')}</h3><p>{en ? 'We believe the Bible is God\u2019s Word, salvation through Jesus Christ, the power of the Holy Spirit, water baptism and holy living.' : 'Crediamo che la Bibbia è la Parola di Dio, la salvezza tramite Gesù Cristo, la potenza dello Spirito Santo, il battesimo e la santità.'}</p></div>
     </div>
@@ -156,7 +156,7 @@ export function Media() {
     <div className="card" style={{ marginBottom: 20 }}><span className="pill">Latest from Facebook · auto-updates</span>
       <FacebookFeed />
       <div className="rowbtns"><a className="btn solid" href="https://www.facebook.com/1806488646340376/videos" target="_blank" rel="noreferrer">Watch Facebook videos</a><a className="btn ghost" href="https://www.facebook.com/1806488646340376" target="_blank" rel="noreferrer">Follow on Facebook · 1.1K</a></div></div>
-    <p className="muted">YouTube & Facebook — new videos added by the media team via Admin.</p>
+    <p className="muted">YouTube and Facebook: new videos added by the media team via Admin.</p>
     <div className="grid g3">{media.map(m => <div className="card" key={m.id}><span className="pill">{m.type}</span><h3>{m.title}</h3>{m.type === 'facebook' ? <FacebookFeed src={m.url} title={m.title} /> : <div className="vid-wrap"><iframe src={m.url} title={m.title} allowFullScreen loading="lazy" referrerPolicy="no-referrer" allow="fullscreen; encrypted-media; picture-in-picture" /></div>}</div>)}</div>
   </div>);
 }
@@ -176,7 +176,7 @@ export function Blog() {
 }
 
 export function Visit() {
-  useSEO('Visit Us | Christ Love Evangelical Assembly Reggio Emilia — Service Times & Map', 'Visit Christ Love Evangelical Assembly: Via Corelli 5, Reggio Emilia. Sunday 10:00, Wednesday Bible Study, Friday Vigil. Map & directions.', '/visit');
+  useSEO('Visit Us | Christ Love Evangelical Assembly Reggio Emilia, Service Times and Map', 'Visit Christ Love Evangelical Assembly: Via Corelli 5, Reggio Emilia. Sunday 10:00, Wednesday Bible Study, Friday Vigil. Map & directions.', '/visit');
   const { t } = useLang();
   return (<div className="sec"><h1 className="h-icon"><PinIcon /> {t('visit')}</h1>
     <div className="card"><strong>{t('address')}</strong><p className="muted">Bus lines to Via Cilea · Parking nearby · Accessible entrance</p>
@@ -208,7 +208,7 @@ function ContactForm() {
     <form onSubmit={(e) => {
       e.preventDefault();
       const subject = encodeURIComponent(`Website message from ${name}`);
-      const body = encodeURIComponent(`${message}\n\n— ${name} (${email})`);
+      const body = encodeURIComponent(`${message}\n\nFrom ${name} (${email})`);
       window.location.href = `mailto:christloveevangelicalassembly@gmail.com?subject=${subject}&body=${body}`;
       setSent(true);
     }}>

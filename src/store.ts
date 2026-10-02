@@ -24,7 +24,7 @@ export const SOCIALS = {
   phoneIT: '+39 351 140 8770',
 };
 const seedMedia: MediaLink[] = [
-  { id: 'm1', type: 'facebook', url: 'https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2F1806488646340376&tabs=timeline&width=500&height=700&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true', title: 'Christ Love Evangelical Assembly on Facebook — latest posts & live videos' },
+  { id: 'm1', type: 'facebook', url: 'https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2F1806488646340376&tabs=timeline&width=500&height=700&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true', title: 'Christ Love Evangelical Assembly on Facebook: latest posts and live videos' },
   { id: 'm2', type: 'youtube', url: 'https://www.youtube.com/embed?listType=playlist&list=UUXRGmn1DVIWXTTmBh5BjwXw', title: 'Latest Sermons (YouTube uploads)' },
 ];
 export const REAL_GALLERY: string[] = [

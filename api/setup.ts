@@ -11,7 +11,7 @@ export default async function handler(req: VercelReq, res: VercelRes): Promise<v
   const q = req.query ?? {};
   const provided = Array.isArray(q.secret) ? q.secret[0] : q.secret;
   if (!secret || provided !== secret) {
-    send(res, { error: 'Unauthorized — pass ?secret=<ADMIN_SECRET>' }, 401);
+    send(res, { error: 'Unauthorized: pass ?secret=<ADMIN_SECRET>' }, 401);
     return;
   }
   const url = getDbUrl();

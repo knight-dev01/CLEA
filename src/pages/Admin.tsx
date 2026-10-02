@@ -103,7 +103,7 @@ export default function Admin() {
 
   return (<div className="sec">
     <h1 className="h-icon"><ChurchIcon /> Admin Dashboard</h1>
-    <p className="muted">{remote ? 'Connected to shared database — changes are visible to all visitors.' : 'Local preview mode — connect the database (see README) to publish for everyone.'}</p>
+    <p className="muted">{remote ? 'Connected to shared database: changes are visible to all visitors.' : 'Local preview mode: connect the database (see README) to publish for everyone.'}</p>
     <div className="rowbtns"><button className="smallbtn" onClick={() => { sessionStorage.removeItem('clea-admin'); sessionStorage.removeItem('clea-token'); setAuthed(false); }}>Logout</button>
     <button className="smallbtn" onClick={() => { localStorage.clear(); location.reload(); }}>Reset demo data</button></div>
 
