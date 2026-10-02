@@ -12,6 +12,7 @@ import { useMemo } from 'react';
 import YouTubeUploads from '../components/YouTubeUploads';
 import FacebookFeed from '../components/FacebookFeed';
 import { withBlogspot } from '../blogspot';
+import { summarize } from '../summarize';
 
 const MAP = 'https://www.google.com/maps?q=Via+Corelli+5+Reggio+Emilia+Italy&output=embed';
 export const PASTORS = [
@@ -19,6 +20,21 @@ export const PASTORS = [
   { n: 'Pastor Dr Bolanle Oluwakemi Anyanwu', r: 'Senior Pastor — Europe', img: 'pastor-bola.jpg' },
   { n: 'Pastor Mololuwa Patience Ojo', r: 'Board of Trustees', img: 'pastor-mololuwa.jpg' },
 ];
+
+export function SummaryToggle({ text, lang }: { text: string; lang: string }) {
+  const [open, setOpen] = useState(false);
+  const body = lang === 'it' ? text : text;
+  const sentences = body.match(/[^.!?\n]+[.!?]+/g) || [];
+  if (sentences.length <= 3) return null;
+  return (
+    <div style={{ marginTop: 8 }}>
+      <button className="smallbtn" onClick={() => setOpen(!open)}>
+        {open ? (lang === 'it' ? 'Nascondi riassunto' : 'Hide AI summary') : (lang === 'it' ? 'Riassunto AI' : 'AI summary')}
+      </button>
+      {open && <p className="muted" style={{ fontStyle: 'italic', borderLeft: '3px solid var(--gold)', paddingLeft: 12 }}>{summarize(body)}</p>}
+    </div>
+  );
+}
 
 export function Home() {
   const { t, lang } = useLang();
@@ -92,6 +108,12 @@ export function Home() {
     <section className="sec reveal"><h2 className="h-icon"><UsersIcon /> {t('pastors')}</h2>
       <div className="grid g3">{PASTORS.map(p => <div className="card pastor" key={p.n}>{'img' in p && p.img ? <img className="pastor-photo" src={p.img} alt={p.n} loading="lazy" /> : <div className="avatar">{p.n[0]}</div>}<div><strong>{p.n}</strong><br /><span className="muted">{p.r}</span></div></div>)}</div>
     </section>
+    <section className="sec reveal"><h2 className="h-icon"><PinIcon /> {t('locations')}</h2>
+      <div className="grid g3">
+        <div className="card location"><span className="pill">IT · +39 351 140 8770</span><h3>{t('italyBase')}</h3><p className="muted">{t('italyAddr')}</p><p>{t('italyLead')}</p><p className="muted">{t('italySvc')}</p><Link className="btn solid" to="/visit">{t('visitCta')}</Link></div>
+        <div className="card location"><span className="pill">NG · +234 803 040 1694</span><h3>{t('nigeriaBase')}</h3><p className="muted">{t('nigeriaAddr')}</p><p>{t('nigeriaLead')}</p><p className="muted">{t('nigeriaSvc')}</p><a className="btn ghost" href="https://wa.me/2348030401694">WhatsApp Nigeria</a></div>
+      </div>
+    </section>
     {events.length > 0 && (<section className="sec reveal band" style={{ borderRadius: 18, padding: 18 }}><h2 className="h-icon"><UsersIcon /> {lang === 'it' ? 'Prossimi Eventi' : 'Upcoming Events'}</h2>
       <div className="grid g3">{events.slice(0, 3).map((ev) => <div className="card" key={ev.id}><span className="pill">{ev.date}{ev.time ? ` · ${ev.time}` : ''}</span><h3>{lang === 'it' ? ev.title_it || ev.title : ev.title}</h3>{ev.location && <p className="muted">{ev.location}</p>}</div>)}</div>
     </section>)}
@@ -150,7 +172,7 @@ export function Blog() {
       withBlogspot(base).then(setBlog);
     } catch { /* */ }
   }, []);
-  return (<div className="sec"><h1 className="h-icon"><BookIcon /> Blog</h1><p className="muted">Admin posts plus automatic updates from our <a href="https://cleareggio.blogspot.com/" target="_blank" rel="noreferrer">Blogspot</a>.</p><div className="grid g3">{blog.map(b => <article className="card" key={b.id}>{b.imageUrl && <img src={b.imageUrl} alt="" loading="lazy" />}<small className="muted">{b.date}</small><h3>{lang === 'it' ? b.title_it || b.title : b.title}</h3><p>{lang === 'it' ? b.body_it || b.body : b.body}</p></article>)}</div></div>);
+  return (<div className="sec"><h1 className="h-icon"><BookIcon /> Blog</h1><p className="muted">Admin posts plus automatic updates from our <a href="https://cleareggio.blogspot.com/" target="_blank" rel="noreferrer">Blogspot</a>.</p><div className="grid g3">{blog.map(b => <article className="card" key={b.id}>{b.imageUrl && <img src={b.imageUrl} alt="" loading="lazy" />}<small className="muted">{b.date}</small><h3>{lang === 'it' ? b.title_it || b.title : b.title}</h3><p>{lang === 'it' ? b.body_it || b.body : b.body}</p><SummaryToggle text={lang === 'it' ? b.body_it || b.body : b.body} lang={lang} /></article>)}</div></div>);
 }
 
 export function Visit() {
@@ -169,6 +191,11 @@ export function Visit() {
     <h2 style={{ marginTop: 22 }}>{t('expect')}</h2>
     <div className="steps"><div className="step"><b>1</b><strong>{t('expect1')}</strong></div><div className="step"><b>2</b><strong>{t('expect2')}</strong></div><div className="step"><b>3</b><strong>{t('expect3')}</strong></div></div>
     <div style={{ marginTop: 14 }}><iframe className="map" title="Christ Love Evangelical Assembly map" loading="lazy" src="https://www.google.com/maps?q=Via+Corelli+5+Reggio+Emilia+Italy&output=embed" /></div>
+    <h2 style={{ marginTop: 22 }}>{t('locations')}</h2>
+    <div className="grid g3">
+      <div className="card location"><span className="pill">IT</span><h3>{t('italyBase')}</h3><p className="muted">{t('italyAddr')}</p><p>{t('italyLead')}</p></div>
+      <div className="card location"><span className="pill">NG</span><h3>{t('nigeriaBase')}</h3><p className="muted">{t('nigeriaAddr')}</p><p>{t('nigeriaLead')}</p></div>
+    </div>
   </div>);
 }
 

@@ -25,6 +25,13 @@ const dict = {
     hqNote: 'Headquarters: Adedeji Street church, Nigeria · Europe base: Reggio Emilia, Italy',
     tagline: 'A place where you grasp the mystery behind understanding God\u2019s Word.',
     featured: 'Featured Sermon',
+    locations: 'Our Locations', italyBase: 'Italy · Europe Base', nigeriaBase: 'Nigeria · Headquarters',
+    italyAddr: 'Via Corelli 5 / Via Cilea 4, Area Ex Conchiglia 17, 42121 Reggio nell\u2019Emilia',
+    nigeriaAddr: 'Adedeji Street church, Nigeria',
+    italyLead: 'Led by Pastor Dr Bolanle Oluwakemi Anyanwu',
+    nigeriaLead: 'Led by Apostle Babatope Olusegun Ojo',
+    italySvc: 'Sunday 10:00 · Wednesday 18:30 · Friday 22:00',
+    nigeriaSvc: 'Anniversary celebrations & Living Well, Living Blessed outreach',
   },
   it: {
     home: 'Home', about: 'Chi Siamo', media: 'Predicazioni e Media', blog: 'Blog', visit: 'Vieni a Trovarci', contact: 'Contatti', admin: 'Admin',
@@ -48,6 +55,13 @@ const dict = {
     hqNote: 'Sede principale: chiesa di Adedeji Street, Nigeria · Sede europea: Reggio Emilia, Italia',
     tagline: 'Un luogo dove cogliere il mistero della comprensione della Parola di Dio.',
     featured: 'Predicazione in Evidenza',
+    locations: 'Le Nostre Sedi', italyBase: 'Italia · Sede Europea', nigeriaBase: 'Nigeria · Sede Principale',
+    italyAddr: 'Via Corelli 5 / Via Cilea 4, Area Ex Conchiglia 17, 42121 Reggio nell\u2019Emilia',
+    nigeriaAddr: 'Chiesa di Adedeji Street, Nigeria',
+    italyLead: 'Guidata dalla Pastora Dr Bolanle Oluwakemi Anyanwu',
+    nigeriaLead: 'Guidata dall\u2019Apostolo Babatope Olusegun Ojo',
+    italySvc: 'Domenica 10:00 · Mercoledì 18:30 · Venerdì 22:00',
+    nigeriaSvc: 'Celebrazioni annuali e iniziative di beneficenza Living Well, Living Blessed',
   },
 } as const;
 
