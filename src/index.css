@@ -45,7 +45,7 @@ a{color:var(--sage-d)}.wrap{max-width:960px;margin:0 auto;padding:0 24px}
 .cta-band h2{margin:0 0 8px;font-size:clamp(1.4rem,3vw,2rem)}
 .cta-band .btn{margin:6px 4px 0}
 .gallery-strip{display:grid;grid-auto-flow:column;grid-auto-columns:min(72vw,320px);gap:14px;overflow-x:auto;padding:4px 2px 12px;scroll-snap-type:x mandatory}
-.gallery-strip img{scroll-snap-align:start;height:210px;width:100%;object-fit:cover;border-radius:12px;border:1px solid var(--line)}
+.gallery-strip img{scroll-snap-align:start;height:210px;width:100%;object-fit:cover;object-position:top;border-radius:12px;border:1px solid var(--line)}
 .trio{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
 .trio .card{border-top:3px solid var(--gold)}
 .featured{border:1px solid var(--line);border-radius:20px;overflow:hidden;background:#0f0f0f}
