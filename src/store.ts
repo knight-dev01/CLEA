@@ -27,7 +27,13 @@ const seedMedia: MediaLink[] = [
   { id: 'm1', type: 'facebook', url: 'https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2F1806488646340376&tabs=timeline&width=500&height=700&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true', title: 'Christ Love Evangelical Assembly on Facebook: latest posts and live videos' },
   { id: 'm2', type: 'youtube', url: 'https://www.youtube.com/embed?listType=playlist&list=UUXRGmn1DVIWXTTmBh5BjwXw', title: 'Latest Sermons (YouTube uploads)' },
 ];
+const YT = 'https://i.ytimg.com/vi';
 export const REAL_GALLERY: string[] = [
+  `${YT}/6-vGr3IwozI/hqdefault.jpg`,
+  `${YT}/A2UTkZutIRE/hqdefault.jpg`,
+  `${YT}/aogItOm3vD8/hqdefault.jpg`,
+  `${YT}/VcbeJw4GsGM/hqdefault.jpg`,
+  `${YT}/edyzQzstNKY/hqdefault.jpg`,
   `${B}/AVvXsEixM5ety4V8E7pbQOs1AztoLKkxlmnqEgg3Ghkns_a4homB8MDQtg8mDRkpTebfJv66cYsMtFna49eevnh8xXkcJ5OvV8JMV_wmEqRcpU_a4QiFgGJirc4ou9mpn8XmQlBQQs1PUn5aNb4/s1600/IMG-20200113-WA0023.jpg`,
   `${B}/AVvXsEhXZQBm4Kvbpy-2glSgeDAh4c-tdt5iT0H_GztBSgMZwyPCT_fpoy99GdYNytMM9nMi-1z1m-CR9AV0HurhBEFP9R0iEAzcxpsbdUA1Ps_SrauyyPOqUT8tS7hpdJnP79QE3NlhdlGirv8/s1600/IMG-20200113-WA0025.jpg`,
   `${B}/AVvXsEi2dOtfKVlAOdqCMYBsAyzv0vYdL0JO1a6E-O8GeOeenKsZBqAI98PblTCPBZSuYP-nLaOYhLgoqMGvsieb5N8yW5xarUzLUlUo4A0wKeYHL23gGvbiEmRQDsNnahzPgiHoh-QDkVjLCN8/s1600/IMG-20200113-WA0024.jpg`,
