@@ -42,7 +42,7 @@ export const REAL_GALLERY: string[] = [
   `${B}/AVvXsEhFfdU96WZOtYG7lRAfixg6x48sS9Bxg8HU9WwWDvJbf-IqHibYKYNnHmXygf_BF6sdHs-FJ29Yczb6q3_I1LqncyO0UMeEzoz-ouIt1kRn31AlkPLLAKPfyU7FEfY6k1JUoGsH5iYf2kg/s1600/IMG-20200113-WA0028.jpg`,
 ];
 const seedImages: SiteImages = {
-  hero: `${B}/AVvXsEixM5ety4V8E7pbQOs1AztoLKkxlmnqEgg3Ghkns_a4homB8MDQtg8mDRkpTebfJv66cYsMtFna49eevnh8xXkcJ5OvV8JMV_wmEqRcpU_a4QiFgGJirc4ou9mpn8XmQlBQQs1PUn5aNb4/s1600/IMG-20200113-WA0023.jpg`,
+  hero: `${YT}/6-vGr3IwozI/hqdefault.jpg`,
   gallery: REAL_GALLERY,
 };
 
