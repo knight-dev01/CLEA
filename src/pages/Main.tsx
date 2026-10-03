@@ -99,14 +99,15 @@ export function Home() {
         <Link className="btn solid" to="/media">{t('watchCta')}</Link></div></div>
       {media.length > 0 && (<div className="grid g3" style={{ marginTop: 14 }}>{media.slice(0, 2).map(m => <div className="card" key={m.id}><strong>{m.title}</strong>{m.type === 'facebook' ? <FacebookFeed /> : <div className="vid-wrap"><iframe src={m.url} title={m.title} allowFullScreen loading="lazy" referrerPolicy="no-referrer" allow="fullscreen; encrypted-media; picture-in-picture" /></div>}</div>)}</div>)}
     </section>
-    <section className="sec reveal"><div className="card verse-card"><span className="kicker">Verse of the day · Versetto del giorno</span><h2 style={{ margin: '10px 0 4px' }}>{lang === 'it' ? verse.it : verse.en}</h2></div></section>
-    <section className="sec reveal"><h2 className="h-icon"><ChurchIcon /> {t('serviceTimes')}</h2>
+    <section className="sec reveal bleed band-dark"><div className="bleed-inner verse-band"><span className="kicker">Verse of the day · Versetto del giorno</span><h2>{lang === 'it' ? verse.it : verse.en}</h2></div></section>
+    <section className="sec reveal bleed band-tint"><div className="bleed-inner">
+      <h2 className="h-icon"><ChurchIcon /> {t('serviceTimes')}</h2>
       <div className="grid g3 svc">
         <div className="card"><span className="pill">SUN 10:00</span><h3>{t('sunday')}</h3><p className="muted">{t('address')}</p></div>
         <div className="card"><span className="pill">WED 18:30</span><h3>{t('wednesday')}</h3><p className="muted">Bible Study / Studio Biblico</p></div>
         <div className="card"><span className="pill">FRI 22:00</span><h3>{t('friday')}</h3><p className="muted">Night Vigil / Veglia di preghiera</p></div>
       </div>
-    </section>
+    </div></section>
     <section className="sec reveal"><h2 className="h-icon"><BookIcon /> {t('gallery')}</h2>
       <div className="gallery-strip auto">{(() => { const list = images?.gallery?.length ? images.gallery : REAL_GALLERY; const loop = [...list, ...list]; return (<div className="marquee">{loop.map((g, i) => <figure className="photo-card" key={i} aria-hidden={i >= list.length}><img src={g} alt={i < list.length ? 'Life at Christ Love Evangelical Assembly' : ''} loading="lazy" /></figure>)}</div>); })()}</div>
     </section>
@@ -121,9 +122,10 @@ export function Home() {
       <div className="card"><p className="muted">{lang === 'it' ? 'Nuovi articoli in arrivo: nel frattempo leggi il nostro Blogspot.' : 'Fresh stories on the way: meanwhile read our Blogspot.'}</p><div><a className="btn solid" href="https://cleareggio.blogspot.com/" target="_blank" rel="noreferrer">Blogspot</a></div></div>
       )}
     </section>
-    <section className="sec reveal"><h2 className="h-icon"><UsersIcon /> {t('pastors')}</h2>
+    <section className="sec reveal bleed band-tint"><div className="bleed-inner">
+      <h2 className="h-icon"><UsersIcon /> {t('pastors')}</h2>
       <div className="grid g3">{PASTORS.map(p => <div className="card pastor" key={p.n}>{'img' in p && p.img ? <img className="pastor-photo" src={p.img} alt={p.n} loading="lazy" /> : <div className="avatar">{p.n[0]}</div>}<div><strong>{p.n}</strong><br /><span className="muted">{p.r}</span></div></div>)}</div>
-    </section>
+    </div></section>
     <section className="sec reveal"><h2 className="h-icon"><PinIcon /> {t('locations')}</h2>
       <div className="grid g3">
         <div className="card location"><span className="pill">IT · +39 351 140 8770</span><h3>{t('italyBase')}</h3><p className="muted">{t('italyAddr')}</p><p>{t('italyLead')}</p><p className="muted">{t('italySvc')}</p><Link className="btn solid" to="/visit">{t('visitCta')}</Link></div>
