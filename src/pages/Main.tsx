@@ -9,7 +9,7 @@ function mergeUnique<T extends { id: string }>(primary: T[], fallback: T[]): T[]
 }
 import { useEffect, useState } from 'react';
 import type { BlogPost, MediaLink, SiteImages } from '../store';
-import { ChurchIcon, VideoIcon, BookIcon, UsersIcon, PinIcon, PhoneIcon, MailIcon } from '../icons';
+import { ChurchIcon, VideoIcon, BookIcon, UsersIcon, PinIcon, PhoneIcon, MailIcon, HeartIcon } from '../icons';
 import { useReveal } from '../hooks';
 import { verseOfDay } from '../verse';
 import { fetchContent, contentToImages, type EventItem } from '../cms';
@@ -161,6 +161,16 @@ export function About() {
       <span className="eyebrow">{t('beliefs')}</span>
       <p>{en ? 'We believe the Bible is God\u2019s Word, salvation through Jesus Christ, the power of the Holy Spirit, water baptism and holy living.' : 'Crediamo che la Bibbia è la Parola di Dio, la salvezza tramite Gesù Cristo, la potenza dello Spirito Santo, il battesimo e la santità.'}</p>
     </div>
+    <section className="sec bleed band-tint"><div className="bleed-inner">
+      <span className="eyebrow">{t('journeyTitle')}</span>
+      <p className="muted" style={{ marginTop: 0, maxWidth: 640 }}>{t('journeySub')}</p>
+      <div className="stats" style={{ marginTop: 16 }}>
+        <div className="stat"><b>10+</b><span>{t('statsYears')}</span></div>
+        <div className="stat"><b>2</b><span>{t('statsCities')}</span></div>
+        <div className="stat"><b>296</b><span>{t('statsVideos')}</span></div>
+        <div className="stat"><b>1.1K</b><span>{t('statsFollowers')}</span></div>
+      </div>
+    </div></section>
     <h2 className="h-icon" style={{ marginTop: 26 }}><UsersIcon /> {en ? 'Pastorate' : 'Pastori'}</h2>
     <div className="grid g3">{PASTORS.map(p => <div className="card pastor" key={p.n}>{'img' in p && p.img ? <img className="pastor-photo" src={p.img} alt={p.n} loading="lazy" /> : <div className="avatar">{p.n[0]}</div>}<div><strong>{p.n}</strong><br /><span className="muted">{p.r}</span></div></div>)}</div>
     <div className="card" style={{ marginTop: 16 }}><h3 className="h-icon"><UsersIcon /> {t('trustees')}</h3>
@@ -169,9 +179,41 @@ export function About() {
   </div>);
 }
 
+export function Ministries() {
+  const { t, lang } = useLang();
+  useSEO('Ministries | Christ Love Evangelical Assembly Reggio Emilia', 'Christ Love Evangelical Assembly ministries: worship, outreach, pastoral care and media across Italy and Nigeria.', '/ministries');
+  const items = [
+    { icon: <ChurchIcon />, title: t('minWorshipTitle'), text: t('minWorshipText') },
+    { icon: <HeartIcon />, title: t('minOutreachTitle'), text: t('minOutreachText') },
+    { icon: <UsersIcon />, title: t('minLeadershipTitle'), text: t('minLeadershipText') },
+    { icon: <VideoIcon />, title: t('minMediaTitle'), text: t('minMediaText') },
+  ];
+  return (<div className="sec">
+    <h1 className="h-icon"><ChurchIcon /> {t('ministriesTitle')}</h1>
+    <p className="muted" style={{ maxWidth: 640 }}>{t('ministriesSub')}</p>
+    <div className="grid g3" style={{ marginTop: 18 }}>
+      {items.map((it) => (
+        <div className="card" key={it.title}>
+          <span className="pill h-icon" style={{ gap: 6 }}>{it.icon}</span>
+          <h3>{it.title}</h3>
+          <p className="muted">{it.text}</p>
+        </div>
+      ))}
+    </div>
+    <div className="cta-band" style={{ marginTop: 28 }}><div className="cta-inner">
+      <span className="kicker">{lang === 'it' ? 'Reggio Emilia · Italia' : 'Reggio Emilia · Italy'}</span>
+      <h2>{t('planTitle')}</h2>
+      <p>{t('planSub')}</p>
+      <div><Link className="btn gold" to="/about">{t('ministriesCta')}</Link><Link className="btn ghost" to="/visit">{t('visitCta')}</Link></div>
+    </div></div>
+  </div>);
+}
+
 export function Media() {
   useSEO('Sermons & Media | Christ Love Evangelical Assembly Reggio Emilia', 'Watch Christ Love Evangelical Assembly sermons: YouTube and Facebook videos from Reggio Emilia church.', '/media');
+  const { t } = useLang();
   const [media, setMedia] = useState<MediaLink[]>([]);
+  const [query, setQuery] = useState('');
   useEffect(() => {
     fetchContent().then((c) => {
       if (c && c.media.length) { setMedia(mergeUnique(c.media, seedMedia)); return; }
@@ -181,6 +223,8 @@ export function Media() {
       } catch { /* */ }
     });
   }, []);
+  const q = query.trim().toLowerCase();
+  const filteredMedia = q ? media.filter(m => m.title.toLowerCase().includes(q)) : media;
   return (<div className="sec"><h1 className="h-icon"><VideoIcon /> Sermons & Media</h1>
     <div className="card channel-banner"><div><strong>Christ Love Evangelical Assembly Reggio Emilia</strong><p className="muted">296 videos · Pastor Dr Bolanle Oluwakemi Anyanwu</p></div>
       <div className="rowbtns"><a className="btn solid" href="https://www.youtube.com/@pastordoctorbolanleoluwake3805" target="_blank" rel="noreferrer">Watch on YouTube</a>
@@ -191,7 +235,17 @@ export function Media() {
       <FacebookFeed />
       <div className="rowbtns"><a className="btn solid" href="https://www.facebook.com/1806488646340376/videos" target="_blank" rel="noreferrer">Watch Facebook videos</a><a className="btn ghost" href="https://www.facebook.com/1806488646340376" target="_blank" rel="noreferrer">Follow on Facebook · 1.1K</a></div></div>
     <p className="muted">YouTube and Facebook: new videos added by the media team via Admin.</p>
-    <div className="grid g3">{media.map(m => <div className="card" key={m.id}><span className="pill">{m.type}</span><h3>{m.title}</h3>{m.type === 'facebook' ? <FacebookFeed src={m.url} title={m.title} /> : <div className="vid-wrap"><iframe src={m.url} title={m.title} allowFullScreen loading="lazy" referrerPolicy="no-referrer" allow="fullscreen; encrypted-media; picture-in-picture" /></div>}</div>)}</div>
+    {media.length > 0 && (
+      <div className="rowbtns" style={{ margin: '4px 0 18px' }}>
+        <input type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder={t('searchSermons')} style={{ maxWidth: 360, margin: 0 }} aria-label={t('searchSermons')} />
+        {query && <button type="button" className="smallbtn" onClick={() => setQuery('')}>{t('clearSearch')}</button>}
+      </div>
+    )}
+    {media.length > 0 && filteredMedia.length === 0 ? (
+      <p className="muted">{t('noSermonResults')}</p>
+    ) : (
+      <div className="grid g3">{filteredMedia.map(m => <div className="card" key={m.id}><span className="pill">{m.type}</span><h3>{m.title}</h3>{m.type === 'facebook' ? <FacebookFeed src={m.url} title={m.title} /> : <div className="vid-wrap"><iframe src={m.url} title={m.title} allowFullScreen loading="lazy" referrerPolicy="no-referrer" allow="fullscreen; encrypted-media; picture-in-picture" /></div>}</div>)}</div>
+    )}
   </div>);
 }
 
