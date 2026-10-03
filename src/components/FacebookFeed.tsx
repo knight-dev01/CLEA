@@ -8,13 +8,13 @@ import { SOCIALS } from '../store';
  * so we only load the live feed when the visitor asks for it.
  */
 const PAGE_PLUGIN =
-  'https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2F1806488646340376&tabs=timeline&width=500&height=700&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true';
+  'https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2F1806488646340376&tabs=timeline&width=500&height=500&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true';
 
 export default function FacebookFeed({ src = PAGE_PLUGIN, title = 'Christ Love Evangelical Assembly latest Facebook posts' }: { src?: string; title?: string }) {
   const [loaded, setLoaded] = useState(false);
   if (loaded) {
     return (
-      <div className="vid-wrap tall" style={{ marginTop: 12 }}>
+      <div className="fb-embed" style={{ marginTop: 12 }}>
         <iframe
           src={src}
           title={title}

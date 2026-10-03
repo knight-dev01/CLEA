@@ -86,12 +86,14 @@ export function Home() {
   }, []);
   return (<>
     <div className="hero">
-      <img className="bg" src={images?.hero || REAL_GALLERY[0]} alt="Christ Love Evangelical Assembly celebration" />
-      <div className="shade" /><div className="txt">
-        <span className="kicker">{t('heroKicker')}</span>
-        <h1>{t('heroTitle')}</h1><p>{t('heroSub')}</p>
-        <Link className="btn solid" to="/visit">{t('joinUs')}</Link>
-        <Link className="btn ghost" to="/media">{t('watch')}</Link>
+      <div className="hero-inner">
+        <img className="bg" src={images?.hero || REAL_GALLERY[0]} alt="Christ Love Evangelical Assembly celebration" />
+        <div className="shade" /><div className="txt">
+          <span className="kicker">{t('heroKicker')}</span>
+          <h1>{t('heroTitle')}</h1><p>{t('heroSub')}</p>
+          <Link className="btn solid" to="/visit">{t('joinUs')}</Link>
+          <Link className="btn ghost" to="/media">{t('watch')}</Link>
+        </div>
       </div>
       <div className="hero-stats">
         <div className="hstat"><b>296</b><span>{t('statsVideos')}</span></div>

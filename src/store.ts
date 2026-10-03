@@ -38,7 +38,7 @@ export const WORSHIP_PHOTOS: string[] = [
   'photos/worship-13.jpeg',
 ];
 // Older archive photos (includes a past Christmas/anniversary party) — gallery only, never hero or featured spots.
-const ARCHIVE_PHOTOS: string[] = [
+export const ARCHIVE_PHOTOS: string[] = [
   `${YT}/6-vGr3IwozI/hqdefault.jpg`,
   `${YT}/A2UTkZutIRE/hqdefault.jpg`,
   `${YT}/aogItOm3vD8/hqdefault.jpg`,

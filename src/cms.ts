@@ -1,4 +1,4 @@
-import type { BlogPost, MediaLink, SiteImages } from './store';
+import { ARCHIVE_PHOTOS, type BlogPost, type MediaLink, type SiteImages } from './store';
 
 export type EventItem = { id: string; title: string; title_it: string; date: string; time: string; location: string };
 
@@ -81,5 +81,8 @@ export function contentToImages(settings: Record<string, string>, fallback: Site
   try {
     if (settings.gallery) gallery = JSON.parse(settings.gallery);
   } catch { /* keep fallback */ }
-  return { hero: settings.hero || fallback.hero, gallery };
+  // Never let an archived/old photo (e.g. a past Christmas event) become the hero, even if
+  // it's stored in settings from an earlier admin edit.
+  const hero = settings.hero && !ARCHIVE_PHOTOS.includes(settings.hero) ? settings.hero : fallback.hero;
+  return { hero, gallery };
 }
