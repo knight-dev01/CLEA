@@ -21,7 +21,24 @@ export const SOCIALS = {
 };
 export const seedMedia: MediaLink[] = [];
 const YT = 'https://i.ytimg.com/vi';
-export const REAL_GALLERY: string[] = [
+// Real, current congregation photos — safe for hero, photo-bands and "about" imagery.
+// Ordered deliberately: [0] hero (worshipper + full congregation), [1]/[4] photo-bands, [2] about-split.
+export const WORSHIP_PHOTOS: string[] = [
+  'photos/worship-01.jpeg',
+  'photos/worship-12.jpeg',
+  'photos/worship-03.jpeg',
+  'photos/worship-07.jpeg',
+  'photos/worship-05.jpeg',
+  'photos/worship-02.jpeg',
+  'photos/worship-04.jpeg',
+  'photos/worship-06.jpeg',
+  'photos/worship-08.jpeg',
+  'photos/worship-09.jpeg',
+  'photos/worship-10.jpeg',
+  'photos/worship-13.jpeg',
+];
+// Older archive photos (includes a past Christmas/anniversary party) — gallery only, never hero or featured spots.
+const ARCHIVE_PHOTOS: string[] = [
   `${YT}/6-vGr3IwozI/hqdefault.jpg`,
   `${YT}/A2UTkZutIRE/hqdefault.jpg`,
   `${YT}/aogItOm3vD8/hqdefault.jpg`,
@@ -34,8 +51,9 @@ export const REAL_GALLERY: string[] = [
   `${B}/AVvXsEj0zaGZfQuX_5aj3qfsyT5V67k8dCFyZR-hRnQz9b844lnIARp4o8Qj3gGcJ4TA2gdfr91yMu2ce5AJWpcslTn6uynXUchk55lK2deDd4YEpapwjj3vbTfqrq0fMPI2F16AmKMftq3OQGY/s1600/IMG-20200113-WA0017.jpg`,
   `${B}/AVvXsEhFfdU96WZOtYG7lRAfixg6x48sS9Bxg8HU9WwWDvJbf-IqHibYKYNnHmXygf_BF6sdHs-FJ29Yczb6q3_I1LqncyO0UMeEzoz-ouIt1kRn31AlkPLLAKPfyU7FEfY6k1JUoGsH5iYf2kg/s1600/IMG-20200113-WA0028.jpg`,
 ];
+export const REAL_GALLERY: string[] = [...WORSHIP_PHOTOS, ...ARCHIVE_PHOTOS];
 const seedImages: SiteImages = {
-  hero: `${YT}/6-vGr3IwozI/hqdefault.jpg`,
+  hero: WORSHIP_PHOTOS[0],
   gallery: REAL_GALLERY,
 };
 
