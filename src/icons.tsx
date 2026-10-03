@@ -1,6 +1,6 @@
 import type { ComponentType, CSSProperties } from 'react';
 import { FaFacebookF, FaYoutube, FaWhatsapp, FaBloggerB, FaPhone, FaEnvelope, FaMoon, FaSun } from 'react-icons/fa';
-import { FaMapLocationDot, FaClock, FaChurch, FaVideo, FaBookOpen, FaUsers, FaHandHoldingHeart } from 'react-icons/fa6';
+import { FaMapLocationDot, FaClock, FaChurch, FaVideo, FaBookOpen, FaUsers } from 'react-icons/fa6';
 import type { IconBaseProps } from 'react-icons';
 
 type P = { size?: number; className?: string; style?: CSSProperties };
@@ -23,6 +23,5 @@ export const ChurchIcon = wrap(FaChurch);
 export const VideoIcon = wrap(FaVideo);
 export const BookIcon = wrap(FaBookOpen);
 export const UsersIcon = wrap(FaUsers);
-export const HeartIcon = wrap(FaHandHoldingHeart);
 export const MoonIcon = wrap(FaMoon);
 export const SunIcon = wrap(FaSun);

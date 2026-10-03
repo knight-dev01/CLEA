@@ -9,7 +9,7 @@ function mergeUnique<T extends { id: string }>(primary: T[], fallback: T[]): T[]
 }
 import { useEffect, useState } from 'react';
 import type { BlogPost, MediaLink, SiteImages } from '../store';
-import { ChurchIcon, VideoIcon, BookIcon, UsersIcon, PinIcon, PhoneIcon, MailIcon, HeartIcon } from '../icons';
+import { ChurchIcon, VideoIcon, BookIcon, UsersIcon, PinIcon, PhoneIcon, MailIcon, ClockIcon } from '../icons';
 import { useReveal } from '../hooks';
 import { verseOfDay } from '../verse';
 import { fetchContent, contentToImages, type EventItem } from '../cms';
@@ -18,7 +18,7 @@ import YouTubeUploads from '../components/YouTubeUploads';
 import FacebookFeed from '../components/FacebookFeed';
 import { withBlogspot } from '../blogspot';
 import { summarize } from '../summarize';
-import { Reveal, Stagger, StaggerItem, PhotoBand } from '../anim';
+import { Reveal, PhotoBand } from '../anim';
 
 const MAP = 'https://www.google.com/maps?q=Via+Corelli+5+Reggio+Emilia+Italy&output=embed';
 export const PASTORS = [
@@ -83,15 +83,20 @@ export function Home() {
         <Link className="btn solid" to="/visit">{t('joinUs')}</Link>
         <Link className="btn ghost" to="/media">{t('watch')}</Link>
       </div>
+      <div className="hero-stats">
+        <div className="hstat"><b>296</b><span>{t('statsVideos')}</span></div>
+        <div className="hstat"><b>1.1K</b><span>{t('statsFollowers')}</span></div>
+        <div className="hstat"><b>2</b><span>{t('statsCities')}</span></div>
+        <div className="hstat"><b>10+</b><span>{t('statsYears')}</span></div>
+      </div>
     </div>
     <div className="ticker" aria-hidden="true"><div className="ticker-track">{[0, 1].map((k) => <span key={k}>SUNDAY 10:00 · WEDNESDAY 18:30 · FRIDAY 22:00 · REGGIO EMILIA · {t('tagline')} · </span>)}</div></div>
-    <Reveal className="sec"><div className="editorial"><span className="eyebrow">{lang === 'it' ? 'Chi Siamo' : 'Who We Are'}</span><p className="lead">“{t('tagline')}”</p><p>{t('aboutLong')}</p></div></Reveal>
-    <section className="sec"><Stagger className="stats">
-      <StaggerItem className="stat"><b>296</b><span>{t('statsVideos')}</span></StaggerItem>
-      <StaggerItem className="stat"><b>1.1K</b><span>{t('statsFollowers')}</span></StaggerItem>
-      <StaggerItem className="stat"><b>2</b><span>{t('statsCities')}</span></StaggerItem>
-      <StaggerItem className="stat"><b>10+</b><span>{t('statsYears')}</span></StaggerItem>
-    </Stagger></section>
+    <Reveal className="sec"><div className="about-split">
+      <img src={REAL_GALLERY[2]} alt="Christ Love Evangelical Assembly community" loading="lazy" />
+      <div><span className="eyebrow">{lang === 'it' ? 'Chi Siamo' : 'Who We Are'}</span><p className="lead">“{t('tagline')}”</p><p className="muted">{t('aboutLong')}</p>
+        <Link className="btn solid" to="/about" style={{ marginTop: 6 }}>{t('aboutCta')}</Link>
+      </div>
+    </div></Reveal>
     <Reveal className="sec"><PhotoBand src={REAL_GALLERY[1]} label={lang === 'it' ? 'Celebrazione · Reggio Emilia' : 'Celebration · Reggio Emilia'} /></Reveal>
     <section className="sec reveal"><h2 className="h-icon"><VideoIcon /> {t('featured')}</h2>
       <div className="featured"><YouTubeUploads />
@@ -103,9 +108,9 @@ export function Home() {
     <section className="sec reveal bleed band-tint"><div className="bleed-inner">
       <h2 className="h-icon"><ChurchIcon /> {t('serviceTimes')}</h2>
       <div className="grid g3 svc">
-        <div className="card"><span className="pill">SUN 10:00</span><h3>{t('sunday')}</h3><p className="muted">{t('address')}</p></div>
-        <div className="card"><span className="pill">WED 18:30</span><h3>{t('wednesday')}</h3><p className="muted">Bible Study / Studio Biblico</p></div>
-        <div className="card"><span className="pill">FRI 22:00</span><h3>{t('friday')}</h3><p className="muted">Night Vigil / Veglia di preghiera</p></div>
+        <div className="card"><div className="icon-badge"><ChurchIcon /></div><span className="pill">SUN 10:00</span><h3>{t('sunday')}</h3><p className="muted">{t('address')}</p></div>
+        <div className="card"><div className="icon-badge"><BookIcon /></div><span className="pill">WED 18:30</span><h3>{t('wednesday')}</h3><p className="muted">Bible Study / Studio Biblico</p></div>
+        <div className="card"><div className="icon-badge"><ClockIcon /></div><span className="pill">FRI 22:00</span><h3>{t('friday')}</h3><p className="muted">Night Vigil / Veglia di preghiera</p></div>
       </div>
     </div></section>
     <section className="sec reveal"><h2 className="h-icon"><BookIcon /> {t('gallery')}</h2>
@@ -176,36 +181,6 @@ export function About() {
     <div className="card" style={{ marginTop: 16 }}><h3 className="h-icon"><UsersIcon /> {t('trustees')}</h3>
       <ul className="trustees"><li>Pastor Mololuwa Patience Ojo</li><li>Mr. Ibukun Olaniyi Ojo</li><li>Mr. Michael Kayode Alabi</li><li>Pastor Bolanle Oluwakemi Anyanwu</li></ul>
       <p className="muted">{en ? 'Associate Pastor: Assistant Pastor Ekundayo Olusanjo Oginni · Church Secretary: Brother Emmanuel Akinwunmi' : 'Pastore associato: Ekundayo Olusanjo Oginni · Segretario: Emmanuel Akinwunmi'}</p></div>
-  </div>);
-}
-
-export function Ministries() {
-  const { t, lang } = useLang();
-  useSEO('Ministries | Christ Love Evangelical Assembly Reggio Emilia', 'Christ Love Evangelical Assembly ministries: worship, outreach, pastoral care and media across Italy and Nigeria.', '/ministries');
-  const items = [
-    { icon: <ChurchIcon />, title: t('minWorshipTitle'), text: t('minWorshipText') },
-    { icon: <HeartIcon />, title: t('minOutreachTitle'), text: t('minOutreachText') },
-    { icon: <UsersIcon />, title: t('minLeadershipTitle'), text: t('minLeadershipText') },
-    { icon: <VideoIcon />, title: t('minMediaTitle'), text: t('minMediaText') },
-  ];
-  return (<div className="sec">
-    <h1 className="h-icon"><ChurchIcon /> {t('ministriesTitle')}</h1>
-    <p className="muted" style={{ maxWidth: 640 }}>{t('ministriesSub')}</p>
-    <div className="grid g3" style={{ marginTop: 18 }}>
-      {items.map((it) => (
-        <div className="card" key={it.title}>
-          <span className="pill h-icon" style={{ gap: 6 }}>{it.icon}</span>
-          <h3>{it.title}</h3>
-          <p className="muted">{it.text}</p>
-        </div>
-      ))}
-    </div>
-    <div className="cta-band" style={{ marginTop: 28 }}><div className="cta-inner">
-      <span className="kicker">{lang === 'it' ? 'Reggio Emilia · Italia' : 'Reggio Emilia · Italy'}</span>
-      <h2>{t('planTitle')}</h2>
-      <p>{t('planSub')}</p>
-      <div><Link className="btn gold" to="/about">{t('ministriesCta')}</Link><Link className="btn ghost" to="/visit">{t('visitCta')}</Link></div>
-    </div></div>
   </div>);
 }
 
@@ -329,8 +304,8 @@ function ContactForm() {
 export function Contact() {
   useSEO('Contact Christ Love Evangelical Assembly Reggio Emilia', 'Contact Christ Love Evangelical Assembly church: phone, WhatsApp +39 351 140 8770, Nigeria +2348030401694, Reggio Emilia address.', '/contact');
   return (<div className="sec"><h1 className="h-icon"><MailIcon /> Contact</h1><div className="grid g3">
-    <div className="card"><h3 className="h-icon"><PhoneIcon /> Phone / WhatsApp</h3><p><a href="tel:+393511408770">+39 351 140 8770</a><br /><a href="tel:+2348030401694">+234 803 040 1694</a></p>
+    <div className="card"><div className="icon-badge"><PhoneIcon /></div><h3>Phone / WhatsApp</h3><p><a href="tel:+393511408770">+39 351 140 8770</a><br /><a href="tel:+2348030401694">+234 803 040 1694</a></p>
     <p><a className="btn solid" href="https://wa.me/393511408770">WhatsApp Us</a></p></div>
-    <div className="card"><h3 className="h-icon"><MailIcon /> Message</h3><ContactForm /></div>
+    <div className="card"><div className="icon-badge"><MailIcon /></div><h3>Message</h3><ContactForm /></div>
   </div></div>);
 }

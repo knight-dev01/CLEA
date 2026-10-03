@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import Layout from './components/Layout';
 import { LangProvider } from './i18n';
 import { ThemeProvider } from './theme';
-import { Home, About, Ministries, Media, Blog, Visit, Contact, NotFound } from './pages/Main';
+import { Home, About, Media, Blog, Visit, Contact, NotFound } from './pages/Main';
 import Admin from './pages/Admin';
 
 function ScrollToTop() {
@@ -24,7 +24,6 @@ export default function App() {
           <Route element={<Layout />}>
             <Route index element={<Home />} />
             <Route path="about" element={<About />} />
-            <Route path="ministries" element={<Ministries />} />
             <Route path="media" element={<Media />} />
             <Route path="blog" element={<Blog />} />
             <Route path="visit" element={<Visit />} />
