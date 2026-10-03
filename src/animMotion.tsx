@@ -1,5 +1,5 @@
 import { m, useReducedMotion, useScroll, useTransform } from 'motion/react';
-import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { useRef, type ReactNode } from 'react';
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -72,16 +72,7 @@ export function PhotoBand({ src, label }: { src: string; label: string }) {
 /** Ambient floating color orbs behind content (royal + silver, theme-aware). */
 export function Orbs() {
   const reduce = useReducedMotion();
-  const [desktop, setDesktop] = useState(() =>
-    typeof window === 'undefined' ? true : window.matchMedia('(min-width: 768px) and (pointer: fine)').matches
-  );
-  useEffect(() => {
-    const mq = window.matchMedia('(min-width: 768px) and (pointer: fine)');
-    const onChange = (e: MediaQueryListEvent) => setDesktop(e.matches);
-    mq.addEventListener('change', onChange);
-    return () => mq.removeEventListener('change', onChange);
-  }, []);
-  if (reduce || !desktop) return null;
+  if (reduce) return null;
   return (
     <div className="orbs" aria-hidden="true">
       <m.span
