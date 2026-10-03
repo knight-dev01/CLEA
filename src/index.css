@@ -71,6 +71,10 @@ a{color:var(--sage-d)}.wrap{max-width:1140px;margin:0 auto;padding:0 20px}
 .sec{margin:34px 0}.sec h2{font-size:1.7rem;margin-bottom:8px}.muted{color:var(--muted)}
 .pill{display:inline-block;background:transparent;border:1px solid var(--line);color:var(--muted);font-weight:600;font-size:.76rem;letter-spacing:.06em;padding:4px 12px;border-radius:20px;text-transform:uppercase}
 .channel-banner{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:20px}
+.channel-banner-v2{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:20px;padding:26px 28px;border-radius:var(--radius);background:linear-gradient(135deg,var(--sage-d),var(--secondary-d));color:#fff}
+.channel-banner-v2 .muted{color:rgba(255,255,255,.82)}
+.channel-banner-v2 .btn.ghost{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.75);color:#fff;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.channel-banner-v2 .btn.ghost:hover{background:#fff;color:#1e1e26}
 /* ---- Full-bleed rhythm bands ---- */
 .bleed{width:100vw;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw)}
 .bleed-inner{max-width:1140px;margin:0 auto;padding:46px 20px}
@@ -151,6 +155,12 @@ footer p{margin:.3em 0}
 .about-split .eyebrow{display:block;font-size:.74rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--sage-d);margin-bottom:10px}
 .about-split p.lead{font-family:var(--font-display);font-size:clamp(1.25rem,2.6vw,1.6rem);line-height:1.4;margin:0 0 .6em}
 .icon-badge{width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--sage),var(--secondary));color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:12px}
+.page-header{position:relative;margin:20px 0 32px;background:linear-gradient(135deg,var(--sage-d),var(--secondary-d) 65%,var(--secondary));color:#fff;overflow:hidden}
+.page-header::before{content:"";position:absolute;inset:0;background:radial-gradient(closest-side,rgba(251,146,60,.22),transparent 70%)}
+.page-header .bleed-inner{position:relative;padding:54px 20px 44px}
+.page-header h1{color:#fff;margin:0 0 8px;font-size:clamp(1.8rem,4vw,2.5rem)}
+.page-header .muted{color:rgba(255,255,255,.85);max-width:560px}
+.page-header-icon{background:rgba(255,255,255,.16)}
 .editorial{max-width:680px;margin:0 auto;padding:8px 0}
 .editorial .eyebrow{display:block;font-size:.74rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--sage-d);margin-bottom:10px}
 .editorial h2{font-size:clamp(1.5rem,3.4vw,2rem);margin:0 0 12px}

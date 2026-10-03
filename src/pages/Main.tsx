@@ -7,7 +7,7 @@ function mergeUnique<T extends { id: string }>(primary: T[], fallback: T[]): T[]
   const ids = new Set(primary.map((p) => p.id));
   return [...primary, ...fallback.filter((p) => !ids.has(p.id))];
 }
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import type { BlogPost, MediaLink, SiteImages } from '../store';
 import { ChurchIcon, VideoIcon, BookIcon, UsersIcon, PinIcon, PhoneIcon, MailIcon, ClockIcon } from '../icons';
 import { useReveal } from '../hooks';
@@ -26,6 +26,16 @@ export const PASTORS = [
   { n: 'Pastor Dr Bolanle Oluwakemi Anyanwu', r: 'Senior Pastor, Europe', img: 'pastor-bola.jpg' },
   { n: 'Pastor Mololuwa Patience Ojo', r: 'Board of Trustees', img: 'pastor-mololuwa.jpg' },
 ];
+
+function PageHeader({ icon, title, subtitle }: { icon: ReactNode; title: string; subtitle?: string }) {
+  return (
+    <div className="bleed page-header"><div className="bleed-inner">
+      <div className="icon-badge page-header-icon">{icon}</div>
+      <h1>{title}</h1>
+      {subtitle && <p className="muted">{subtitle}</p>}
+    </div></div>
+  );
+}
 
 export function SummaryToggle({ text, lang }: { text: string; lang: string }) {
   const [open, setOpen] = useState(false);
@@ -150,21 +160,25 @@ export function About() {
   const en = lang === 'en';
   const { t } = useLang();
   return (<div className="sec">
-    <h1>{en ? 'About Christ Love Evangelical Assembly' : 'Chi Siamo'}</h1>
-    <p className="muted">{t('aboutLong')}</p>
+    <PageHeader icon={<ChurchIcon />} title={en ? 'About Christ Love Evangelical Assembly' : 'Chi Siamo'} subtitle={t('aboutLong')} />
     <p className="muted">{t('hqNote')}</p>
-    <div className="editorial" style={{ marginTop: 18 }}>
-      <span className="eyebrow">{en ? 'Vision' : 'Visione'}</span>
-      <p className="lead">{en ? 'To preach Christ\u2019s love, raise disciples and serve our city.' : 'Predicare l\u2019amore di Cristo, formare discepoli e servire la città.'}</p>
-      <p>{en ? 'A multicultural family where everyone belongs.' : 'Una famiglia multiculturale dove tutti sono accolti.'}</p>
-    </div>
-    <div className="editorial">
-      <span className="eyebrow">{t('mission')}</span>
-      <p>{t('missionText')}</p>
-    </div>
-    <div className="editorial">
-      <span className="eyebrow">{t('beliefs')}</span>
-      <p>{en ? 'We believe the Bible is God\u2019s Word, salvation through Jesus Christ, the power of the Holy Spirit, water baptism and holy living.' : 'Crediamo che la Bibbia è la Parola di Dio, la salvezza tramite Gesù Cristo, la potenza dello Spirito Santo, il battesimo e la santità.'}</p>
+    <div className="trio" style={{ marginTop: 22 }}>
+      <div className="card">
+        <div className="icon-badge"><ChurchIcon /></div>
+        <h3>{en ? 'Vision' : 'Visione'}</h3>
+        <p>{en ? 'To preach Christ\u2019s love, raise disciples and serve our city.' : 'Predicare l\u2019amore di Cristo, formare discepoli e servire la città.'}</p>
+        <p className="muted">{en ? 'A multicultural family where everyone belongs.' : 'Una famiglia multiculturale dove tutti sono accolti.'}</p>
+      </div>
+      <div className="card">
+        <div className="icon-badge"><BookIcon /></div>
+        <h3>{t('mission')}</h3>
+        <p className="muted">{t('missionText')}</p>
+      </div>
+      <div className="card">
+        <div className="icon-badge"><UsersIcon /></div>
+        <h3>{t('beliefs')}</h3>
+        <p className="muted">{en ? 'We believe the Bible is God\u2019s Word, salvation through Jesus Christ, the power of the Holy Spirit, water baptism and holy living.' : 'Crediamo che la Bibbia è la Parola di Dio, la salvezza tramite Gesù Cristo, la potenza dello Spirito Santo, il battesimo e la santità.'}</p>
+      </div>
     </div>
     <section className="sec bleed band-tint"><div className="bleed-inner">
       <span className="eyebrow">{t('journeyTitle')}</span>
@@ -200,10 +214,13 @@ export function Media() {
   }, []);
   const q = query.trim().toLowerCase();
   const filteredMedia = q ? media.filter(m => m.title.toLowerCase().includes(q)) : media;
-  return (<div className="sec"><h1 className="h-icon"><VideoIcon /> Sermons & Media</h1>
-    <div className="card channel-banner"><div><strong>Christ Love Evangelical Assembly Reggio Emilia</strong><p className="muted">296 videos · Pastor Dr Bolanle Oluwakemi Anyanwu</p></div>
-      <div className="rowbtns"><a className="btn solid" href="https://www.youtube.com/@pastordoctorbolanleoluwake3805" target="_blank" rel="noreferrer">Watch on YouTube</a>
-      <a className="btn ghost" href="https://www.youtube.com/@pastordoctorbolanleoluwake3805?sub_confirmation=1" target="_blank" rel="noreferrer">Subscribe</a></div></div>
+  return (<div className="sec">
+    <PageHeader icon={<VideoIcon />} title="Sermons & Media" subtitle="296 videos and counting — YouTube, Facebook and our Blogspot, all in one place." />
+    <div className="channel-banner-v2">
+      <div><strong>Christ Love Evangelical Assembly Reggio Emilia</strong><p className="muted">296 videos · Pastor Dr Bolanle Oluwakemi Anyanwu</p></div>
+      <div className="rowbtns"><a className="btn gold" href="https://www.youtube.com/@pastordoctorbolanleoluwake3805" target="_blank" rel="noreferrer">Watch on YouTube</a>
+      <a className="btn ghost" href="https://www.youtube.com/@pastordoctorbolanleoluwake3805?sub_confirmation=1" target="_blank" rel="noreferrer">Subscribe</a></div>
+    </div>
     <div className="card" style={{ marginBottom: 20 }}><span className="pill">Latest uploads · auto-updates</span>
       <YouTubeUploads /></div>
     <div className="card" style={{ marginBottom: 20 }}><span className="pill">Latest from Facebook · auto-updates</span>
@@ -237,22 +254,27 @@ export function Blog() {
       } catch { /* */ }
     });
   }, []);
-  return (<div className="sec"><h1 className="h-icon"><BookIcon /> Blog</h1><p className="muted">Admin posts plus automatic updates from our <a href="https://cleareggio.blogspot.com/" target="_blank" rel="noreferrer">Blogspot</a>.</p><div className="grid g3">{blog.map(b => <article className="card" key={b.id}>{b.imageUrl && <img src={b.imageUrl} alt="" loading="lazy" />}<small className="muted">{b.date}</small><h3>{lang === 'it' ? b.title_it || b.title : b.title}</h3><p>{lang === 'it' ? b.body_it || b.body : b.body}</p><SummaryToggle text={lang === 'it' ? b.body_it || b.body : b.body} lang={lang} /></article>)}</div></div>);
+  return (<div className="sec">
+    <PageHeader icon={<BookIcon />} title="Blog" subtitle="Devotionals, news and testimonies from our family — written here and gathered from our Blogspot." />
+    <p className="muted">Admin posts plus automatic updates from our <a href="https://cleareggio.blogspot.com/" target="_blank" rel="noreferrer">Blogspot</a>.</p>
+    <div className="grid g3">{blog.map(b => <article className="card" key={b.id}>{b.imageUrl && <img src={b.imageUrl} alt="" loading="lazy" />}<small className="muted">{b.date}</small><h3>{lang === 'it' ? b.title_it || b.title : b.title}</h3><p>{lang === 'it' ? b.body_it || b.body : b.body}</p><SummaryToggle text={lang === 'it' ? b.body_it || b.body : b.body} lang={lang} /></article>)}</div>
+  </div>);
 }
 
 export function Visit() {
   useSEO('Visit Us | Christ Love Evangelical Assembly Reggio Emilia, Service Times and Map', 'Visit Christ Love Evangelical Assembly: Via Corelli 5, Reggio Emilia. Sunday 10:00, Wednesday Bible Study, Friday Vigil. Map & directions.', '/visit');
   const { t } = useLang();
-  return (<div className="sec"><h1 className="h-icon"><PinIcon /> {t('visit')}</h1>
+  return (<div className="sec">
+    <PageHeader icon={<PinIcon />} title={t('visit')} subtitle="Everything you need to know for your first Sunday with us." />
     <div className="card"><strong>{t('address')}</strong><p className="muted">Bus lines to Via Cilea · Parking nearby · Accessible entrance</p>
     <div className="rowbtns"><a className="btn solid" href="https://www.google.com/maps?q=Via+Corelli+5+Reggio+Emilia+Italy" target="_blank" rel="noreferrer">{t('visitCta')}</a>
     <a className="btn ghost" href="https://wa.me/393511408770">WhatsApp Us</a></div></div>
-    <h2 style={{ marginTop: 22 }}>{t('serviceTable')}</h2>
-    <div className="table-scroll"><table className="svc-table"><tbody>
-      <tr><td><strong>Sunday</strong><br /><span className="muted">Domenica</span></td><td>10:00–12:30</td><td>{t('sunday')}</td></tr>
-      <tr><td><strong>Wednesday</strong><br /><span className="muted">Mercoledì</span></td><td>18:30–20:00</td><td>{t('wednesday')}</td></tr>
-      <tr><td><strong>Friday</strong><br /><span className="muted">Venerdì</span></td><td>22:00–02:00</td><td>{t('friday')}</td></tr>
-    </tbody></table></div>
+    <h2 style={{ marginTop: 28 }}>{t('serviceTable')}</h2>
+    <div className="grid g3 svc">
+      <div className="card"><div className="icon-badge"><ChurchIcon /></div><strong>Sunday</strong><span className="muted"> · Domenica</span><p className="pill" style={{ marginTop: 8 }}>10:00–12:30</p><p>{t('sunday')}</p></div>
+      <div className="card"><div className="icon-badge"><BookIcon /></div><strong>Wednesday</strong><span className="muted"> · Mercoledì</span><p className="pill" style={{ marginTop: 8 }}>18:30–20:00</p><p>{t('wednesday')}</p></div>
+      <div className="card"><div className="icon-badge"><ClockIcon /></div><strong>Friday</strong><span className="muted"> · Venerdì</span><p className="pill" style={{ marginTop: 8 }}>22:00–02:00</p><p>{t('friday')}</p></div>
+    </div>
     <h2 style={{ marginTop: 22 }}>{t('expect')}</h2>
     <div className="steps"><div className="step"><b>1</b><strong>{t('expect1')}</strong></div><div className="step"><b>2</b><strong>{t('expect2')}</strong></div><div className="step"><b>3</b><strong>{t('expect3')}</strong></div></div>
     <div style={{ marginTop: 14 }}><iframe className="map" title="Christ Love Evangelical Assembly map" loading="lazy" src="https://www.google.com/maps?q=Via+Corelli+5+Reggio+Emilia+Italy&output=embed" /></div>
@@ -303,9 +325,12 @@ function ContactForm() {
 
 export function Contact() {
   useSEO('Contact Christ Love Evangelical Assembly Reggio Emilia', 'Contact Christ Love Evangelical Assembly church: phone, WhatsApp +39 351 140 8770, Nigeria +2348030401694, Reggio Emilia address.', '/contact');
-  return (<div className="sec"><h1 className="h-icon"><MailIcon /> Contact</h1><div className="grid g3">
-    <div className="card"><div className="icon-badge"><PhoneIcon /></div><h3>Phone / WhatsApp</h3><p><a href="tel:+393511408770">+39 351 140 8770</a><br /><a href="tel:+2348030401694">+234 803 040 1694</a></p>
-    <p><a className="btn solid" href="https://wa.me/393511408770">WhatsApp Us</a></p></div>
-    <div className="card"><div className="icon-badge"><MailIcon /></div><h3>Message</h3><ContactForm /></div>
-  </div></div>);
+  return (<div className="sec">
+    <PageHeader icon={<MailIcon />} title="Contact" subtitle="Call, message on WhatsApp, or send us a note — we reply as soon as we can." />
+    <div className="grid g3">
+      <div className="card"><div className="icon-badge"><PhoneIcon /></div><h3>Phone / WhatsApp</h3><p><a href="tel:+393511408770">+39 351 140 8770</a><br /><a href="tel:+2348030401694">+234 803 040 1694</a></p>
+      <p><a className="btn solid" href="https://wa.me/393511408770">WhatsApp Us</a></p></div>
+      <div className="card"><div className="icon-badge"><MailIcon /></div><h3>Message</h3><ContactForm /></div>
+    </div>
+  </div>);
 }
