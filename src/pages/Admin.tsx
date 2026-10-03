@@ -1,8 +1,38 @@
 import { useEffect, useState } from 'react';
 import { useSEO } from '../seo';
-import { uid, type BlogPost, type MediaLink, type SiteImages } from '../store';
+import { uid, REAL_GALLERY, type BlogPost, type MediaLink, type SiteImages } from '../store';
 import { fetchContent, login, manage, type EventItem } from '../cms';
 import { ChurchIcon, VideoIcon, BookIcon, UsersIcon, MailIcon } from '../icons';
+
+/** Resize + compress an uploaded image in the browser and return it as a data URL, so it can be
+ *  stored directly as a gallery entry without needing any file-storage service. */
+function fileToCompressedDataUrl(file: File, maxDim = 1280, quality = 0.78): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = () => reject(new Error('Could not read file'));
+    reader.onload = () => {
+      const img = new Image();
+      img.onerror = () => reject(new Error('Could not decode image'));
+      img.onload = () => {
+        let { width, height } = img;
+        if (width > maxDim || height > maxDim) {
+          const scale = maxDim / Math.max(width, height);
+          width = Math.round(width * scale);
+          height = Math.round(height * scale);
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        if (!ctx) { reject(new Error('Canvas unsupported')); return; }
+        ctx.drawImage(img, 0, 0, width, height);
+        resolve(canvas.toDataURL('image/jpeg', quality));
+      };
+      img.src = reader.result as string;
+    };
+    reader.readAsDataURL(file);
+  });
+}
 
 export default function Admin() {
   useSEO('Admin | Christ Love Evangelical Assembly', 'Christ Love Evangelical Assembly admin panel.', '/admin', true);
@@ -20,6 +50,23 @@ export default function Admin() {
   const [eform, setEform] = useState({ title: '', title_it: '', date: '', time: '', location: '' });
   const [heroUrl, setHeroUrl] = useState('');
   const [galUrl, setGalUrl] = useState('');
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState('');
+
+  const uploadFiles = async (files: FileList | null, target: 'hero' | 'gallery') => {
+    if (!files || !files.length) return;
+    setUploading(true);
+    setUploadError('');
+    try {
+      const dataUrls = await Promise.all(Array.from(files).map((f) => fileToCompressedDataUrl(f)));
+      if (target === 'hero') await saveImages({ ...images, hero: dataUrls[0] });
+      else await saveImages({ ...images, gallery: [...images.gallery, ...dataUrls] });
+    } catch {
+      setUploadError('Could not upload that image. Try a smaller photo or a different format (JPG/PNG).');
+    } finally {
+      setUploading(false);
+    }
+  };
 
   useEffect(() => {
     if (!authed) return;
@@ -32,7 +79,7 @@ export default function Admin() {
         try {
           setImages({
             hero: c.settings.hero || '',
-            gallery: c.settings.gallery ? JSON.parse(c.settings.gallery) : [],
+            gallery: c.settings.gallery ? JSON.parse(c.settings.gallery) : REAL_GALLERY,
           });
         } catch { /* keep */ }
       } else {
@@ -41,7 +88,8 @@ export default function Admin() {
           setBlog(JSON.parse(localStorage.getItem('clea-blog') || '[]'));
           setMedia(JSON.parse(localStorage.getItem('clea-media') || '[]'));
           setEvents(JSON.parse(localStorage.getItem('clea-events') || '[]'));
-          setImages(JSON.parse(localStorage.getItem('clea-images') || '{"hero":"","gallery":[]}'));
+          const storedImages = JSON.parse(localStorage.getItem('clea-images') || 'null') as SiteImages | null;
+          setImages(storedImages || { hero: '', gallery: REAL_GALLERY });
         } catch { /* ignore */ }
       }
     });
@@ -108,11 +156,41 @@ export default function Admin() {
     <button className="smallbtn" onClick={() => { localStorage.clear(); location.reload(); }}>Reset demo data</button></div>
 
     <h2 className="h-icon"><ChurchIcon /> Hero & Gallery</h2>
-    <div className="card"><label>Hero image URL</label><input value={heroUrl} onChange={(e) => setHeroUrl(e.target.value)} placeholder={images.hero} />
-      <div className="rowbtns"><button className="smallbtn" onClick={() => { saveImages({ ...images, hero: heroUrl || images.hero }); setHeroUrl(''); }}>Set hero</button></div>
-      <label>Gallery image URL</label><input value={galUrl} onChange={(e) => setGalUrl(e.target.value)} placeholder="https://…" />
+    <div className="card">
+      <label>Current hero image</label>
+      {images.hero ? <img src={images.hero} alt="Current hero" style={{ aspectRatio: '16/9', objectFit: 'cover' }} /> : <p className="muted">No hero image set — the site is using its default.</p>}
+      <label style={{ marginTop: 10 }}>Upload a new hero photo</label>
+      <input type="file" accept="image/*" disabled={uploading} onChange={(e) => { uploadFiles(e.target.files, 'hero'); e.target.value = ''; }} />
+      <label>Or paste a hero image URL</label>
+      <input value={heroUrl} onChange={(e) => setHeroUrl(e.target.value)} placeholder="https://…" />
+      <div className="rowbtns"><button className="smallbtn" onClick={() => { if (heroUrl) { saveImages({ ...images, hero: heroUrl }); setHeroUrl(''); } }}>Set hero</button></div>
+
+      <label style={{ marginTop: 18 }}>Upload photos to the gallery</label>
+      <input type="file" accept="image/*" multiple disabled={uploading} onChange={(e) => { uploadFiles(e.target.files, 'gallery'); e.target.value = ''; }} />
+      {uploading && <p className="muted">Uploading…</p>}
+      {uploadError && <p className="muted" style={{ color: 'var(--gold)' }}>{uploadError}</p>}
+      <label>Or paste a gallery image URL</label>
+      <input value={galUrl} onChange={(e) => setGalUrl(e.target.value)} placeholder="https://…" />
       <div className="rowbtns"><button className="smallbtn" onClick={() => { if (galUrl) { saveImages({ ...images, gallery: [...images.gallery, galUrl] }); setGalUrl(''); } }}>Add image</button></div>
-      <p className="muted">{images.gallery.length} gallery images</p></div>
+
+      <p className="muted" style={{ marginTop: 10 }}>{images.gallery.length} gallery images — click an image to set it as hero, or remove it.</p>
+      <div className="grid g3" style={{ marginTop: 6 }}>
+        {images.gallery.map((src, i) => (
+          <div className="card" key={src.slice(0, 80) + i} style={{ padding: 8, gap: 6 }}>
+            <img src={src} alt="" style={{ aspectRatio: '4/3', objectFit: 'cover' }} />
+            {images.hero === src && <span className="pill">Current hero</span>}
+            <div className="rowbtns">
+              <button className="smallbtn" disabled={images.hero === src} onClick={() => saveImages({ ...images, hero: src })}>Set as hero</button>
+              <button className="smallbtn" onClick={() => {
+                const gallery = images.gallery.filter((_, idx) => idx !== i);
+                const hero = images.hero === src ? '' : images.hero;
+                saveImages({ ...images, hero, gallery });
+              }}>Remove</button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
 
     <h2 className="h-icon"><BookIcon /> Blog posts</h2>
     <div className="card"><input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} placeholder="Title (EN)" />
