@@ -258,6 +258,7 @@ footer{border-radius:24px 24px 0 0}
 .brand span{max-width:150px;font-size:.76rem}
 .nav-in{padding:8px 14px;gap:8px}.grid{gap:10px}.sec{margin:14px 0}
 .g3,.trio,.steps,.footer-grid{grid-template-columns:1fr}
+.footer-col-brand{grid-column:auto}
 .sec h2{font-size:1.35rem}.sec h1{font-size:1.6rem}
 .card{padding:14px}
 .hero .txt p{font-size:.95rem}
