@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useLang } from '../i18n';
 import { useSEO } from '../seo';
-import { ensureSeed, REAL_GALLERY, seedBlog, seedMedia } from '../store';
+import { ARCHIVE_PHOTOS, ensureSeed, REAL_GALLERY, seedBlog, seedMedia } from '../store';
 
 function mergeUnique<T extends { id: string }>(primary: T[], fallback: T[]): T[] {
   const ids = new Set(primary.map((p) => p.id));
@@ -50,6 +50,23 @@ export function SummaryToggle({ text, lang }: { text: string; lang: string }) {
   );
 }
 
+/** Crossfading hero slideshow (worship photos only; pauses for reduced motion). */
+function HeroSlides({ slides }: { slides: string[] }) {
+  const [i, setI] = useState(0);
+  const n = slides.length;
+  useEffect(() => {
+    if (n < 2 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const id = window.setInterval(() => setI((k) => (k + 1) % n), 6000);
+    return () => window.clearInterval(id);
+  }, [n, i]);
+  const cur = n ? i % n : 0;
+  const keep = new Set([(cur - 1 + n) % n, cur, (cur + 1) % n]);
+  return (<>
+    {slides.map((src, k) => keep.has(k) && <img key={src} className={'hero-bg' + (k === cur ? ' on' : '')} src={src} alt={k === cur ? 'Christ Love Evangelical Assembly worship' : ''} />)}
+    {n > 1 && <div className="hero-dots">{slides.map((_, k) => <button key={k} type="button" className={k === cur ? 'on' : ''} aria-label={`Photo ${k + 1}`} onClick={() => setI(k)} />)}</div>}
+  </>);
+}
+
 export function Home() {
   const { t, lang } = useLang();
   useSEO('Christ Love Evangelical Assembly Reggio Emilia', 'Christ Love Evangelical Assembly in Reggio Emilia Italy. Sunday services, Bible study, sermons. Chiesa evangelica a Reggio Emilia.', '/');
@@ -82,9 +99,10 @@ export function Home() {
     });
   }, []);
   const gallery = images?.gallery?.length ? images.gallery : REAL_GALLERY;
+  const slides = [...new Set([images?.hero || REAL_GALLERY[0], ...gallery].filter((src) => !ARCHIVE_PHOTOS.includes(src)))];
   return (<>
     <section className="bleed hero">
-      <img className="hero-bg" src={images?.hero || REAL_GALLERY[0]} alt="Christ Love Evangelical Assembly worship" />
+      <HeroSlides slides={slides} />
       <div className="hero-shade" />
       <div className="hero-content">
         <span className="kicker">{t('heroKicker')}</span>

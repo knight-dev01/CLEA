@@ -273,17 +273,18 @@ footer strong{display:block;margin-bottom:10px;font-size:.8rem;letter-spacing:.1
 /* ---- Subtle motion ---- */
 @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes heroZoom{from{transform:scale(1.06)}to{transform:none}}
+@keyframes heroZoom{from{transform:scale(1.08)}to{transform:none}}
 .page-fade{animation:fadeIn .4s ease-out both}
-.hero-bg{animation:heroZoom 1.8s cubic-bezier(.22,1,.36,1) both}
+.hero-bg{opacity:0;transition:opacity 1.4s ease}
+.hero-bg.on{opacity:1;animation:heroZoom 7s ease-out both}
+.hero-dots{position:absolute;right:16px;bottom:14px;z-index:2;display:flex;gap:6px}
+.hero-dots button{width:8px;height:8px;padding:0;border:0;border-radius:999px;background:rgba(255,255,255,.5);cursor:pointer;transition:width .3s,background .3s}
+.hero-dots button.on{width:22px;background:#fff}
 .hero-content>*,.page-header .bleed-inner>*{animation:rise .7s cubic-bezier(.22,1,.36,1) both}
 .hero-content>:nth-child(2),.page-header .bleed-inner>:nth-child(2){animation-delay:.1s}
 .hero-content>:nth-child(3){animation-delay:.2s}
 .hero-content>:nth-child(4){animation-delay:.3s}
-@supports (animation-timeline:view()){
-  .sec,.bleed-inner>*,.grid>.card,.stat{animation:rise linear both;animation-timeline:view();animation-range:entry 0% entry 40%}
-  .hero-content>*,.page-header .bleed-inner>*{animation:rise .7s cubic-bezier(.22,1,.36,1) both;animation-timeline:auto}
-}
+
 .card{transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}
 .btn{transition:background .2s,border-color .2s,color .2s,transform .2s,box-shadow .2s}
 .socials a{transition:background .2s,color .2s,transform .2s}
@@ -303,6 +304,10 @@ footer strong{display:block;margin-bottom:10px;font-size:.8rem;letter-spacing:.1
 .gallery-strip.auto .photo-card{width:min(72vw,300px);flex-shrink:0}
 .gallery-strip.auto:hover .marquee,.gallery-strip.auto:active .marquee{animation-play-state:paused}
 @keyframes marquee{to{transform:translateX(calc(-50% - 6px))}}
+
+/* ---- Scroll reveal (classes added by useScrollReveal) ---- */
+.rv{opacity:0;transform:translateY(26px);transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1)}
+.rv.in{opacity:1;transform:none}
 
 @media(prefers-reduced-motion:reduce){
   *{transition:none!important;animation:none!important}

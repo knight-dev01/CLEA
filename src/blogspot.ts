@@ -37,9 +37,25 @@ function readCache(): BlogPost[] | null {
   }
 }
 
-/** Fetch public Blogspot posts via JSONP (cross-origin safe). Never throws. */
-export function fetchBlogspot(): Promise<BlogPost[]> {
+/** Fetch Blogspot posts via our server proxy first, then JSONP as a fallback. Never throws. */
+export async function fetchBlogspot(): Promise<BlogPost[]> {
   const cached = readCache();
+  if (cached && cached.length) return cached;
+  try {
+    const res = await fetch('/api/blogspot');
+    if (res.ok) {
+      const { posts } = (await res.json()) as { posts?: BlogPost[] };
+      if (posts && posts.length) {
+        try { localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), data: posts })); } catch { /* ignore */ }
+        return posts;
+      }
+    }
+  } catch { /* fall through to JSONP */ }
+  return fetchBlogspotJsonp(cached);
+}
+
+/** Direct browser fetch via JSONP (cross-origin safe). Never throws. */
+function fetchBlogspotJsonp(cached: BlogPost[] | null): Promise<BlogPost[]> {
   return new Promise((resolve) => {
     let done = false;
     const finish = (posts: BlogPost[]) => {

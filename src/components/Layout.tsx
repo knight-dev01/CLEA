@@ -22,7 +22,7 @@ function OfflineBanner() {
   );
 }
 import { useLang } from '../i18n';
-import { useScrolledNav } from '../hooks';
+import { useScrolledNav, useScrollReveal } from '../hooks';
 import { FacebookIcon, BloggerIcon, MailIcon, PhoneIcon, WhatsappIcon, YoutubeIcon } from '../icons';
 import { ThemeToggle } from '../theme';
 import { SOCIALS } from '../store';
@@ -132,6 +132,7 @@ export default function Layout() {
   const loc = useLocation();
   const wrap = useRef<HTMLDivElement>(null);
   const first = useRef(true);
+  useScrollReveal(wrap);
   // Soft fade when the language changes, so the switch is clearly visible.
   useEffect(() => {
     if (first.current) { first.current = false; return; }
