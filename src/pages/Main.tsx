@@ -103,12 +103,12 @@ export function Home() {
       </div>
     </div>
     <div className="ticker" aria-hidden="true"><div className="ticker-track">{[0, 1].map((k) => <span key={k}>SUNDAY 10:00 · WEDNESDAY 18:30 · FRIDAY 22:00 · REGGIO EMILIA · {t('tagline')} · </span>)}</div></div>
-    <Reveal className="sec"><div className="about-split">
+    <div className="sec"><div className="about-split">
       <img src={REAL_GALLERY[2]} alt="Christ Love Evangelical Assembly community" loading="lazy" />
       <div><span className="eyebrow">{lang === 'it' ? 'Chi Siamo' : 'Who We Are'}</span><p className="lead">“{t('tagline')}”</p><p className="muted">{t('aboutLong')}</p>
         <Link className="btn solid" to="/about" style={{ marginTop: 6 }}>{t('aboutCta')}</Link>
       </div>
-    </div></Reveal>
+    </div></div>
     <Reveal className="sec"><PhotoBand src={REAL_GALLERY[1]} label={lang === 'it' ? 'Celebrazione · Reggio Emilia' : 'Celebration · Reggio Emilia'} /></Reveal>
     <section className="sec reveal"><h2 className="h-icon"><VideoIcon /> {t('featured')}</h2>
       <div className="featured"><YouTubeUploads />

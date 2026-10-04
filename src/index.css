@@ -223,7 +223,7 @@ table{width:100%;border-collapse:collapse;font-size:.9rem}td,th{border-bottom:1p
 @media(max-width:640px){
 .topbar{display:none}
 .hero .txt{padding:18px}.wa-float{display:flex;right:14px;bottom:14px;width:52px;height:52px}
-.hero{margin-bottom:100px}.hero-inner{min-height:54vh;border-radius:20px 20px 36px 36px}.hero h1{font-size:clamp(1.5rem,7vw,2rem)}
+.hero{margin-bottom:80px}.hero-inner{min-height:54vh;border-radius:20px 20px 36px 36px}.hero h1{font-size:clamp(1.5rem,7vw,2rem)}
 .hero-stats{grid-template-columns:repeat(2,1fr);transform:translate(-50%,50%)}
 .hstat{padding:10px 8px}.hstat b{font-size:1.3rem}.hstat span{font-size:.66rem}
 .stats{grid-template-columns:repeat(2,1fr)}
