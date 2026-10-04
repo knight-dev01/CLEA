@@ -1,5 +1,5 @@
 import { NavLink, Outlet, Link, useLocation } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 function OfflineBanner() {
   const { lang } = useLang();
@@ -57,7 +57,10 @@ export function Nav() {
     <nav className="nav"><div className="nav-in">
       <a className="brand" href="/"><img src="logo.png" alt="Christ Love Evangelical Assembly logo" /><span>Christ Love Evangelical Assembly</span></a>
       <div className="links">{L.map(([to, l]) => <NavLink key={to} to={to} className={({ isActive }) => isActive ? 'active' : ''}>{l}</NavLink>)}</div>
-      <button className="langbtn" onClick={() => setLang(lang === 'en' ? 'it' : 'en')}>{lang === 'en' ? 'IT' : 'EN'}</button>
+      <div className="lang-switch" data-lang={lang} role="group" aria-label="Language / Lingua">
+        <button type="button" className={lang === 'en' ? 'on' : ''} aria-pressed={lang === 'en'} onClick={() => setLang('en')} title="English">EN</button>
+        <button type="button" className={lang === 'it' ? 'on' : ''} aria-pressed={lang === 'it'} onClick={() => setLang('it')} title="Italiano">IT</button>
+      </div>
       <ThemeToggle />
       <button className={'menubtn' + (open ? ' open' : '')} onClick={() => setOpen(!open)} aria-label={open ? 'Close menu' : 'Open menu'} aria-expanded={open}>
         <span /><span /><span />
@@ -114,7 +117,26 @@ export function WhatsAppFloat() {
   );
 }
 
+function Circles() {
+  return (
+    <div className="orbs" aria-hidden="true">
+      <span className="orb orb-a" /><span className="orb orb-b" /><span className="orb orb-c" />
+      <span className="ring ring-a" /><span className="ring ring-b" /><span className="ring ring-c" />
+    </div>
+  );
+}
+
 export default function Layout() {
   useScrolledNav();
-  return (<><Topbar /><Nav /><OfflineBanner /><div className="wrap"><Outlet /></div><Footer /><WhatsAppFloat /></>);
+  const { lang } = useLang();
+  const loc = useLocation();
+  const wrap = useRef<HTMLDivElement>(null);
+  const first = useRef(true);
+  // Soft fade when the language changes, so the switch is clearly visible.
+  useEffect(() => {
+    if (first.current) { first.current = false; return; }
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    wrap.current?.animate([{ opacity: 0.25 }, { opacity: 1 }], { duration: 450, easing: 'ease-out' });
+  }, [lang]);
+  return (<><Circles /><Topbar /><Nav /><OfflineBanner /><div className="wrap" ref={wrap}><div className="page-fade" key={loc.pathname}><Outlet /></div></div><Footer /><WhatsAppFloat /></>);
 }

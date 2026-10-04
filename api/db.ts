@@ -66,3 +66,25 @@ export function isAuthed(req: VercelReq, secret: string): boolean {
 export function send(res: VercelRes, data: unknown, status = 200): void {
   res.status(status).json(data);
 }
+
+type Sql = (strings: TemplateStringsArray, ...values: unknown[]) => Promise<unknown>;
+let schemaReady = false;
+
+/** Creates all tables if missing (idempotent; runs once per server instance). */
+export async function ensureSchema(db: Sql): Promise<void> {
+  if (schemaReady) return;
+  await db`CREATE TABLE IF NOT EXISTS posts (
+    id TEXT PRIMARY KEY, title TEXT NOT NULL, title_it TEXT DEFAULT '',
+    body TEXT DEFAULT '', body_it TEXT DEFAULT '', date TEXT DEFAULT '',
+    image_url TEXT DEFAULT '', created_at TIMESTAMPTZ DEFAULT NOW())`;
+  await db`CREATE TABLE IF NOT EXISTS media (
+    id TEXT PRIMARY KEY, type TEXT NOT NULL, url TEXT NOT NULL,
+    title TEXT DEFAULT '', ratio TEXT DEFAULT 'auto',
+    created_at TIMESTAMPTZ DEFAULT NOW())`;
+  await db`CREATE TABLE IF NOT EXISTS events (
+    id TEXT PRIMARY KEY, title TEXT NOT NULL, title_it TEXT DEFAULT '',
+    date TEXT DEFAULT '', time TEXT DEFAULT '', location TEXT DEFAULT '',
+    created_at TIMESTAMPTZ DEFAULT NOW())`;
+  await db`CREATE TABLE IF NOT EXISTS settings (key TEXT PRIMARY KEY, value TEXT NOT NULL)`;
+  schemaReady = true;
+}

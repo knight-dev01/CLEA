@@ -19,5 +19,18 @@ export default async function handler(_req: VercelReq, res: VercelRes): Promise<
       tableError = String(e).slice(0, 200);
     }
   }
-  send(res, { ok: hasPostgres && hasAdminPassword && hasAdminSecret && !tableError, hasPostgres, hasAdminPassword, hasAdminSecret, dbVarNames, tables, tableError });
+  // Which connection-string variables point at a database that already has tables (names only, no values).
+  const candidates: Record<string, string[] | string> = {};
+  const seen = new Set<string>();
+  for (const [k, v] of Object.entries(process.env)) {
+    if (typeof v !== 'string' || !/^postgres(ql)?:\/\//i.test(v.trim()) || /^ADMIN_/i.test(k) || seen.has(v.trim())) continue;
+    seen.add(v.trim());
+    try {
+      const rows = (await neon(v.trim())`SELECT tablename FROM pg_tables WHERE schemaname='public'`) as { tablename: string }[];
+      candidates[k] = rows.map((r) => r.tablename);
+    } catch (e) {
+      candidates[k] = String(e).slice(0, 80);
+    }
+  }
+  send(res, { ok: hasPostgres && hasAdminPassword && hasAdminSecret && !tableError, hasPostgres, hasAdminPassword, hasAdminSecret, dbVarNames, tables, tableError, candidates });
 }

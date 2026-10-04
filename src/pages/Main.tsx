@@ -17,6 +17,7 @@ import YouTubeUploads from '../components/YouTubeUploads';
 import FacebookFeed from '../components/FacebookFeed';
 import { withBlogspot } from '../blogspot';
 import { summarize } from '../summarize';
+import { toEmbed } from '../embed';
 
 const MAP = 'https://www.google.com/maps?q=Via+Corelli+5+Reggio+Emilia+Italy&output=embed';
 export const PASTORS = [
@@ -135,7 +136,7 @@ export function Home() {
             <Link className="btn solid" to="/media">{t('watchCta')}</Link></div>
         </div>
         <div className="media-side">
-          {media.length > 0 ? media.slice(0, 2).map(m => <div className="card" key={m.id}><strong>{m.title}</strong>{m.type === 'facebook' ? <FacebookFeed /> : <div className="vid-wrap"><iframe src={m.url} title={m.title} allowFullScreen loading="lazy" referrerPolicy="no-referrer" allow="fullscreen; encrypted-media; picture-in-picture" /></div>}</div>) : (
+          {media.length > 0 ? media.slice(0, 2).map(m => <div className="card" key={m.id}><strong>{m.title}</strong>{m.type === 'facebook' ? <FacebookFeed /> : <div className="vid-wrap"><iframe src={toEmbed(m.url)} title={m.title} allowFullScreen loading="lazy" referrerPolicy="strict-origin-when-cross-origin" allow="fullscreen; encrypted-media; picture-in-picture" /></div>}</div>) : (
             <div className="card"><strong>{lang === 'it' ? 'Seguici su Facebook' : 'Follow us on Facebook'}</strong><FacebookFeed /></div>
           )}
         </div>
@@ -149,7 +150,7 @@ export function Home() {
 
     <section className="sec">
       <div className="sec-head"><h2>{t('gallery')}</h2></div>
-      <div className="gallery-strip">{gallery.map((g, i) => <figure className="photo-card" key={i}><img src={g} alt="Life at Christ Love Evangelical Assembly" loading="lazy" /></figure>)}</div>
+      <div className="gallery-strip auto"><div className="marquee">{[...gallery, ...gallery].map((g, i) => <figure className="photo-card" key={i} aria-hidden={i >= gallery.length}><img src={g} alt={i < gallery.length ? 'Life at Christ Love Evangelical Assembly' : ''} loading="lazy" /></figure>)}</div></div>
     </section>
 
     <section className="sec">
@@ -278,7 +279,7 @@ export function Media() {
           </div>
         )}
         {media.length > 0 && filteredMedia.length === 0 && <p className="muted">{t('noSermonResults')}</p>}
-        {filteredMedia.map(m => <div className="card media-side-item" key={m.id}><span className="pill">{m.type}</span><h3>{m.title}</h3>{m.type === 'facebook' ? <FacebookFeed src={m.url} title={m.title} /> : <div className="vid-wrap"><iframe src={m.url} title={m.title} allowFullScreen loading="lazy" referrerPolicy="no-referrer" allow="fullscreen; encrypted-media; picture-in-picture" /></div>}</div>)}
+        {filteredMedia.map(m => <div className="card media-side-item" key={m.id}><span className="pill">{m.type}</span><h3>{m.title}</h3>{m.type === 'facebook' ? <FacebookFeed src={m.url} title={m.title} /> : <div className="vid-wrap"><iframe src={toEmbed(m.url)} title={m.title} allowFullScreen loading="lazy" referrerPolicy="strict-origin-when-cross-origin" allow="fullscreen; encrypted-media; picture-in-picture" /></div>}</div>)}
       </div>
     </div>
     <p className="muted" style={{ marginTop: 14 }}>YouTube and Facebook: new videos added by the media team via Admin.</p>
@@ -291,7 +292,10 @@ export function Blog() {
   const [blog, setBlog] = useState<BlogPost[]>([]);
   useEffect(() => {
     fetchContent().then(async (c) => {
-      const base = c && c.posts.length ? c.posts : seedBlog;
+      let base = c && c.posts.length ? c.posts : seedBlog;
+      if (!base.length) {
+        try { base = JSON.parse(localStorage.getItem('clea-blog') || '[]') as BlogPost[]; } catch { /* */ }
+      }
       try {
         setBlog(mergeUnique(base, seedBlog));
         setBlog(await withBlogspot(mergeUnique(base, seedBlog)));

@@ -1,5 +1,5 @@
 import { neon } from '@neondatabase/serverless';
-import { getDbUrl, isAuthed, send, type VercelReq, type VercelRes } from './db.js';
+import { ensureSchema, getDbUrl, isAuthed, send, type VercelReq, type VercelRes } from './db.js';
 
 const TABLES = ['posts', 'media', 'events', 'settings'] as const;
 type Table = (typeof TABLES)[number];
@@ -28,6 +28,7 @@ export default async function handler(req: VercelReq, res: VercelRes): Promise<v
   }
   try {
     const db = neon(url);
+    await ensureSchema(db);
     const r = body.row;
     if (body.table === 'posts' && body.action === 'upsert') {
       await db`INSERT INTO posts (id,title,title_it,body,body_it,date,image_url)
