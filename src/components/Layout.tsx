@@ -117,6 +117,5 @@ export function WhatsAppFloat() {
 
 export default function Layout() {
   useScrolledNav();
-  const logo = `${import.meta.env.BASE_URL}logo.png`;
-  return (<><div className="watermark" aria-hidden="true" style={{ backgroundImage: `url('${logo}')` }} /><Orbs /><Topbar /><Nav /><OfflineBanner /><div className="wrap"><Outlet /></div><Footer /><WhatsAppFloat /></>);
+  return (<><Orbs /><Topbar /><Nav /><OfflineBanner /><div className="wrap"><Outlet /></div><Footer /><WhatsAppFloat /></>);
 }

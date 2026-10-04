@@ -102,7 +102,7 @@ export function Home() {
         <div className="hstat"><b>10+</b><span>{t('statsYears')}</span></div>
       </div>
     </div>
-    <div className="ticker" aria-hidden="true"><div className="ticker-track">{[0, 1].map((k) => <span key={k}>SUNDAY 10:00 · WEDNESDAY 18:30 · FRIDAY 22:00 · REGGIO EMILIA · {t('tagline')} · </span>)}</div></div>
+    <div className="ticker"><span><b>SUN</b> 10:00</span><span><b>WED</b> 18:30</span><span><b>FRI</b> 22:00</span><span>REGGIO EMILIA</span></div>
     <div className="sec"><div className="about-split">
       <img src={REAL_GALLERY[2]} alt="Christ Love Evangelical Assembly community" loading="lazy" />
       <div><span className="eyebrow">{lang === 'it' ? 'Chi Siamo' : 'Who We Are'}</span><p className="lead">“{t('tagline')}”</p><p className="muted">{t('aboutLong')}</p>
@@ -132,7 +132,7 @@ export function Home() {
       </div>
     </div></section>
     <section className="sec reveal"><h2 className="h-icon"><BookIcon /> {t('gallery')}</h2>
-      <div className="gallery-strip auto">{(() => { const list = images?.gallery?.length ? images.gallery : REAL_GALLERY; const loop = [...list, ...list]; return (<div className="marquee">{loop.map((g, i) => <figure className="photo-card" key={i} aria-hidden={i >= list.length}><img src={g} alt={i < list.length ? 'Life at Christ Love Evangelical Assembly' : ''} loading="lazy" /></figure>)}</div>); })()}</div>
+      <div className="gallery-strip">{(images?.gallery?.length ? images.gallery : REAL_GALLERY).map((g, i) => <figure className="photo-card" key={i}><img src={g} alt="Life at Christ Love Evangelical Assembly" loading="lazy" /></figure>)}</div>
     </section>
     <Reveal className="sec"><PhotoBand src={REAL_GALLERY[4]} label={lang === 'it' ? 'Vita in Chiesa' : 'Life at Church'} /></Reveal>
     <section className="sec reveal"><div className="cta-band"><div className="cta-inner"><span className="kicker">Reggio Emilia · Italia</span><h2>{t('planTitle')}</h2><p>{t('planSub')}</p>

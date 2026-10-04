@@ -1,5 +1,5 @@
-import { m, useReducedMotion, useScroll, useTransform } from 'motion/react';
-import { useRef, type ReactNode } from 'react';
+import { m, useReducedMotion } from 'motion/react';
+import type { ReactNode } from 'react';
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -10,10 +10,10 @@ export function Reveal({ children, delay = 0, className }: { children: ReactNode
   return (
     <m.div
       className={className}
-      initial={{ opacity: 0, y: 28 }}
+      initial={{ opacity: 0, y: 10 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-64px' }}
-      transition={{ duration: 0.7, delay, ease: [...EASE] }}
+      viewport={{ once: true, margin: '-40px' }}
+      transition={{ duration: 0.5, delay, ease: [...EASE] }}
     >
       {children}
     </m.div>
@@ -50,19 +50,11 @@ export function StaggerItem({ children, className }: { children: ReactNode; clas
   );
 }
 
-/** Full-bleed photo band with gentle parallax (logo royal overlay). */
+/** Full-bleed photo band (static, calm). */
 export function PhotoBand({ src, label }: { src: string; label: string }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const reduce = useReducedMotion();
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
-  const y = useTransform(scrollYProgress, [0, 1], ['-12%', '12%']);
   return (
-    <div ref={ref} className="photo-band">
-      {reduce ? (
-        <img src={src} alt={label} loading="lazy" />
-      ) : (
-        <m.img src={src} alt={label} loading="lazy" style={{ y, scale: 1.18 }} />
-      )}
+    <div className="photo-band">
+      <img src={src} alt={label} loading="lazy" />
       <div className="photo-band-shade" />
       <span className="photo-band-label">{label}</span>
     </div>
@@ -77,18 +69,13 @@ export function Orbs() {
     <div className="orbs" aria-hidden="true">
       <m.span
         className="orb orb-a"
-        animate={{ x: [0, 70, 0], y: [0, -50, 0] }}
-        transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut' }}
+        animate={{ x: [0, 40, 0], y: [0, -30, 0] }}
+        transition={{ duration: 40, repeat: Infinity, ease: 'easeInOut' }}
       />
       <m.span
         className="orb orb-b"
-        animate={{ x: [0, -80, 0], y: [0, 56, 0] }}
-        transition={{ duration: 21, repeat: Infinity, ease: 'easeInOut' }}
-      />
-      <m.span
-        className="orb orb-c"
-        animate={{ x: [0, 50, 0], y: [0, -40, 0] }}
-        transition={{ duration: 19, repeat: Infinity, ease: 'easeInOut' }}
+        animate={{ x: [0, -40, 0], y: [0, 30, 0] }}
+        transition={{ duration: 48, repeat: Infinity, ease: 'easeInOut' }}
       />
     </div>
   );
