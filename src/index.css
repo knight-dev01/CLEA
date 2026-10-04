@@ -306,8 +306,10 @@ footer strong{display:block;margin-bottom:10px;font-size:.8rem;letter-spacing:.1
 @keyframes marquee{to{transform:translateX(calc(-50% - 6px))}}
 
 /* ---- Scroll reveal (classes added by useScrollReveal) ---- */
-.rv{opacity:0;transform:translateY(26px);transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1)}
-.rv.in{opacity:1;transform:none}
+/* Uses `translate` (not `transform`) so card/button hover lifts keep working. */
+.rv{opacity:0;translate:0 26px;transition:opacity .8s cubic-bezier(.22,1,.36,1),translate .8s cubic-bezier(.22,1,.36,1),transform .25s ease,box-shadow .25s ease,border-color .25s ease}
+.rv[data-dir="up"]{translate:0 -26px}
+.rv.in{opacity:1;translate:none}
 
 @media(prefers-reduced-motion:reduce){
   *{transition:none!important;animation:none!important}

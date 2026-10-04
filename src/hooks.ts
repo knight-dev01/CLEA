@@ -12,16 +12,17 @@ export function useScrollReveal(root: RefObject<HTMLElement | null>) {
   useEffect(() => {
     const el = root.current;
     if (!el || !('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    // Reveals in both scroll directions: hides again once off-screen, remembering which side it left from.
     const io = new IntersectionObserver((entries) => {
       for (const en of entries) {
-        if (!en.isIntersecting) continue;
         const t = en.target as HTMLElement;
-        io.unobserve(t);
-        t.classList.add('in');
-        // Hand the element back to its normal styles (hover effects etc.) once revealed.
-        window.setTimeout(() => { t.classList.remove('rv', 'in'); t.style.transitionDelay = ''; }, 1100);
+        if (en.isIntersecting) t.classList.add('in');
+        else {
+          t.classList.remove('in');
+          t.dataset.dir = en.boundingClientRect.top < 0 ? 'up' : 'down';
+        }
       }
-    }, { threshold: 0, rootMargin: '0px 0px -60px 0px' });
+    }, { threshold: 0, rootMargin: '-40px 0px -40px 0px' });
     const scan = () => {
       el.querySelectorAll<HTMLElement>(RV_SEL).forEach((node) => {
         if (node.dataset.rv || node.closest('.page-header')) return;
