@@ -102,7 +102,7 @@ export function Home() {
       <Link to="/visit">{t('visitCta')} →</Link>
     </div></div>
 
-    <section className="sec about-split">
+    <section className="bleed band-white"><div className="bleed-inner"><div className="about-split">
       <img src={REAL_GALLERY[2]} alt="Christ Love Evangelical Assembly community" loading="lazy" />
       <div>
         <span className="eyebrow">{lang === 'it' ? 'Chi Siamo' : 'Who We Are'}</span>
@@ -110,16 +110,17 @@ export function Home() {
         <p className="muted">{t('aboutLong')}</p>
         <Link className="btn solid" to="/about">{t('aboutCta')}</Link>
       </div>
-    </section>
+    </div>
 
-    <div className="sec stats">
+    <div className="stats">
       <div className="stat"><b>296</b><span>{t('statsVideos')}</span></div>
       <div className="stat"><b>1.1K</b><span>{t('statsFollowers')}</span></div>
       <div className="stat"><b>2</b><span>{t('statsCities')}</span></div>
       <div className="stat"><b>10+</b><span>{t('statsYears')}</span></div>
     </div>
+    </div></section>
 
-    <section className="bleed band-tint"><div className="bleed-inner">
+    <section className="bleed band-plain"><div className="bleed-inner">
       <div className="sec-head"><h2>{t('serviceTimes')}</h2><Link to="/visit">{t('visitCta')} →</Link></div>
       <div className="grid g3">
         <div className="card"><div className="icon-badge"><ChurchIcon /></div><span className="pill">SUN 10:00</span><h3>{t('sunday')}</h3><p className="muted">{t('address')}</p></div>
@@ -128,7 +129,7 @@ export function Home() {
       </div>
     </div></section>
 
-    <section className="sec">
+    <section className="bleed band-white"><div className="bleed-inner">
       <div className="sec-head"><h2>{t('featured')}</h2><Link to="/media">{t('viewAll')} →</Link></div>
       <div className="media-layout">
         <div className="featured"><YouTubeUploads />
@@ -141,57 +142,57 @@ export function Home() {
           )}
         </div>
       </div>
-    </section>
+    </div></section>
 
     <section className="bleed band-dark"><div className="bleed-inner verse-band">
       <span className="kicker">Verse of the day · Versetto del giorno</span>
       <h2>{lang === 'it' ? verse.it : verse.en}</h2>
     </div></section>
 
-    <section className="sec">
+    <section className="bleed band-plain"><div className="bleed-inner">
       <div className="sec-head"><h2>{t('gallery')}</h2></div>
       <div className="gallery-strip auto"><div className="marquee">{[...gallery, ...gallery].map((g, i) => <figure className="photo-card" key={i} aria-hidden={i >= gallery.length}><img src={g} alt={i < gallery.length ? 'Life at Christ Love Evangelical Assembly' : ''} loading="lazy" /></figure>)}</div></div>
-    </section>
+    </div></section>
 
-    <section className="sec">
+    <section className="bleed band-white"><div className="bleed-inner">
       <div className="sec-head"><h2>{t('latestBlog')}</h2><Link to="/blog">{t('viewAll')} →</Link></div>
       {blog.length > 0 ? (
         <div className="grid g3">{blog.slice(0, 3).map(b => <div className="card" key={b.id}>{b.imageUrl && <img src={b.imageUrl} alt="" loading="lazy" />}<h3>{lang === 'it' ? b.title_it || b.title : b.title}</h3><p className="muted">{(lang === 'it' ? b.body_it || b.body : b.body).slice(0, 110)}…</p><Link to="/blog">{t('readMore')} →</Link></div>)}</div>
       ) : (
         <div className="card"><p className="muted">{lang === 'it' ? 'Nuovi articoli in arrivo: nel frattempo leggi il nostro Blogspot.' : 'Fresh stories on the way: meanwhile read our Blogspot.'}</p><a className="btn solid" href="https://cleareggio.blogspot.com/" target="_blank" rel="noreferrer">Blogspot</a></div>
       )}
-    </section>
+    </div></section>
 
-    <section className="bleed band-tint"><div className="bleed-inner">
+    <section className="bleed band-plain"><div className="bleed-inner">
       <div className="sec-head"><h2>{t('pastors')}</h2><Link to="/about">{t('aboutCta')} →</Link></div>
       <div className="grid g3">{PASTORS.map(p => <div className="card pastor" key={p.n}>{'img' in p && p.img ? <img className="pastor-photo" src={p.img} alt={p.n} loading="lazy" /> : <div className="avatar">{p.n[0]}</div>}<div><strong>{p.n}</strong><br /><span className="muted">{p.r}</span></div></div>)}</div>
     </div></section>
 
-    <section className="sec">
+    <section className="bleed band-white"><div className="bleed-inner">
       <div className="sec-head"><h2>{t('locations')}</h2></div>
       <div className="grid g3">
         <div className="card"><span className="pill">IT · +39 351 140 8770</span><h3>{t('italyBase')}</h3><p className="muted">{t('italyAddr')}</p><p>{t('italyLead')}</p><p className="muted">{t('italySvc')}</p><Link className="btn solid" to="/visit">{t('visitCta')}</Link></div>
         <div className="card"><span className="pill">NG · +234 803 040 1694</span><h3>{t('nigeriaBase')}</h3><p className="muted">{t('nigeriaAddr')}</p><p>{t('nigeriaLead')}</p><p className="muted">{t('nigeriaSvc')}</p><a className="btn ghost" href="https://wa.me/2348030401694">WhatsApp Nigeria</a></div>
       </div>
-    </section>
+    </div></section>
 
-    {events.length > 0 && (<section className="sec">
+    {events.length > 0 && (<section className="bleed band-plain"><div className="bleed-inner">
       <div className="sec-head"><h2>{lang === 'it' ? 'Prossimi Eventi' : 'Upcoming Events'}</h2></div>
       <div className="grid g3">{events.slice(0, 3).map((ev) => <div className="card" key={ev.id}><span className="pill">{ev.date}{ev.time ? ` · ${ev.time}` : ''}</span><h3>{lang === 'it' ? ev.title_it || ev.title : ev.title}</h3>{ev.location && <p className="muted">{ev.location}</p>}</div>)}</div>
-    </section>)}
+    </div></section>)}
 
-    <section className="sec cta-band">
+    <section className="bleed band-dark"><div className="bleed-inner cta-band">
       <span className="kicker">Reggio Emilia · Italia</span>
       <h2>{t('planTitle')}</h2>
       <p>{t('planSub')}</p>
       <div className="cta-pills"><span>SUN 10:00</span><span>WED 18:30</span><span>FRI 22:00</span></div>
       <div className="rowbtns"><Link className="btn gold" to="/visit">{t('joinUs')}</Link><Link className="btn ghost" to="/about">{t('aboutCta')}</Link></div>
-    </section>
+    </div></section>
 
-    <section className="sec">
+    <section className="bleed band-plain"><div className="bleed-inner">
       <div className="sec-head"><h2>{lang === 'it' ? 'Vieni a Trovarci' : 'Visit Us'}</h2></div>
       <iframe className="map" src={MAP} title="Christ Love Evangelical Assembly map" loading="lazy" />
-    </section>
+    </div></section>
   </>);
 }
 
