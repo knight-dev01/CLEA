@@ -111,10 +111,16 @@ export function Home() {
     </div></div>
     <Reveal className="sec"><PhotoBand src={REAL_GALLERY[1]} label={lang === 'it' ? 'Celebrazione · Reggio Emilia' : 'Celebration · Reggio Emilia'} /></Reveal>
     <section className="sec reveal"><h2 className="h-icon"><VideoIcon /> {t('featured')}</h2>
-      <div className="featured"><YouTubeUploads />
-        <div className="featured-cap"><div><strong>{t('latestSermons')}</strong><br /><span className="muted">296 videos · YouTube & Facebook</span></div>
-        <Link className="btn solid" to="/media">{t('watchCta')}</Link></div></div>
-      {media.length > 0 && (<div className="grid g3" style={{ marginTop: 14 }}>{media.slice(0, 2).map(m => <div className="card" key={m.id}><strong>{m.title}</strong>{m.type === 'facebook' ? <FacebookFeed /> : <div className="vid-wrap"><iframe src={m.url} title={m.title} allowFullScreen loading="lazy" referrerPolicy="no-referrer" allow="fullscreen; encrypted-media; picture-in-picture" /></div>}</div>)}</div>)}
+      <div className="media-layout">
+        <div className="featured"><YouTubeUploads />
+          <div className="featured-cap"><div><strong>{t('latestSermons')}</strong><br /><span className="muted">296 videos · YouTube & Facebook</span></div>
+          <Link className="btn solid" to="/media">{t('watchCta')}</Link></div></div>
+        <div className="media-side">
+          {media.length > 0 ? media.slice(0, 2).map(m => <div className="card media-side-item" key={m.id}><strong>{m.title}</strong>{m.type === 'facebook' ? <FacebookFeed /> : <div className="vid-wrap"><iframe src={m.url} title={m.title} allowFullScreen loading="lazy" referrerPolicy="no-referrer" allow="fullscreen; encrypted-media; picture-in-picture" /></div>}</div>) : (
+            <div className="card media-side-item"><strong>{lang === 'it' ? 'Seguici su Facebook' : 'Follow us on Facebook'}</strong><FacebookFeed /></div>
+          )}
+        </div>
+      </div>
     </section>
     <section className="sec reveal bleed band-dark"><div className="bleed-inner verse-band"><span className="kicker">Verse of the day · Versetto del giorno</span><h2>{lang === 'it' ? verse.it : verse.en}</h2></div></section>
     <section className="sec reveal bleed band-tint"><div className="bleed-inner">
@@ -218,28 +224,32 @@ export function Media() {
   const filteredMedia = q ? media.filter(m => m.title.toLowerCase().includes(q)) : media;
   return (<div className="sec">
     <PageHeader icon={<VideoIcon />} title="Sermons & Media" subtitle="296 videos and counting — YouTube, Facebook and our Blogspot, all in one place." />
-    <div className="channel-banner-v2">
-      <div><strong>Christ Love Evangelical Assembly Reggio Emilia</strong><p className="muted">296 videos · Pastor Dr Bolanle Oluwakemi Anyanwu</p></div>
-      <div className="rowbtns"><a className="btn gold" href="https://www.youtube.com/@pastordoctorbolanleoluwake3805" target="_blank" rel="noreferrer">Watch on YouTube</a>
-      <a className="btn ghost" href="https://www.youtube.com/@pastordoctorbolanleoluwake3805?sub_confirmation=1" target="_blank" rel="noreferrer">Subscribe</a></div>
-    </div>
-    <div className="card" style={{ marginBottom: 20 }}><span className="pill">Latest uploads · auto-updates</span>
-      <YouTubeUploads /></div>
-    <div className="card" style={{ marginBottom: 20 }}><span className="pill">Latest from Facebook · auto-updates</span>
-      <FacebookFeed />
-      <div className="rowbtns"><a className="btn solid" href="https://www.facebook.com/1806488646340376/videos" target="_blank" rel="noreferrer">Watch Facebook videos</a><a className="btn ghost" href="https://www.facebook.com/1806488646340376" target="_blank" rel="noreferrer">Follow on Facebook · 1.1K</a></div></div>
-    <p className="muted">YouTube and Facebook: new videos added by the media team via Admin.</p>
-    {media.length > 0 && (
-      <div className="rowbtns" style={{ margin: '4px 0 18px' }}>
-        <input type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder={t('searchSermons')} style={{ maxWidth: 360, margin: 0 }} aria-label={t('searchSermons')} />
-        {query && <button type="button" className="smallbtn" onClick={() => setQuery('')}>{t('clearSearch')}</button>}
+    <div className="media-layout">
+      <div>
+        <div className="card" style={{ marginBottom: 14 }}><span className="pill">Latest uploads · auto-updates</span>
+          <YouTubeUploads /></div>
+        <div className="channel-banner-v2">
+          <div><strong>Christ Love Evangelical Assembly Reggio Emilia</strong><p className="muted">296 videos · Pastor Dr Bolanle Oluwakemi Anyanwu</p></div>
+          <div className="rowbtns"><a className="btn gold" href="https://www.youtube.com/@pastordoctorbolanleoluwake3805" target="_blank" rel="noreferrer">Watch on YouTube</a>
+          <a className="btn ghost" href="https://www.youtube.com/@pastordoctorbolanleoluwake3805?sub_confirmation=1" target="_blank" rel="noreferrer">Subscribe</a></div>
+        </div>
       </div>
-    )}
-    {media.length > 0 && filteredMedia.length === 0 ? (
-      <p className="muted">{t('noSermonResults')}</p>
-    ) : (
-      <div className="grid g3">{filteredMedia.map(m => <div className="card" key={m.id}><span className="pill">{m.type}</span><h3>{m.title}</h3>{m.type === 'facebook' ? <FacebookFeed src={m.url} title={m.title} /> : <div className="vid-wrap"><iframe src={m.url} title={m.title} allowFullScreen loading="lazy" referrerPolicy="no-referrer" allow="fullscreen; encrypted-media; picture-in-picture" /></div>}</div>)}</div>
-    )}
+      <div className="media-side">
+        <div className="card"><span className="pill">Latest from Facebook</span>
+          <FacebookFeed />
+          <div className="rowbtns"><a className="btn ghost" href="https://www.facebook.com/1806488646340376" target="_blank" rel="noreferrer">Follow · 1.1K</a></div>
+        </div>
+        {media.length > 0 && (
+          <div className="rowbtns">
+            <input type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder={t('searchSermons')} style={{ margin: 0 }} aria-label={t('searchSermons')} />
+            {query && <button type="button" className="smallbtn" onClick={() => setQuery('')}>{t('clearSearch')}</button>}
+          </div>
+        )}
+        {media.length > 0 && filteredMedia.length === 0 && <p className="muted">{t('noSermonResults')}</p>}
+        {filteredMedia.map(m => <div className="card media-side-item" key={m.id}><span className="pill">{m.type}</span><h3>{m.title}</h3>{m.type === 'facebook' ? <FacebookFeed src={m.url} title={m.title} /> : <div className="vid-wrap"><iframe src={m.url} title={m.title} allowFullScreen loading="lazy" referrerPolicy="no-referrer" allow="fullscreen; encrypted-media; picture-in-picture" /></div>}</div>)}
+      </div>
+    </div>
+    <p className="muted" style={{ marginTop: 14 }}>YouTube and Facebook: new videos added by the media team via Admin.</p>
   </div>);
 }
 
