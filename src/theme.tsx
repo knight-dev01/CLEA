@@ -10,7 +10,7 @@ function initial(): Theme {
     const saved = localStorage.getItem('clea-theme');
     if (saved === 'light' || saved === 'dark') return saved;
   } catch { /* ignore */ }
-  return 'dark';
+  return 'light';
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {

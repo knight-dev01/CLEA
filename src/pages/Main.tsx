@@ -7,10 +7,9 @@ function mergeUnique<T extends { id: string }>(primary: T[], fallback: T[]): T[]
   const ids = new Set(primary.map((p) => p.id));
   return [...primary, ...fallback.filter((p) => !ids.has(p.id))];
 }
-import { useEffect, useState, type ReactNode } from 'react';
+import { useEffect, useState } from 'react';
 import type { BlogPost, MediaLink, SiteImages } from '../store';
-import { ChurchIcon, VideoIcon, BookIcon, UsersIcon, PinIcon, PhoneIcon, MailIcon, ClockIcon } from '../icons';
-import { useReveal } from '../hooks';
+import { ChurchIcon, BookIcon, UsersIcon, PinIcon, PhoneIcon, MailIcon, ClockIcon } from '../icons';
 import { verseOfDay } from '../verse';
 import { fetchContent, contentToImages, type EventItem } from '../cms';
 import { useMemo } from 'react';
@@ -18,7 +17,6 @@ import YouTubeUploads from '../components/YouTubeUploads';
 import FacebookFeed from '../components/FacebookFeed';
 import { withBlogspot } from '../blogspot';
 import { summarize } from '../summarize';
-import { Reveal, PhotoBand } from '../anim';
 
 const MAP = 'https://www.google.com/maps?q=Via+Corelli+5+Reggio+Emilia+Italy&output=embed';
 export const PASTORS = [
@@ -27,12 +25,11 @@ export const PASTORS = [
   { n: 'Pastor Mololuwa Patience Ojo', r: 'Board of Trustees', img: 'pastor-mololuwa.jpg' },
 ];
 
-function PageHeader({ icon, title, subtitle }: { icon: ReactNode; title: string; subtitle?: string }) {
+function PageHeader({ title, subtitle }: { title: string; subtitle?: string }) {
   return (
     <div className="bleed page-header"><div className="bleed-inner">
-      <div className="icon-badge page-header-icon">{icon}</div>
       <h1>{title}</h1>
-      {subtitle && <p className="muted">{subtitle}</p>}
+      {subtitle && <p>{subtitle}</p>}
     </div></div>
   );
 }
@@ -59,7 +56,6 @@ export function Home() {
   const [media, setMedia] = useState<MediaLink[]>([]);
   const [events, setEvents] = useState<EventItem[]>([]);
   const [images, setImages] = useState<SiteImages | null>(null);
-  useReveal();
   const verse = useMemo(verseOfDay, []);
   useEffect(() => {
     ensureSeed();
@@ -84,81 +80,117 @@ export function Home() {
       } catch { /* ignore */ }
     });
   }, []);
+  const gallery = images?.gallery?.length ? images.gallery : REAL_GALLERY;
   return (<>
-    <div className="hero">
-      <div className="hero-inner">
-        <img className="bg" src={images?.hero || REAL_GALLERY[0]} alt="Christ Love Evangelical Assembly celebration" />
-        <div className="shade" /><div className="txt">
-          <span className="kicker">{t('heroKicker')}</span>
-          <h1>{t('heroTitle')}</h1><p>{t('heroSub')}</p>
-          <Link className="btn solid" to="/visit">{t('joinUs')}</Link>
-          <Link className="btn ghost" to="/media">{t('watch')}</Link>
-        </div>
-      </div>
-      <div className="hero-stats">
-        <div className="hstat"><b>296</b><span>{t('statsVideos')}</span></div>
-        <div className="hstat"><b>1.1K</b><span>{t('statsFollowers')}</span></div>
-        <div className="hstat"><b>2</b><span>{t('statsCities')}</span></div>
-        <div className="hstat"><b>10+</b><span>{t('statsYears')}</span></div>
-      </div>
-    </div>
-    <div className="ticker"><span><b>SUN</b> 10:00</span><span><b>WED</b> 18:30</span><span><b>FRI</b> 22:00</span><span>REGGIO EMILIA</span></div>
-    <div className="sec"><div className="about-split">
-      <img src={REAL_GALLERY[2]} alt="Christ Love Evangelical Assembly community" loading="lazy" />
-      <div><span className="eyebrow">{lang === 'it' ? 'Chi Siamo' : 'Who We Are'}</span><p className="lead">“{t('tagline')}”</p><p className="muted">{t('aboutLong')}</p>
-        <Link className="btn solid" to="/about" style={{ marginTop: 6 }}>{t('aboutCta')}</Link>
-      </div>
-    </div></div>
-    <Reveal className="sec"><PhotoBand src={REAL_GALLERY[1]} label={lang === 'it' ? 'Celebrazione · Reggio Emilia' : 'Celebration · Reggio Emilia'} /></Reveal>
-    <section className="sec reveal"><h2 className="h-icon"><VideoIcon /> {t('featured')}</h2>
-      <div className="media-layout">
-        <div className="featured"><YouTubeUploads />
-          <div className="featured-cap"><div><strong>{t('latestSermons')}</strong><br /><span className="muted">296 videos · YouTube & Facebook</span></div>
-          <Link className="btn solid" to="/media">{t('watchCta')}</Link></div></div>
-        <div className="media-side">
-          {media.length > 0 ? media.slice(0, 2).map(m => <div className="card media-side-item" key={m.id}><strong>{m.title}</strong>{m.type === 'facebook' ? <FacebookFeed /> : <div className="vid-wrap"><iframe src={m.url} title={m.title} allowFullScreen loading="lazy" referrerPolicy="no-referrer" allow="fullscreen; encrypted-media; picture-in-picture" /></div>}</div>) : (
-            <div className="card media-side-item"><strong>{lang === 'it' ? 'Seguici su Facebook' : 'Follow us on Facebook'}</strong><FacebookFeed /></div>
-          )}
+    <section className="bleed hero">
+      <img className="hero-bg" src={images?.hero || REAL_GALLERY[0]} alt="Christ Love Evangelical Assembly worship" />
+      <div className="hero-shade" />
+      <div className="hero-content">
+        <span className="kicker">{t('heroKicker')}</span>
+        <h1>{t('heroTitle')}</h1>
+        <p>{t('heroSub')}</p>
+        <div className="rowbtns">
+          <Link className="btn gold" to="/visit">{t('joinUs')}</Link>
+          <Link className="btn light" to="/media">{t('watch')}</Link>
         </div>
       </div>
     </section>
-    <section className="sec reveal bleed band-dark"><div className="bleed-inner verse-band"><span className="kicker">Verse of the day · Versetto del giorno</span><h2>{lang === 'it' ? verse.it : verse.en}</h2></div></section>
-    <section className="sec reveal bleed band-tint"><div className="bleed-inner">
-      <h2 className="h-icon"><ChurchIcon /> {t('serviceTimes')}</h2>
-      <div className="grid g3 svc">
+    <div className="bleed infobar"><div className="infobar-in">
+      <span><ClockIcon size={16} /> <b>SUN</b> 10:00 · <b>WED</b> 18:30 · <b>FRI</b> 22:00</span>
+      <span><PinIcon size={16} /> Via Corelli 5, Reggio Emilia</span>
+      <Link to="/visit">{t('visitCta')} →</Link>
+    </div></div>
+
+    <section className="sec about-split">
+      <img src={REAL_GALLERY[2]} alt="Christ Love Evangelical Assembly community" loading="lazy" />
+      <div>
+        <span className="eyebrow">{lang === 'it' ? 'Chi Siamo' : 'Who We Are'}</span>
+        <p className="lead">“{t('tagline')}”</p>
+        <p className="muted">{t('aboutLong')}</p>
+        <Link className="btn solid" to="/about">{t('aboutCta')}</Link>
+      </div>
+    </section>
+
+    <div className="sec stats">
+      <div className="stat"><b>296</b><span>{t('statsVideos')}</span></div>
+      <div className="stat"><b>1.1K</b><span>{t('statsFollowers')}</span></div>
+      <div className="stat"><b>2</b><span>{t('statsCities')}</span></div>
+      <div className="stat"><b>10+</b><span>{t('statsYears')}</span></div>
+    </div>
+
+    <section className="bleed band-tint"><div className="bleed-inner">
+      <div className="sec-head"><h2>{t('serviceTimes')}</h2><Link to="/visit">{t('visitCta')} →</Link></div>
+      <div className="grid g3">
         <div className="card"><div className="icon-badge"><ChurchIcon /></div><span className="pill">SUN 10:00</span><h3>{t('sunday')}</h3><p className="muted">{t('address')}</p></div>
         <div className="card"><div className="icon-badge"><BookIcon /></div><span className="pill">WED 18:30</span><h3>{t('wednesday')}</h3><p className="muted">Bible Study / Studio Biblico</p></div>
         <div className="card"><div className="icon-badge"><ClockIcon /></div><span className="pill">FRI 22:00</span><h3>{t('friday')}</h3><p className="muted">Night Vigil / Veglia di preghiera</p></div>
       </div>
     </div></section>
-    <section className="sec reveal"><h2 className="h-icon"><BookIcon /> {t('gallery')}</h2>
-      <div className="gallery-strip">{(images?.gallery?.length ? images.gallery : REAL_GALLERY).map((g, i) => <figure className="photo-card" key={i}><img src={g} alt="Life at Christ Love Evangelical Assembly" loading="lazy" /></figure>)}</div>
-    </section>
-    <Reveal className="sec"><PhotoBand src={REAL_GALLERY[4]} label={lang === 'it' ? 'Vita in Chiesa' : 'Life at Church'} /></Reveal>
-    <section className="sec reveal"><div className="cta-band"><div className="cta-inner"><span className="kicker">Reggio Emilia · Italia</span><h2>{t('planTitle')}</h2><p>{t('planSub')}</p>
-      <div className="cta-pills"><span>SUN 10:00</span><span>WED 18:30</span><span>FRI 22:00</span></div>
-      <div><Link className="btn gold" to="/visit">{t('joinUs')}</Link><Link className="btn ghost" to="/about">{t('aboutCta')}</Link></div></div></div></section>
-    <section className="sec reveal"><h2 className="h-icon"><BookIcon /> {t('latestBlog')} <Link to="/blog" style={{ fontSize: '.85rem' }}>{t('viewAll')} →</Link></h2>
-      {blog.length > 0 ? (
-      <div className="grid g3">{blog.slice(0, 3).map(b => <div className="card" key={b.id}>{b.imageUrl && <img src={b.imageUrl} alt="" />}<h3>{lang === 'it' ? b.title_it || b.title : b.title}</h3><p className="muted">{(lang === 'it' ? b.body_it || b.body : b.body).slice(0, 110)}…</p><Link to="/blog">{t('readMore')} →</Link></div>)}</div>
-      ) : (
-      <div className="card"><p className="muted">{lang === 'it' ? 'Nuovi articoli in arrivo: nel frattempo leggi il nostro Blogspot.' : 'Fresh stories on the way: meanwhile read our Blogspot.'}</p><div><a className="btn solid" href="https://cleareggio.blogspot.com/" target="_blank" rel="noreferrer">Blogspot</a></div></div>
-      )}
-    </section>
-    <section className="sec reveal bleed band-tint"><div className="bleed-inner">
-      <h2 className="h-icon"><UsersIcon /> {t('pastors')}</h2>
-      <div className="grid g3">{PASTORS.map(p => <div className="card pastor" key={p.n}>{'img' in p && p.img ? <img className="pastor-photo" src={p.img} alt={p.n} loading="lazy" /> : <div className="avatar">{p.n[0]}</div>}<div><strong>{p.n}</strong><br /><span className="muted">{p.r}</span></div></div>)}</div>
-    </div></section>
-    <section className="sec reveal"><h2 className="h-icon"><PinIcon /> {t('locations')}</h2>
-      <div className="grid g3">
-        <div className="card location"><span className="pill">IT · +39 351 140 8770</span><h3>{t('italyBase')}</h3><p className="muted">{t('italyAddr')}</p><p>{t('italyLead')}</p><p className="muted">{t('italySvc')}</p><Link className="btn solid" to="/visit">{t('visitCta')}</Link></div>
-        <div className="card location"><span className="pill">NG · +234 803 040 1694</span><h3>{t('nigeriaBase')}</h3><p className="muted">{t('nigeriaAddr')}</p><p>{t('nigeriaLead')}</p><p className="muted">{t('nigeriaSvc')}</p><a className="btn ghost" href="https://wa.me/2348030401694">WhatsApp Nigeria</a></div>
+
+    <section className="sec">
+      <div className="sec-head"><h2>{t('featured')}</h2><Link to="/media">{t('viewAll')} →</Link></div>
+      <div className="media-layout">
+        <div className="featured"><YouTubeUploads />
+          <div className="featured-cap"><div><strong>{t('latestSermons')}</strong><br /><span className="muted">296 videos · YouTube & Facebook</span></div>
+            <Link className="btn solid" to="/media">{t('watchCta')}</Link></div>
+        </div>
+        <div className="media-side">
+          {media.length > 0 ? media.slice(0, 2).map(m => <div className="card" key={m.id}><strong>{m.title}</strong>{m.type === 'facebook' ? <FacebookFeed /> : <div className="vid-wrap"><iframe src={m.url} title={m.title} allowFullScreen loading="lazy" referrerPolicy="no-referrer" allow="fullscreen; encrypted-media; picture-in-picture" /></div>}</div>) : (
+            <div className="card"><strong>{lang === 'it' ? 'Seguici su Facebook' : 'Follow us on Facebook'}</strong><FacebookFeed /></div>
+          )}
+        </div>
       </div>
     </section>
-    {events.length > 0 && (<section className="sec reveal band" style={{ borderRadius: 18, padding: 18 }}><h2 className="h-icon"><UsersIcon /> {lang === 'it' ? 'Prossimi Eventi' : 'Upcoming Events'}</h2>
+
+    <section className="bleed band-dark"><div className="bleed-inner verse-band">
+      <span className="kicker">Verse of the day · Versetto del giorno</span>
+      <h2>{lang === 'it' ? verse.it : verse.en}</h2>
+    </div></section>
+
+    <section className="sec">
+      <div className="sec-head"><h2>{t('gallery')}</h2></div>
+      <div className="gallery-strip">{gallery.map((g, i) => <figure className="photo-card" key={i}><img src={g} alt="Life at Christ Love Evangelical Assembly" loading="lazy" /></figure>)}</div>
+    </section>
+
+    <section className="sec">
+      <div className="sec-head"><h2>{t('latestBlog')}</h2><Link to="/blog">{t('viewAll')} →</Link></div>
+      {blog.length > 0 ? (
+        <div className="grid g3">{blog.slice(0, 3).map(b => <div className="card" key={b.id}>{b.imageUrl && <img src={b.imageUrl} alt="" loading="lazy" />}<h3>{lang === 'it' ? b.title_it || b.title : b.title}</h3><p className="muted">{(lang === 'it' ? b.body_it || b.body : b.body).slice(0, 110)}…</p><Link to="/blog">{t('readMore')} →</Link></div>)}</div>
+      ) : (
+        <div className="card"><p className="muted">{lang === 'it' ? 'Nuovi articoli in arrivo: nel frattempo leggi il nostro Blogspot.' : 'Fresh stories on the way: meanwhile read our Blogspot.'}</p><a className="btn solid" href="https://cleareggio.blogspot.com/" target="_blank" rel="noreferrer">Blogspot</a></div>
+      )}
+    </section>
+
+    <section className="bleed band-tint"><div className="bleed-inner">
+      <div className="sec-head"><h2>{t('pastors')}</h2><Link to="/about">{t('aboutCta')} →</Link></div>
+      <div className="grid g3">{PASTORS.map(p => <div className="card pastor" key={p.n}>{'img' in p && p.img ? <img className="pastor-photo" src={p.img} alt={p.n} loading="lazy" /> : <div className="avatar">{p.n[0]}</div>}<div><strong>{p.n}</strong><br /><span className="muted">{p.r}</span></div></div>)}</div>
+    </div></section>
+
+    <section className="sec">
+      <div className="sec-head"><h2>{t('locations')}</h2></div>
+      <div className="grid g3">
+        <div className="card"><span className="pill">IT · +39 351 140 8770</span><h3>{t('italyBase')}</h3><p className="muted">{t('italyAddr')}</p><p>{t('italyLead')}</p><p className="muted">{t('italySvc')}</p><Link className="btn solid" to="/visit">{t('visitCta')}</Link></div>
+        <div className="card"><span className="pill">NG · +234 803 040 1694</span><h3>{t('nigeriaBase')}</h3><p className="muted">{t('nigeriaAddr')}</p><p>{t('nigeriaLead')}</p><p className="muted">{t('nigeriaSvc')}</p><a className="btn ghost" href="https://wa.me/2348030401694">WhatsApp Nigeria</a></div>
+      </div>
+    </section>
+
+    {events.length > 0 && (<section className="sec">
+      <div className="sec-head"><h2>{lang === 'it' ? 'Prossimi Eventi' : 'Upcoming Events'}</h2></div>
       <div className="grid g3">{events.slice(0, 3).map((ev) => <div className="card" key={ev.id}><span className="pill">{ev.date}{ev.time ? ` · ${ev.time}` : ''}</span><h3>{lang === 'it' ? ev.title_it || ev.title : ev.title}</h3>{ev.location && <p className="muted">{ev.location}</p>}</div>)}</div>
     </section>)}
-    <section className="sec reveal"><h2 className="h-icon"><PinIcon /> Visit Us</h2><div className="map-wrap"><iframe className="map" src={MAP} title="Christ Love Evangelical Assembly map" loading="lazy" /></div></section>
+
+    <section className="sec cta-band">
+      <span className="kicker">Reggio Emilia · Italia</span>
+      <h2>{t('planTitle')}</h2>
+      <p>{t('planSub')}</p>
+      <div className="cta-pills"><span>SUN 10:00</span><span>WED 18:30</span><span>FRI 22:00</span></div>
+      <div className="rowbtns"><Link className="btn gold" to="/visit">{t('joinUs')}</Link><Link className="btn ghost" to="/about">{t('aboutCta')}</Link></div>
+    </section>
+
+    <section className="sec">
+      <div className="sec-head"><h2>{lang === 'it' ? 'Vieni a Trovarci' : 'Visit Us'}</h2></div>
+      <iframe className="map" src={MAP} title="Christ Love Evangelical Assembly map" loading="lazy" />
+    </section>
   </>);
 }
 
@@ -167,8 +199,8 @@ export function About() {
   useSEO('About Christ Love Evangelical Assembly | Vision, Beliefs & Pastors', 'About Christ Love Evangelical Assembly Reggio Emilia: vision, beliefs, pastorate.', '/about');
   const en = lang === 'en';
   const { t } = useLang();
-  return (<div className="sec">
-    <PageHeader icon={<ChurchIcon />} title={en ? 'About Christ Love Evangelical Assembly' : 'Chi Siamo'} subtitle={t('aboutLong')} />
+  return (<div className="page">
+    <PageHeader title={en ? 'About Christ Love Evangelical Assembly' : 'Chi Siamo'} subtitle={t('aboutLong')} />
     <p className="muted">{t('hqNote')}</p>
     <div className="trio" style={{ marginTop: 22 }}>
       <div className="card">
@@ -222,8 +254,8 @@ export function Media() {
   }, []);
   const q = query.trim().toLowerCase();
   const filteredMedia = q ? media.filter(m => m.title.toLowerCase().includes(q)) : media;
-  return (<div className="sec">
-    <PageHeader icon={<VideoIcon />} title="Sermons & Media" subtitle="296 videos and counting — YouTube, Facebook and our Blogspot, all in one place." />
+  return (<div className="page">
+    <PageHeader title="Sermons & Media" subtitle="296 videos and counting — YouTube, Facebook and our Blogspot, all in one place." />
     <div className="media-layout">
       <div>
         <div className="card" style={{ marginBottom: 14 }}><span className="pill">Latest uploads · auto-updates</span>
@@ -266,8 +298,8 @@ export function Blog() {
       } catch { /* */ }
     });
   }, []);
-  return (<div className="sec">
-    <PageHeader icon={<BookIcon />} title="Blog" subtitle="Devotionals, news and testimonies from our family — written here and gathered from our Blogspot." />
+  return (<div className="page">
+    <PageHeader title="Blog" subtitle="Devotionals, news and testimonies from our family — written here and gathered from our Blogspot." />
     <p className="muted">Admin posts plus automatic updates from our <a href="https://cleareggio.blogspot.com/" target="_blank" rel="noreferrer">Blogspot</a>.</p>
     <div className="grid g3">{blog.map(b => <article className="card" key={b.id}>{b.imageUrl && <img src={b.imageUrl} alt="" loading="lazy" />}<small className="muted">{b.date}</small><h3>{lang === 'it' ? b.title_it || b.title : b.title}</h3><p>{lang === 'it' ? b.body_it || b.body : b.body}</p><SummaryToggle text={lang === 'it' ? b.body_it || b.body : b.body} lang={lang} /></article>)}</div>
   </div>);
@@ -276,8 +308,8 @@ export function Blog() {
 export function Visit() {
   useSEO('Visit Us | Christ Love Evangelical Assembly Reggio Emilia, Service Times and Map', 'Visit Christ Love Evangelical Assembly: Via Corelli 5, Reggio Emilia. Sunday 10:00, Wednesday Bible Study, Friday Vigil. Map & directions.', '/visit');
   const { t } = useLang();
-  return (<div className="sec">
-    <PageHeader icon={<PinIcon />} title={t('visit')} subtitle="Everything you need to know for your first Sunday with us." />
+  return (<div className="page">
+    <PageHeader title={t('visit')} subtitle="Everything you need to know for your first Sunday with us." />
     <div className="card"><strong>{t('address')}</strong><p className="muted">Bus lines to Via Cilea · Parking nearby · Accessible entrance</p>
     <div className="rowbtns"><a className="btn solid" href="https://www.google.com/maps?q=Via+Corelli+5+Reggio+Emilia+Italy" target="_blank" rel="noreferrer">{t('visitCta')}</a>
     <a className="btn ghost" href="https://wa.me/393511408770">WhatsApp Us</a></div></div>
@@ -337,8 +369,8 @@ function ContactForm() {
 
 export function Contact() {
   useSEO('Contact Christ Love Evangelical Assembly Reggio Emilia', 'Contact Christ Love Evangelical Assembly church: phone, WhatsApp +39 351 140 8770, Nigeria +2348030401694, Reggio Emilia address.', '/contact');
-  return (<div className="sec">
-    <PageHeader icon={<MailIcon />} title="Contact" subtitle="Call, message on WhatsApp, or send us a note — we reply as soon as we can." />
+  return (<div className="page">
+    <PageHeader title="Contact" subtitle="Call, message on WhatsApp, or send us a note — we reply as soon as we can." />
     <div className="grid g3">
       <div className="card"><div className="icon-badge"><PhoneIcon /></div><h3>Phone / WhatsApp</h3><p><a href="tel:+393511408770">+39 351 140 8770</a><br /><a href="tel:+2348030401694">+234 803 040 1694</a></p>
       <p><a className="btn solid" href="https://wa.me/393511408770">WhatsApp Us</a></p></div>
