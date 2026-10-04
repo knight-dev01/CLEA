@@ -77,13 +77,18 @@ export function Orbs() {
     <div className="orbs" aria-hidden="true">
       <m.span
         className="orb orb-a"
-        animate={{ x: [0, 40, 0], y: [0, -30, 0] }}
-        transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
+        animate={{ x: [0, 70, 0], y: [0, -50, 0] }}
+        transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut' }}
       />
       <m.span
         className="orb orb-b"
-        animate={{ x: [0, -50, 0], y: [0, 36, 0] }}
-        transition={{ duration: 24, repeat: Infinity, ease: 'easeInOut' }}
+        animate={{ x: [0, -80, 0], y: [0, 56, 0] }}
+        transition={{ duration: 21, repeat: Infinity, ease: 'easeInOut' }}
+      />
+      <m.span
+        className="orb orb-c"
+        animate={{ x: [0, 50, 0], y: [0, -40, 0] }}
+        transition={{ duration: 19, repeat: Infinity, ease: 'easeInOut' }}
       />
     </div>
   );
