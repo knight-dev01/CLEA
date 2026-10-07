@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useLang } from '../i18n';
 import { useSEO } from '../seo';
-import { ARCHIVE_PHOTOS, ensureSeed, REAL_GALLERY, seedBlog, seedMedia } from '../store';
+import { ARCHIVE_PHOTOS, ensureSeed, REAL_GALLERY, seedBlog, seedMedia, WORSHIP_PHOTOS } from '../store';
 
 function mergeUnique<T extends { id: string }>(primary: T[], fallback: T[]): T[] {
   const ids = new Set(primary.map((p) => p.id));
@@ -26,9 +26,12 @@ export const PASTORS = [
   { n: 'Pastor Mololuwa Patience Ojo', r: 'Board of Trustees', img: 'pastor-mololuwa.jpg' },
 ];
 
-function PageHeader({ title, subtitle }: { title: string; subtitle?: string }) {
+function PageHeader({ title, subtitle, image }: { title: string; subtitle?: string; image?: string }) {
   return (
-    <div className="bleed page-header"><div className="bleed-inner">
+    <div className="bleed page-header">
+      {image && <img className="ph-bg" src={image} alt="" aria-hidden="true" loading="eager" />}
+      <div className="ph-shade" aria-hidden="true" />
+      <div className="bleed-inner">
       <h1>{title}</h1>
       {subtitle && <p>{subtitle}</p>}
     </div></div>
@@ -220,7 +223,7 @@ export function About() {
   const en = lang === 'en';
   const { t } = useLang();
   return (<div className="page">
-    <PageHeader title={en ? 'About Christ Love Evangelical Assembly' : 'Chi Siamo'} subtitle={t('aboutLong')} />
+    <PageHeader title={en ? 'About Christ Love Evangelical Assembly' : 'Chi Siamo'} subtitle={t('aboutLong')} image={WORSHIP_PHOTOS[2]} />
     <p className="muted">{t('hqNote')}</p>
     <div className="trio" style={{ marginTop: 22 }}>
       <div className="card">
@@ -275,7 +278,7 @@ export function Media() {
   const q = query.trim().toLowerCase();
   const filteredMedia = q ? media.filter(m => m.title.toLowerCase().includes(q)) : media;
   return (<div className="page">
-    <PageHeader title="Sermons & Media" subtitle="296 videos and counting — YouTube, Facebook and our Blogspot, all in one place." />
+    <PageHeader title="Sermons & Media" subtitle="296 videos and counting — YouTube, Facebook and our Blogspot, all in one place." image={ARCHIVE_PHOTOS[4]} />
     <div className="media-layout">
       <div>
         <div className="card" style={{ marginBottom: 14 }}><span className="pill">Latest uploads · auto-updates</span>
@@ -322,7 +325,7 @@ export function Blog() {
     });
   }, []);
   return (<div className="page">
-    <PageHeader title="Blog" subtitle="Devotionals, news and testimonies from our family — written here and gathered from our Blogspot." />
+    <PageHeader title="Blog" subtitle="Devotionals, news and testimonies from our family — written here and gathered from our Blogspot." image={WORSHIP_PHOTOS[3]} />
     <p className="muted">Admin posts plus automatic updates from our <a href="https://cleareggio.blogspot.com/" target="_blank" rel="noreferrer">Blogspot</a>.</p>
     <div className="grid g3">{blog.map(b => <article className="card" key={b.id}>{b.imageUrl && <img src={b.imageUrl} alt="" loading="lazy" />}<small className="muted">{b.date}</small><h3>{lang === 'it' ? b.title_it || b.title : b.title}</h3><p>{lang === 'it' ? b.body_it || b.body : b.body}</p><SummaryToggle text={lang === 'it' ? b.body_it || b.body : b.body} lang={lang} /></article>)}</div>
   </div>);
@@ -332,7 +335,7 @@ export function Visit() {
   useSEO('Visit Us | Christ Love Evangelical Assembly Reggio Emilia, Service Times and Map', 'Visit Christ Love Evangelical Assembly: Via Corelli 5, Reggio Emilia. Sunday 10:00, Wednesday Bible Study, Friday Vigil. Map & directions.', '/visit');
   const { t } = useLang();
   return (<div className="page">
-    <PageHeader title={t('visit')} subtitle="Everything you need to know for your first Sunday with us." />
+    <PageHeader title={t('visit')} subtitle="Everything you need to know for your first Sunday with us." image={WORSHIP_PHOTOS[4]} />
     <div className="card"><strong>{t('address')}</strong><p className="muted">Bus lines to Via Cilea · Parking nearby · Accessible entrance</p>
     <div className="rowbtns"><a className="btn solid" href="https://www.google.com/maps?q=Via+Corelli+5+Reggio+Emilia+Italy" target="_blank" rel="noreferrer">{t('visitCta')}</a>
     <a className="btn ghost" href="https://wa.me/393511408770">WhatsApp Us</a></div></div>
@@ -393,7 +396,7 @@ function ContactForm() {
 export function Contact() {
   useSEO('Contact Christ Love Evangelical Assembly Reggio Emilia', 'Contact Christ Love Evangelical Assembly church: phone, WhatsApp +39 351 140 8770, Nigeria +2348030401694, Reggio Emilia address.', '/contact');
   return (<div className="page">
-    <PageHeader title="Contact" subtitle="Call, message on WhatsApp, or send us a note — we reply as soon as we can." />
+    <PageHeader title="Contact" subtitle="Call, message on WhatsApp, or send us a note — we reply as soon as we can." image={WORSHIP_PHOTOS[10]} />
     <div className="grid g3">
       <div className="card"><div className="icon-badge"><PhoneIcon /></div><h3>Phone / WhatsApp</h3><p><a href="tel:+393511408770">+39 351 140 8770</a><br /><a href="tel:+2348030401694">+234 803 040 1694</a></p>
       <p><a className="btn solid" href="https://wa.me/393511408770">WhatsApp Us</a></p></div>

@@ -209,7 +209,10 @@ iframe.map{display:block;width:100%;height:300px;border:0;border-radius:var(--ra
 @media(min-width:800px){iframe.map{height:380px}}
 
 /* ---- Inner page header ---- */
-.page-header{background:var(--navy);color:#fff;margin-bottom:28px}
+.page-header{position:relative;overflow:hidden;background:var(--navy);color:#fff;margin-bottom:28px}
+.ph-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 25%}
+.ph-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,8,40,.55),rgba(10,8,40,.78))}
+.page-header .bleed-inner{position:relative}
 .page-header .bleed-inner{padding-block:36px}
 .page-header h1{color:#fff;margin:0 0 8px}
 .page-header p{color:rgba(255,255,255,.82);max-width:640px;margin:0}

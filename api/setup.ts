@@ -19,10 +19,30 @@ export default async function handler(req: VercelReq, res: VercelRes): Promise<v
     send(res, { error: 'DB not configured' }, 503);
     return;
   }
+  const DEFAULT_HERO = 'photos/worship-01.jpeg';
+  const DEFAULT_GALLERY = [
+    'photos/worship-01.jpeg',
+    'photos/worship-12.jpeg',
+    'photos/worship-03.jpeg',
+    'photos/worship-07.jpeg',
+    'photos/worship-05.jpeg',
+    'photos/worship-02.jpeg',
+    'photos/worship-04.jpeg',
+    'photos/worship-06.jpeg',
+    'photos/worship-08.jpeg',
+    'photos/worship-09.jpeg',
+    'photos/worship-10.jpeg',
+    'photos/worship-13.jpeg',
+  ];
   try {
     const db = neon(url);
     await ensureSchema(db);
-    send(res, { ok: true, message: 'Tables ready: posts, media, events, settings' });
+    const existing = (await db`SELECT key FROM settings WHERE key IN ('hero','gallery')`) as { key: string }[];
+    const have = new Set(existing.map((r) => r.key));
+    if (!have.has('hero')) await db`INSERT INTO settings (key,value) VALUES ('hero',${DEFAULT_HERO})`;
+    if (!have.has('gallery')) await db`INSERT INTO settings (key,value) VALUES ('gallery',${JSON.stringify(DEFAULT_GALLERY)})`;
+    const seeded = { hero: !have.has('hero'), gallery: !have.has('gallery') };
+    send(res, { ok: true, message: 'Tables ready: posts, media, events, settings', seededImages: seeded });
   } catch (e) {
     send(res, { error: 'Setup failed', detail: String(e) }, 500);
   }
