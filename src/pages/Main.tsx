@@ -278,7 +278,7 @@ export function Media() {
   const q = query.trim().toLowerCase();
   const filteredMedia = q ? media.filter(m => m.title.toLowerCase().includes(q)) : media;
   return (<div className="page">
-    <PageHeader title="Sermons & Media" subtitle="296 videos and counting — YouTube, Facebook and our Blogspot, all in one place." image={ARCHIVE_PHOTOS[4]} />
+    <PageHeader title="Sermons & Media" subtitle="296 videos and counting — YouTube, Facebook and our Blogspot, all in one place." image={ARCHIVE_PHOTOS[0]} />
     <div className="media-layout">
       <div>
         <div className="card" style={{ marginBottom: 14 }}><span className="pill">Latest uploads · auto-updates</span>
